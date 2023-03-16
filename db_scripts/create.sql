@@ -1,7 +1,7 @@
 drop database if exists time_warp;
 create database time_warp;
 
-use prototypeTest;
+use time_warp;
 
 create table user (
     usr_id int not null auto_increment,
