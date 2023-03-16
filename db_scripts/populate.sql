@@ -12,3 +12,4 @@ insert into user_game_state (ugst_state) values ('Playing');
 insert into user_game_state (ugst_state) values ('End');
 
 
+
