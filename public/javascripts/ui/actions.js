@@ -11,11 +11,19 @@ async function getGameInfo() {
     }
 }
 
+async function getPawnsPositions(){
+    let positions = await requestPawnsPositions();
+    GameInfo.playerPosition = positions.result.playerPawn.position;
+    GameInfo.oppPosition = positions.result.oppPawn.position;
+    if (GameInfo.board) GameInfo.board.update(GameInfo.playerPosition, GameInfo.oppPosition); 
+    else GameInfo.board = new Board(GameInfo.playerPosition, GameInfo.oppPosition, 400, 120, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
+}
+
 
 async function endturnAction() {
     let result = await requestEndTurn();
     if (result.successful) {
         await  getGameInfo();
         GameInfo.prepareUI();
-    } else alert("Something went wrong when ending the turn.")
+    } else alert("Something went wrong when ending the turn.");
 }

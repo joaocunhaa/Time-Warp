@@ -13,7 +13,8 @@ async function refresh() {
 }
 
 function preload() {
-
+    GameInfo.images.playerPawn = loadImage("./assets/WhitePawn.png");
+    GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
 }
 
 
@@ -22,7 +23,8 @@ async function setup() {
     canvas.parent('game');
     // preload  images
     
-    await  getGameInfo();
+    await getGameInfo();
+    await getPawnsPositions();
     setInterval(refresh,1000);
 
     //buttons (create a separated function if they are many)
@@ -48,6 +50,7 @@ function draw() {
         text('Loading...', GameInfo.width/2, GameInfo.height/2);
     } else {
         GameInfo.scoreBoard.draw();
+        GameInfo.board.draw();
     }
 }
 

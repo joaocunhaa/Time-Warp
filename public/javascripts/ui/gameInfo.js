@@ -9,11 +9,14 @@ class GameInfo  {
 
     // data
     static game;
+    static playerPosition;
+    static oppPosition;
     static images = {};
     static sounds = {};
 
-    // rendererers
+    // renderers
     static scoreBoard;
+    static board;
 
     // buttons
     static endturnButton;
