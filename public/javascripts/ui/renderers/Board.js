@@ -23,6 +23,12 @@ class Board {
         strokeWeight(5);
         let down = 0;
         let right = 0;
+        let position = positionToCoordinates(this.playerPosition);
+        let playerPawnPosition = {x: position.x, y: position.y};
+        position = positionToCoordinates(this.oppPosition);
+        let oppPawnPosition = {x: position.x, y: position.y};
+
+        //Draw Board
         for(let square = 1; square <= nSquares; square++){
             if(square <= 7){
                 fill(100,200,100);
@@ -54,10 +60,45 @@ class Board {
             }
             rect(this.x + 80 * right, this.y + 80 * down, 80, 80);
             text(square,this.x + 85 * right, this.y + 85 * down)
-            if(square == this.playerPosition){
-                image(this.playerPawnImg, 0, 0, 80, 80, 0, 0, this.playerPawnImg.width, this.playerPawnImg.height);
-            }
         }
+
+        if(playerPawnPosition.x == oppPawnPosition.x && playerPawnPosition.y == oppPawnPosition.y){
+            image(this.playerPawnImg,this.x + 80 * playerPawnPosition.x, this.y + 80 * playerPawnPosition.y, 80, 40);
+            image(this.oppPawnImg,this.x + 80 * oppPawnPosition.x, this.y + 40 + 80 * oppPawnPosition.y, 80, 40);
+        }else{
+            image(this.playerPawnImg,this.x + 80 * playerPawnPosition.x, this.y + 80 * playerPawnPosition.y, 80, 80);
+        image(this.oppPawnImg,this.x + 80 * oppPawnPosition.x, this.y + 80 * oppPawnPosition.y, 80, 80);
+        }
+
         strokeWeight(0);
     }
+    
+}
+
+function positionToCoordinates(position){
+    let x = 0;
+    let y = 0;
+    for(let square = 1; square <= position; square++){
+        if(square <= 7){
+            x++;
+        }else if(square <= 11){
+            y++;
+        }else if(square <= 17){
+            x--;
+        }else if(square <= 20){
+            y--;
+        }else if(square <= 25){
+            x++;
+        }else if(square <= 27){
+            y++;
+        }else if(square <= 31){
+            x--;
+        }else if(square <= 32){
+            y--;
+        }else if(square <= 35){
+            x++;
+        }
+    }
+
+    return{x: x, y: y}
 }

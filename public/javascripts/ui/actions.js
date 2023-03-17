@@ -16,7 +16,7 @@ async function getPawnsPositions(){
     GameInfo.playerPosition = positions.result.playerPawn.position;
     GameInfo.oppPosition = positions.result.oppPawn.position;
     if (GameInfo.board) GameInfo.board.update(GameInfo.playerPosition, GameInfo.oppPosition); 
-    else GameInfo.board = new Board(GameInfo.playerPawn, GameInfo.oppPawn, 400, 120, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
+    else GameInfo.board = new Board(GameInfo.playerPosition, GameInfo.oppPosition, 400, 120, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
 }
 
 
