@@ -16,3 +16,15 @@ async function requestEndTurn() {
         return {err: err};
     }
 }
+
+async function requestPawnsPositions(){
+    try {
+        const response = await fetch(`/api/pawns`)
+        let result = await response.json();
+      return {result: result};
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+        return {err: err};
+    }
+}
