@@ -19,11 +19,18 @@ async function getPawnsPositions(){
     else GameInfo.board = new Board(GameInfo.playerPosition, GameInfo.oppPosition, 400, 120, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
 }
 
+async function movePawnAction() {
+    let result = await requestMovePawn();
+    if (result.successful) {
+        await endturnAction();
+    } else alert("Something went wrong when moving a pawn.");
+}
 
 async function endturnAction() {
     let result = await requestEndTurn();
     if (result.successful) {
         await  getGameInfo();
+        await  getPawnsPositions();
         GameInfo.prepareUI();
     } else alert("Something went wrong when ending the turn.");
 }

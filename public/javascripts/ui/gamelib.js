@@ -28,11 +28,11 @@ async function setup() {
     setInterval(refresh,1000);
 
     //buttons (create a separated function if they are many)
-    GameInfo.endturnButton = createButton('End Turn');
-    GameInfo.endturnButton.parent('game');
-    GameInfo.endturnButton.position(GameInfo.width-150,GameInfo.height-50);
-    GameInfo.endturnButton.mousePressed(endturnAction);
-    GameInfo.endturnButton.addClass('game')
+    GameInfo.movePawn = createButton('Move Pawn');
+    GameInfo.movePawn.parent('game');
+    GameInfo.movePawn.position(GameInfo.width-150,GameInfo.height-50);
+    GameInfo.movePawn.mousePressed(movePawnAction);
+    GameInfo.movePawn.addClass('game')
 
 
     GameInfo.prepareUI();
