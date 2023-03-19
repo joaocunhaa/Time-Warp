@@ -1,4 +1,5 @@
 const pool = require("../config/database");
+const Utils = require("../config/utils");
 
 // For now it is only an auxiliary class to hold data in here 
 // so no need to create a model file for it
@@ -172,6 +173,8 @@ class Game {
             
             // Randomly determine who starts    
             let myTurn = (Math.random() < 0.5);
+            
+            setGameArtifacts(gameId);
 
             // We join the game but the game still has not started, that will be done outside
             let [result] = await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id) values (?,?,?)`,
@@ -184,6 +187,14 @@ class Game {
         }
     }
 
+}
+
+async function setGameArtifacts(game){
+    let [artifacts] = await pool.query(`select * from artifact`);
+    for(let artifact of artifacts){
+        let position = Utils.randomPosition(artifact.art_era_id);
+        await pool.query(`insert into game_artifact(ga_gm_id, ga_art_id, ga_current_position) values(?,?,?)`, [game, artifact.art_id, position]);
+    }
 }
 
 module.exports = Game;

@@ -28,10 +28,20 @@ class Pawn{
             }
             let [gameInfo] = await pool.query('select * from game where gm_id = ?', [game.id]);
             let [playerInfo] = await pool.query('select * from user_game where ug_id = ?', [game.player.id]);
-            let nextPosition = 0;
+            let nextPosition = 0
             console.log(playerInfo);
-            if (gameInfo.gm_reversed_board == true){
-                nextPosition = playerInfo[0].ug_current_position - 1;
+            if (gameInfo[0].gm_reversed_board == true){
+                if(playerInfo[0].ug_current_position == 1){
+                    nextPosition = 35;
+                }else{
+                    nextPosition = playerInfo[0].ug_current_position - 1;
+                }
+            }else if(playerInfo[0].ug_current_position >= 35){
+                let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
+                if(!artifacts.length){
+                    await pool.query('update game set gm_state_id = 3 where gm_id = ?', [game.id])
+                }
+                nextPosition = 1;
             }else{
                 nextPosition = playerInfo[0].ug_current_position + 1;
             }
