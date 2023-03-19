@@ -8,7 +8,6 @@ module.exports.genToken = function genToken(length) {
 }
 
 module.exports.randomPosition = function randomPosition(era_id) {
-    let randomPosition = Math.ceil(Math.random()*5); //5 is the number of squares for each 
-    console.log(randomPosition, era_id * 5 + randomPosition);
+    let randomPosition = Math.ceil(Math.random()*5); //5 is the number of squares for each
     return ((era_id * 5) - 5) + randomPosition;
  }
