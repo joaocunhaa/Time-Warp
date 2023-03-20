@@ -60,6 +60,11 @@ class Board {
             }
             rect(this.x + 80 * right, this.y + 80 * down, 80, 80);
             text(square,this.x + 85 * right, this.y + 85 * down)
+            for(let artifact of GameInfo.artifactsOnBoard){
+                if(artifact.current_position == square){
+                    text("X",this.x + 90 * right, this.y + 90 * down)
+                }
+            }
         }
 
         if(playerPawnPosition.x == oppPawnPosition.x && playerPawnPosition.y == oppPawnPosition.y){

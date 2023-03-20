@@ -28,6 +28,8 @@ a {
 /* Game CSS*/
 #game {
   position: relative;
+  margin: -20px auto 50px auto;
+  padding: 0px;
 }
 
 button.game {

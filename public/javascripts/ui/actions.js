@@ -1,11 +1,13 @@
 
 async function getGameInfo() {
     let result = await requestPlayerGame();
+    let artifacts = await requestArtifactsOnBoard();
     if (!result.successful) {
         alert("Something is wrong with the game please login again!");
         window.location.pathname = "index.html";
     } else {
         GameInfo.game = result.game;
+        GameInfo.artifactsOnBoard = artifacts.result;
         if (GameInfo.scoreBoard) GameInfo.scoreBoard.update(GameInfo.game); 
         else GameInfo.scoreBoard = new ScoreBoard(GameInfo.game);
     }
