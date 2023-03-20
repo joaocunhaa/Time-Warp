@@ -1,15 +1,36 @@
 
 async function getGameInfo() {
     let result = await requestPlayerGame();
-    let artifacts = await requestArtifactsOnBoard();
+    let artifactsOnBoard = await requestArtifactsOnBoard();
+    let collectedArtifacts = await requestCollectedArtifacts();
     if (!result.successful) {
         alert("Something is wrong with the game please login again!");
         window.location.pathname = "index.html";
     } else {
         GameInfo.game = result.game;
-        GameInfo.artifactsOnBoard = artifacts.result;
+        GameInfo.artifactsOnBoard = artifactsOnBoard.result;
         if (GameInfo.scoreBoard) GameInfo.scoreBoard.update(GameInfo.game); 
         else GameInfo.scoreBoard = new ScoreBoard(GameInfo.game);
+        let y = 0;
+        let x = 0;
+        for(let artifact of collectedArtifacts.result.playerArtifacts){
+            if(y < 6 && y >= 4){
+                y = 0;
+                x++;
+            }
+            GameInfo.playerArtifacts.push(new Artifact(artifact.name, 20 + 140 * x, 230 + 60 * y, 130, 50));
+            y++;
+        }
+        y = 0
+        x = 0
+        for(let artifact of collectedArtifacts.result.oppArtifacts){
+            if(y < 6 && y >= 4){
+                y = 0;
+                x++;
+            }
+            GameInfo.playerArtifacts.push(new Artifact(artifact.name, 1230 - 140 * x, 230 + 60 * y, 130, 50));
+            y++;
+        }
     }
 }
 

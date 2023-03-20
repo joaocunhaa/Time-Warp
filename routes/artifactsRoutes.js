@@ -18,18 +18,12 @@ router.get("/", auth.verifyAuth, async function(req, res, next){
     }
 });
 
-router.get("/player", auth.verifyAuth, body("player_id").isInt({min: 1}).withMessage('Select a valid player') , async function(req, res, next){
+router.get("/collected", auth.verifyAuth, async function(req, res, next){
     try{
         if(!req.game){
             res.status(400).send({msg: "You're not in a game"})
         } else {
-            //verify if we have a player_id
-            const valid = validationResult(req);
-            if(!valid.isEmpty()){
-                return res.status(400).json(valid.array());
-            }
-
-            let result = await Artifact.getPlayerArtifacts(req.game, req.body.player_id);
+            let result = await Artifact.getCollectedArtifacts(req.game);
             res.status(result.status).send(result.result);
         }
     } catch(err){

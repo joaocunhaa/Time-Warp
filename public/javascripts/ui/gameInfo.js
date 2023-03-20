@@ -12,6 +12,8 @@ class GameInfo  {
     static playerPosition;
     static oppPosition;
     static artifactsOnBoard;
+    static playerArtifacts = [];
+    static oppArtifacts = [];
     static images = {};
     static sounds = {};
 

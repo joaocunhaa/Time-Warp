@@ -52,6 +52,22 @@ function draw() {
     } else {
         GameInfo.scoreBoard.draw();
         GameInfo.board.draw();
+        //Titles
+        fill(0)
+        textStyle(BOLD);
+        textSize(24);
+        textAlign(CENTER,CENTER);
+        stroke(0);
+        text("Opponent Artifacts:", 1250, 200);
+        text("Your Artifacts:", 100, 200);
+        //Draw Player Artifacts
+        for(let artifact of GameInfo.playerArtifacts){
+            artifact.draw();
+        }
+        //Draw Opponent Artifacts
+        for(let artifact of GameInfo.oppArtifacts){
+            artifact.draw();
+        }
     }
 }
 

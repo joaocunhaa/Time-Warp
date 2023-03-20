@@ -29,6 +29,18 @@ async function requestArtifactsOnBoard(){
     }
 }
 
+async function requestCollectedArtifacts(){
+    try {
+        const response = await fetch(`/api/arts/collected`)
+        let result = await response.json();
+      return {result: result};
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+        return {err: err};
+    }
+}
+
 async function requestPawnsPositions(){
     try {
         const response = await fetch(`/api/pawns`)

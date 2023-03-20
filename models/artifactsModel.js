@@ -23,12 +23,20 @@ class Artifact{
         }
     }
 
-    static async getPlayerArtifacts(game, player_id){
+    static async getCollectedArtifacts(game){
         try{
-            let result = [];
-            let [artifacts] = await pool.query('select * from game_artifact, artifact where ga_art_id = art_id and ga_current_owner = ? and ga_gm_id = ?', [player_id, game.id]);
+            let result = {
+                playerArtifacts: [],
+                oppArtifacts: []
+            };
+            let [artifacts] = await pool.query('select * from game_artifact, artifact where ga_art_id = art_id and ga_current_owner = ? and ga_gm_id = ?', [game.player.id, game.id]);
             for(let art of artifacts){
-                result.push(new Artifact(art.ga_id, art.art_name, art.ga_current_owner, art.ga_current_position));
+                result.playerArtifacts.push(new Artifact(art.ga_id, art.art_name, art.ga_current_owner, art.ga_current_position));
+            }
+
+            [artifacts] = await pool.query('select * from game_artifact, artifact where ga_art_id = art_id and ga_current_owner = ? and ga_gm_id = ?', [game.opponents[0].id, game.id]);
+            for(let art of artifacts){
+                result.oppArtifacts.push(new Artifact(art.ga_id, art.art_name, art.ga_current_owner, art.ga_current_position));
             }
             return{status: 200, result: result}
         } catch(err) {

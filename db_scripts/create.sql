@@ -112,5 +112,3 @@ alter table game_artifact add constraint ga_fk_artifact
 alter table game_artifact add constraint ga_fk_ug
             foreign key (ga_current_owner) references user_game(ug_id)
             ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-select * from game_artifact, artifact where ga_art_id = art_id and ga_current_owner is null and ga_gm_id = 1;
