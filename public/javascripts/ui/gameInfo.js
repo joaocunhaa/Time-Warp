@@ -9,11 +9,18 @@ class GameInfo  {
 
     // data
     static game;
+
     static playerPosition;
     static oppPosition;
+
     static artifactsOnBoard;
+
     static playerArtifacts = [];
     static oppArtifacts = [];
+
+    static playerDeck;
+    static oppDeck;
+
     static images = {};
     static sounds = {};
 

@@ -52,6 +52,7 @@ function draw() {
     } else {
         GameInfo.scoreBoard.draw();
         GameInfo.board.draw();
+        GameInfo.playerDeck.draw();
         //Titles
         fill(0)
         textStyle(BOLD);

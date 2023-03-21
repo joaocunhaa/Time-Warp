@@ -70,3 +70,15 @@ async function requestMovePawn() {
         return {err: err};
     }
 }
+
+async function requestCards(){
+    try {
+        const response = await fetch(`/api/cards`)
+        let result = await response.json();
+        return {result: result};
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+        return {err: err};
+    }
+}
