@@ -16,15 +16,17 @@ class State {
 // For now it is only an auxiliary class to hold data in here 
 // so no need to create a model file for it
 class Player {
-    constructor(id,name,state) {
+    constructor(id,name,state, position) {
         this.id = id;        
         this.name = name;
         this.state= state;
+        this.position = position;
     }
     export() {
         let player = new Player();
         player.name = this.name;
         player.state = this.state.export();
+        player.position = this.position;
         return player;
     }
 }
@@ -57,8 +59,8 @@ class Game {
              inner join user_game_state on ugst_id = ug_state_id
             where ug_game_id=?`, [game.id]);
             for (let dbPlayer of dbPlayers) {
-                let player = new Player(dbPlayer.ug_id,dbPlayer.usr_name,
-                            new State(dbPlayer.ugst_id,dbPlayer.ugst_state) );
+                let player = new Player(dbPlayer.ug_id,dbPlayer.usr_name, 
+                            new State(dbPlayer.ugst_id,dbPlayer.ugst_state), dbPlayer.ug_current_position );
                 if (dbPlayer.usr_id == userId) game.player = player;
                 else game.opponents.push(player);
             }
