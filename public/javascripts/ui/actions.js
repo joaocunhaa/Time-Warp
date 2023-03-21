@@ -28,27 +28,35 @@ async function getArtifactsOnBoard(){
 }
 
 async function getCollectedArtifacts(){
+    let pArtifacts = [];
+    let oArtifacts = [];
     let collectedArtifacts = await requestCollectedArtifacts();
     let y = 0;
-        let x = 0;
-        for(let artifact of collectedArtifacts.result.playerArtifacts){
-            if(y < 6 && y >= 4){
-                y = 0;
-                x++;
-            }
-            GameInfo.playerArtifacts.push(new Artifact(artifact.name, 20 + 140 * x, 230 + 60 * y, 130, 50));
-            y++;
+    let x = 0;
+    //Add the new Artifacts
+    for(let artifact of collectedArtifacts.result.playerArtifacts){
+        if(y < 6 && y >= 4){
+            y = 0;
+            x++;
         }
-        y = 0
-        x = 0
-        for(let artifact of collectedArtifacts.result.oppArtifacts){
-            if(y < 6 && y >= 4){
-                y = 0;
-                x++;
-            }
-            GameInfo.playerArtifacts.push(new Artifact(artifact.name, 1230 - 140 * x, 230 + 60 * y, 130, 50));
-            y++;
+        pArtifacts.push(new Artifact(artifact.name, 20 + 140 * x, 230 + 60 * y, 130, 50));
+        y++;
+    }
+    //reset the positions
+    y = 0
+    x = 0
+    //Add the new Artifacts
+    for(let artifact of collectedArtifacts.result.oppArtifacts){
+        if(y < 6 && y >= 4){
+            y = 0;
+            x++;
         }
+        oArtifacts.push(new Artifact(artifact.name, 1230 - 140 * x, 230 + 60 * y, 130, 50));
+        y++;
+    }
+    //Pass the values
+    GameInfo.playerArtifacts = pArtifacts;
+    GameInfo.oppArtifacts = oArtifacts;
 }
 
 async function getCards(){
@@ -77,7 +85,6 @@ async function drawCardAction() {
 async function playCardAction(selectedCard) {
     if (confirm(`Do you want to play the "${selectedCard.name}" card?`)) {
         let result = await requestPlayCard(selectedCard.id);
-        alert(result.successful);
         if (result.successful) {
             await endturnAction();
         } else alert("Something went wrong when playing a card.");

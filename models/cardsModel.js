@@ -55,28 +55,33 @@ class Card{
 
     static async playCard(game, body){
         try{
+            let successfull = {result: false, msg: null};
             //Verify if its player's turn
             if(game.player.state == "Waiting"){
                 return{status: 400, result: {msg: "You can't play since its not your turn!"}}
             }
-            let [cards] = await pool.query('select * from user_game_card where ugc_ug_id = ?', [game.player.id]);
-            let successfull = false;
-            for(let card of cards){
-                if(card.ugc_id == body.selected_card){
-                    switch(card.ugc_crd_id){
-                        case 1:
-                            successfull = await claimArtifact(game);                        
-                            break;
-                        case 2:
-                            stealArtifact();
-                            break;
-                    }
-                }
+
+            let [cards] = await pool.query('select * from user_game_card where ugc_id = ?', [body.selected_card]);
+            //Verify if the card exists
+            if(!cards.length){
+                return{status: 400, result: {msg: "Select a valid card!"}}
             }
-            if(successfull == false) {
-                return{status:400, result: {msg: "An error ocurred playing the card"}}
+            //Get the type of card and do the respective action
+            switch(cards[0].ugc_crd_id){
+                case 1:
+                    successfull = await claimArtifact(game); 
+                    break;
+                case 2:
+                    successfull = await stealArtifact(game);
+                    break;
             }
+            //Verify if everything goes right with the card action
+            if(successfull.result == false) {
+                return{status:400, result: {msg: successfull.msg}}
+            }
+            //Delete card from database
             await pool.query("delete from user_game_card where ugc_id = ?", [body.selected_card]);
+            //Return success
             return{status:200, result: {msg: "Card played succesfully"}}
         } catch(err) {
             console.log(err);
@@ -86,8 +91,10 @@ class Card{
 }
 
 async function claimArtifact(game){
-    let [artifacts] = await pool.query("select * from game_artifact where ga_gm_id = ?", [game.id]);
     let successfull = false;
+    let msg = "";
+    //Get all artifacts of the game
+    let [artifacts] = await pool.query("select * from game_artifact where ga_gm_id = ?", [game.id]);
     for(let artifact of artifacts){
         if(game.player.position == artifact.ga_current_position){
             await pool.query("update game_artifact set ga_current_owner = ? where ga_id = ?", [game.player.id, artifact.ga_id]);
@@ -95,13 +102,23 @@ async function claimArtifact(game){
             successfull = true;
         }
     }
-    return successfull;
+    if(successfull == false)
+        msg = "There is no artifacts at this position!";
+    return {result: successfull, msg: msg};
 }
 
-
-
-async function stealArtifact(){
-
+async function stealArtifact(game){
+    //Get all opp's artifacts
+    let [oppArtifacts] = await pool.query('select * from game_artifact where ga_current_owner = ?', [game.opponents[0].id]);
+    //Verify if opp have some artifact
+    if(!oppArtifacts.length){
+        return{result: false, msg: "The Opponent has no artifacts"}
+    }
+    //Select a random Artifact from this list
+    let randomArtifact = Utils.randomNumber(oppArtifacts.length);
+    //Update the owner of the selected artifact
+    await pool.query('update game_artifact set ga_current_owner = ? where ga_id = ?', [game.player.id, oppArtifacts[randomArtifact-1].ga_id]);
+    return{result: true, msg: "Succesfully Played"}
 }
 
 module.exports = Card;
