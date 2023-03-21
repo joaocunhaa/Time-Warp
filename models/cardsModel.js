@@ -53,7 +53,7 @@ class Card{
         }
     }
 
-    static async playCard(game, body, selectedArtifact){
+    static async playCard(game, body){
         try{
             //Verify if its player's turn
             if(game.player.state == "Waiting"){
@@ -62,19 +62,19 @@ class Card{
             let [cards] = await pool.query('select * from user_game_card where ugc_ug_id = ?', [game.player.id]);
             let successful = false;
             for(let card of cards){
-                if(card.ugc_id == body.selectedCard){
+                if(card.ugc_id == body.selected_card){
                     switch(card.ugc_crd_id){
                         case 1:
                             successful = await claimArtifact(game);                        
                             break;
                         case 2:
-                            stealArtifact(selectedArtifact);
+                            stealArtifact();
                             break;
                     }
                 }
             }
             if(successful == false) {
-                return{status:400, result: {msg: "Card not played succesfully"}}
+                return{status:400, result: {msg: "An error ocurred playing the card"}}
             }
             await pool.query("delete from user_game_card where ugc_id = ?", [body.selectedCard]);
             return{status:200, result: {msg: "Card played succesfully"}}
@@ -87,20 +87,20 @@ class Card{
 
 async function claimArtifact(game){
     let [artifacts] = await pool.query("select * from game_artifact where ga_gm_id = ?", [game.id]);
-    let successful1 = false;
+    let successfull = false;
     for(let artifact of artifacts){
         if(game.player.position == artifact.ga_current_position){
-            await pool.query("update from game_artifact set ga_current_owner = ?" [game.player.id]);
-            await pool.query("update from game_artifact set ga_current_position = null");
-            successful1 = true;
+            console.log(game.player.id, artifact.ga_id);
+            await pool.query("update game_artifact set ga_current_owner = ? and ga_current_position = null where ga_id = ?", [game.player.id, artifact.ga_id]);
+            successfull = true;
         }
     } 
-    return successful1;
+    return successfull;
 }
 
 
 
-async function stealArtifact(selectedArtifact){
+async function stealArtifact(){
 
 }
 

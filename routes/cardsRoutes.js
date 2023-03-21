@@ -37,7 +37,7 @@ router.patch("/play", auth.verifyAuth, async function(req,res,next){
         if(!req.game){
             res.status(400).send({msg: "You're not in a game"});
         } else {
-            let result = await Card.playCard(req.game, req.body, null);
+            let result = await Card.playCard(req.game, req.body);
             res.status(result.status).send(result.result);
         }
     } catch(err) {
