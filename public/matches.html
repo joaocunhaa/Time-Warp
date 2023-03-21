@@ -2,28 +2,29 @@
 
 <head>
   <title>Time Warp</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="./javascripts/utils/verifications.js"></script>
   <script src="./javascripts/requests/matchesRequests.js"></script>
   <script src="./javascripts/requests/usersRequests.js"></script>
   <script src="./javascripts/matches.js"></script>
 </head>  
-<body>
+<body><center>
   <header>  
-    <center><img src="assets/TimeWarpLogo.png" alt="TimeWarp" width="580" height="150"></center> 
+    <img src="assets/TimeWarpLogo.png" alt="TimeWarp" width="580" height="150">
 
     <h2><span id="player">Hello ______</span>
       <input type="button" value="Logout" onclick="logout()"></h2>
 
-    <h1><center>Choose a match or create a new one</center></h1></header>
+    <h1>Choose a match or create a new one</h1></header>
   <main>
     
-    <p><center>After creating or joining a match you cannot leave and cannot 
-        create/join other matches until you finish that match</center></p>
+    <p>After creating or joining a match you cannot leave and cannot 
+        create/join other matches until you finish that match</p>
         
     <section id="matches"></section>
     <input type="button" value="Create my match" onclick="createMatch()">
-  </main>
+  </main></center>
 </body>
 
 </html>
