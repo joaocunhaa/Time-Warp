@@ -35,6 +35,12 @@ async function setup() {
     GameInfo.movePawn.mousePressed(movePawnAction);
     GameInfo.movePawn.addClass('game')
 
+    GameInfo.drawCard = createButton('Draw card');
+    GameInfo.drawCard.parent('game');
+    GameInfo.drawCard.position(GameInfo.width-150,GameInfo.height-100);
+    GameInfo.drawCard.mousePressed(drawCardAction);
+    GameInfo.drawCard.addClass('game')
+
 
     GameInfo.prepareUI();
     

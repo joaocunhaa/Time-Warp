@@ -82,3 +82,21 @@ async function requestCards(){
         return {err: err};
     }
 }
+
+async function requestDrawCard() {
+    try {
+        const response = await fetch(`/api/cards/draw`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+          method: "POST"
+      });
+      return {successful: response.status == 200, maxCards: response.status == 400};
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+        return {err: err};
+    }
+}

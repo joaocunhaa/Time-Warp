@@ -30,14 +30,17 @@ class GameInfo  {
 
     // buttons
     static movePawn;
+    static drawCard;
 
     // Write your UI settings for each game state here
     // Call the method every time there is a game state change
     static prepareUI() {
         if (GameInfo.game.player.state == "Playing") { 
             GameInfo.movePawn.show();
+            GameInfo.drawCard.show();
         } else if (GameInfo.game.player.state == "Waiting") {
             GameInfo.movePawn.hide();
+            GameInfo.drawCard.hide();
         } 
     }
 }

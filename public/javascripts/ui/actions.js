@@ -22,13 +22,6 @@ async function getPawnsPositions(){
     else GameInfo.board = new Board(GameInfo.playerPosition, GameInfo.oppPosition, 350, 150, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
 }
 
-async function movePawnAction() {
-    let result = await requestMovePawn();
-    if (result.successful) {
-        await endturnAction();
-    } else alert("Something went wrong when moving a pawn.");
-}
-
 async function endturnAction() {
     let result = await requestEndTurn();
     if (result.successful) {
@@ -71,4 +64,21 @@ async function getCards(){
     let result = await requestCards();
     if (GameInfo.playerDeck) GameInfo.playerDeck.update(result.result.playerCards); 
     else GameInfo.playerDeck = new Deck(result.result.playerCards, 370, 600, null);
+}
+
+//Actions
+async function movePawnAction() {
+    let result = await requestMovePawn();
+    if (result.successful) {
+        await endturnAction();
+    } else alert("Something went wrong when moving a pawn.");
+}
+
+async function drawCardAction() {
+    let result = await requestDrawCard();
+    if(result.maxCards)
+        alert("You can't have more than 5 cards.");
+    if (result.successful) {
+        await endturnAction();
+    } else alert("Something went wrong when drawing a card.");
 }
