@@ -1,9 +1,5 @@
-
 async function getGameInfo() {
     let result = await requestPlayerGame();
-    await getArtifactsOnBoard();
-    await getCollectedArtifacts();
-    await getCards();
     if (!result.successful) {
         alert("Something is wrong with the game please login again!");
         window.location.pathname = "index.html";
@@ -28,35 +24,9 @@ async function getArtifactsOnBoard(){
 }
 
 async function getCollectedArtifacts(){
-    let pArtifacts = [];
-    let oArtifacts = [];
     let collectedArtifacts = await requestCollectedArtifacts();
-    let y = 0;
-    let x = 0;
-    //Add the new Artifacts
-    for(let artifact of collectedArtifacts.result.playerArtifacts){
-        if(y < 6 && y >= 4){
-            y = 0;
-            x++;
-        }
-        pArtifacts.push(new Artifact(artifact.name, 20 + 140 * x, 230 + 60 * y, 130, 50));
-        y++;
-    }
-    //reset the positions
-    y = 0
-    x = 0
-    //Add the new Artifacts
-    for(let artifact of collectedArtifacts.result.oppArtifacts){
-        if(y < 6 && y >= 4){
-            y = 0;
-            x++;
-        }
-        oArtifacts.push(new Artifact(artifact.name, 1230 - 140 * x, 230 + 60 * y, 130, 50));
-        y++;
-    }
-    //Pass the values
-    GameInfo.playerArtifacts = pArtifacts;
-    GameInfo.oppArtifacts = oArtifacts;
+    GameInfo.playerListArtifacts = new ListArtifacts("Player", collectedArtifacts.result.playerArtifacts);
+    GameInfo.oppListArtifacts = new ListArtifacts("Opponent", collectedArtifacts.result.oppArtifacts);
 }
 
 async function getCards(){

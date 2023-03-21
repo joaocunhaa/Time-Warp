@@ -11,11 +11,11 @@ class Artifact{
     static async getArtifactsInBoard(game){
         try{
             let result = [];
+            //Get All the artifacts without an owner in the game
             let [artifacts] = await pool.query('select * from game_artifact, artifact where ga_art_id = art_id and ga_current_owner is null and ga_gm_id = ?', [game.id]);
             for(let art of artifacts){
                 result.push(new Artifact(art.ga_id, art.art_name, art.ga_current_owner, art.ga_current_position));
             }
-
             return{status: 200, result: result}
         } catch(err) {
             console.log(err);
@@ -29,12 +29,15 @@ class Artifact{
                 playerArtifacts: [],
                 oppArtifacts: []
             };
+            //Select all the artifacts of the player
             let [artifacts] = await pool.query('select * from game_artifact, artifact where ga_art_id = art_id and ga_current_owner = ? and ga_gm_id = ?', [game.player.id, game.id]);
+            //Add it on playerArtifacts
             for(let art of artifacts){
                 result.playerArtifacts.push(new Artifact(art.ga_id, art.art_name, art.ga_current_owner, art.ga_current_position));
             }
-
+            //Select all opponent's artifacts
             [artifacts] = await pool.query('select * from game_artifact, artifact where ga_art_id = art_id and ga_current_owner = ? and ga_gm_id = ?', [game.opponents[0].id, game.id]);
+            //Add it on oppArtifacts
             for(let art of artifacts){
                 result.oppArtifacts.push(new Artifact(art.ga_id, art.art_name, art.ga_current_owner, art.ga_current_position));
             }

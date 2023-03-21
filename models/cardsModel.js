@@ -14,11 +14,12 @@ class Card{
                 playerCards: [],
                 oppCards: 0
             };
-
+            //Get all the cards of the player
             let [cards] = await pool.query('select * from user_game_card, card where ugc_crd_id = crd_id and ugc_ug_id = ?', [game.player.id]);
             for(let card of cards){
                 result.playerCards.push(new Card(card.ugc_id, card.crd_name));
             }
+            //Get the amount of cards that the opponent has
             [cards] = await pool.query('select * from user_game_card, card where ugc_crd_id = crd_id and ugc_ug_id = ?', [game.opponents[0].id]);
             result.oppCards = cards.length;
 

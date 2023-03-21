@@ -15,8 +15,8 @@ class GameInfo  {
 
     static artifactsOnBoard;
 
-    static playerArtifacts = [];
-    static oppArtifacts = [];
+    static playerListArtifacts;
+    static oppListArtifacts;
 
     static playerDeck;
     static oppDeck;

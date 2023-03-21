@@ -4,6 +4,9 @@ async function refresh() {
         // Every time we are waiting
         await  getGameInfo();
         await  getPawnsPositions();
+        await getArtifactsOnBoard();
+        await getCollectedArtifacts();
+        await getCards();
         if (GameInfo.game.player.state != "Waiting") {
             // The moment we pass from waiting to play
             GameInfo.prepareUI();
@@ -26,6 +29,9 @@ async function setup() {
     
     await getGameInfo();
     await getPawnsPositions();
+    await getArtifactsOnBoard();
+    await getCollectedArtifacts();
+    await getCards();
     setInterval(refresh,1000);
 
     //buttons (create a separated function if they are many)
@@ -59,22 +65,8 @@ function draw() {
         GameInfo.scoreBoard.draw();
         GameInfo.board.draw();
         GameInfo.playerDeck.draw();
-        //Titles
-        fill(0)
-        textStyle(BOLD);
-        textSize(24);
-        textAlign(CENTER,CENTER);
-        stroke(0);
-        text("Opponent Artifacts:", 1250, 200);
-        text("Your Artifacts:", 100, 200);
-        //Draw Player Artifacts
-        for(let artifact of GameInfo.playerArtifacts){
-            artifact.draw();
-        }
-        //Draw Opponent Artifacts
-        for(let artifact of GameInfo.oppArtifacts){
-            artifact.draw();
-        }
+        GameInfo.playerListArtifacts.draw();
+        GameInfo.oppListArtifacts.draw();
     }
 }
 

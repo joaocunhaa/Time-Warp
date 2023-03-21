@@ -32,12 +32,13 @@ class Player {
 }
 
 class Game {
-    constructor(id,turn,state,player,opponents) {
+    constructor(id,turn,state,player,opponents, reversedBoard) {
         this.id = id;
         this.turn = turn;
         this.state = state;
         this.player = player;
         this.opponents = opponents || [];
+        this.reversedBoard = reversedBoard;
     }
     export() {
         let game = new Game();
@@ -47,6 +48,7 @@ class Game {
         if (this.player)
             game.player = this.player.export();
         game.opponents = this.opponents.map(o => o.export());
+        game.reversedBoard = this.reversedBoard;
         return game;
     }    
 
@@ -87,6 +89,7 @@ class Game {
                 return result;
             }
             game = result.result;
+            game.reversedBoard = dbGame.gm_reversed_board;
         return { status: 200, result: game} ;
         } catch (err) {
             console.log(err);
@@ -102,12 +105,13 @@ class Game {
                     where gst_state = 'Waiting'`);
             let games = [];
             for (let dbGame of dbGames) {
-                let game = new Game(dbGame.gm_id,dbGame.gm_turn,new State(dbGame.gst_id,dbGame.gst_state));
+                let game = new Game(dbGame.gm_id,dbGame.gm_turn,new State(dbGame.gst_id,dbGame.gst_state),dbGame.gm_reversed_board);
                 let result = await this.fillPlayersOfGame(userId,game);
                 if (result.status != 200) {
                     return result;
                 }
                 game = result.result;
+                game.reversedBoard = dbGame.gm_reversed_board;
                 games.push(game);
             }
             return { status: 200, result: games} ;
