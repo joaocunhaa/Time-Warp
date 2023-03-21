@@ -41,7 +41,7 @@ class Deck{
     }
 
     update(cardsInfo){
-        this.cardsInfo = cardsInfo;
+        this.cards = this.createCards(cardsInfo);
     }
 
     draw(){
