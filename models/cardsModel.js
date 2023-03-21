@@ -60,12 +60,12 @@ class Card{
                 return{status: 400, result: {msg: "You can't play since its not your turn!"}}
             }
             let [cards] = await pool.query('select * from user_game_card where ugc_ug_id = ?', [game.player.id]);
-            let successful = false;
+            let successfull = false;
             for(let card of cards){
                 if(card.ugc_id == body.selected_card){
                     switch(card.ugc_crd_id){
                         case 1:
-                            successful = await claimArtifact(game);                        
+                            successfull = await claimArtifact(game);                        
                             break;
                         case 2:
                             stealArtifact();
@@ -73,10 +73,10 @@ class Card{
                     }
                 }
             }
-            if(successful == false) {
+            if(successfull == false) {
                 return{status:400, result: {msg: "An error ocurred playing the card"}}
             }
-            await pool.query("delete from user_game_card where ugc_id = ?", [body.selectedCard]);
+            await pool.query("delete from user_game_card where ugc_id = ?", [body.selected_card]);
             return{status:200, result: {msg: "Card played succesfully"}}
         } catch(err) {
             console.log(err);
@@ -90,11 +90,11 @@ async function claimArtifact(game){
     let successfull = false;
     for(let artifact of artifacts){
         if(game.player.position == artifact.ga_current_position){
-            console.log(game.player.id, artifact.ga_id);
-            await pool.query("update game_artifact set ga_current_owner = ? and ga_current_position = null where ga_id = ?", [game.player.id, artifact.ga_id]);
+            await pool.query("update game_artifact set ga_current_owner = ? where ga_id = ?", [game.player.id, artifact.ga_id]);
+            await pool.query("update game_artifact set ga_current_position = null where ga_id = ?", [artifact.ga_id]);
             successfull = true;
         }
-    } 
+    }
     return successfull;
 }
 

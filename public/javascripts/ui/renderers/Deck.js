@@ -20,6 +20,11 @@ class Card{
         textAlign(CENTER, CENTER);
         text(this.name, this.x + Card.width/2, this.y + Card.height/2);
     }
+
+    click() {
+        return mouseX > this.x && mouseX < this.x+Card.width &&
+               mouseY > this.y && mouseY < this.y+Card.height;
+    }
 }
 
 class Deck{
@@ -51,5 +56,15 @@ class Deck{
             card.draw();
         }
         fill(255);
+    }
+
+    click() {
+        if (this.clickAction) {
+            for (let card of this.cards) {
+                if (card.click()) {
+                    this.clickAction(card);
+                } 
+            }
+        }
     }
 }

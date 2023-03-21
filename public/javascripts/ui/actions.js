@@ -22,15 +22,6 @@ async function getPawnsPositions(){
     else GameInfo.board = new Board(GameInfo.playerPosition, GameInfo.oppPosition, 350, 150, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
 }
 
-async function endturnAction() {
-    let result = await requestEndTurn();
-    if (result.successful) {
-        await  getGameInfo();
-        await  getPawnsPositions();
-        GameInfo.prepareUI();
-    } else alert("Something went wrong when ending the turn.");
-}
-
 async function getArtifactsOnBoard(){
     let artifactsOnBoard = await requestArtifactsOnBoard();
     GameInfo.artifactsOnBoard = artifactsOnBoard.result;
@@ -63,7 +54,7 @@ async function getCollectedArtifacts(){
 async function getCards(){
     let result = await requestCards();
     if (GameInfo.playerDeck) GameInfo.playerDeck.update(result.result.playerCards); 
-    else GameInfo.playerDeck = new Deck(result.result.playerCards, 370, 600, null);
+    else GameInfo.playerDeck = new Deck(result.result.playerCards, 370, 600, await playCardAction);
 }
 
 //Actions
@@ -81,4 +72,23 @@ async function drawCardAction() {
     if (result.successful) {
         await endturnAction();
     } else alert("Something went wrong when drawing a card.");
+}
+
+async function playCardAction(selectedCard) {
+    if (confirm(`Do you want to play the "${selectedCard.name}" card?`)) {
+        let result = await requestPlayCard(selectedCard.id);
+        alert(result.successful);
+        if (result.successful) {
+            await endturnAction();
+        } else alert("Something went wrong when playing a card.");
+    }
+}
+
+async function endturnAction() {
+    let result = await requestEndTurn();
+    if (result.successful) {
+        await  getGameInfo();
+        await  getPawnsPositions();
+        GameInfo.prepareUI();
+    } else alert("Something went wrong when ending the turn.");
 }

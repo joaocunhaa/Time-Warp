@@ -100,3 +100,24 @@ async function requestDrawCard() {
         return {err: err};
     }
 }
+
+async function requestPlayCard(selectedCard) {
+    try {
+        const response = await fetch(`/api/cards/play`, 
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                selected_card: selectedCard
+            }),
+          method: "PATCH"
+      });
+      return {successful: response.status == 200};
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+        return {err: err};
+    }
+}
