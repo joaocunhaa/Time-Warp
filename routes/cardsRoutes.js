@@ -18,4 +18,18 @@ router.get("/", auth.verifyAuth, async function(req,res,next){
     }
 });
 
+router.post("/draw", auth.verifyAuth, async function(req,res,next){
+    try{
+        if(!req.game){
+            res.status(400).send({msg: "You're not in a game"});
+        } else {
+            let result = await Card.drawCard(req.game);
+            res.status(result.status).send(result.result);
+        }
+    } catch(err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+});
+
 module.exports = router;
