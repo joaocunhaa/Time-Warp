@@ -10,7 +10,8 @@ class Pawn{
         try{
             let result = {};
             result.playerPawn = new Pawn(game.player.id, game.player.position);
-            result.oppPawn = new Pawn(game.opponents[0].id, game.opponents[0].position);
+            result.oppPawn = new Pawn(game.opponents[0].id, game.opponents[0].position);    
+            await checkEndGame(game);
 
             return{status: 200, result: result}
         } catch(err) {
@@ -29,12 +30,6 @@ class Pawn{
             //Check if the board is reversed
             if (game.reversedBoard){
                 if(game.player.position == 1){
-                    //Get the artifacts currently active in the game
-                    let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
-                    if(!artifacts.length){
-                        //Finishes the game
-                        await pool.query('update game set gm_state_id = 3 where gm_id = ?', [game.id])
-                    }
                     //Goes back to position 35
                     nextPosition = 35;
                 }else{
@@ -42,12 +37,6 @@ class Pawn{
                     nextPosition = game.player.position - 1;
                 }
             }else if(game.player.position == 35){
-                //Get the artifacts currently active in the game
-                let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
-                if(!artifacts.length){
-                    //Finishes the game
-                    await pool.query('update game set gm_state_id = 3 where gm_id = ?', [game.id])
-                }
                 //Goes back to position 1
                 nextPosition = 1;
             }else{
@@ -61,6 +50,21 @@ class Pawn{
         } catch(err) {
             console.log(err);
             return{status: 500, result: err}
+        }
+    }
+}
+
+async function checkEndGame(game){
+    //Check all the possible finish positions
+    if(game.player.position == 1 && game.reversedBoard 
+        || game.opponents[0].position == 1 && game.reversedBoard 
+        || game.player.position == 35 && !game.reversedBoard 
+        || game.opponents[0].position == 35 && !game.reversedBoard ){
+        //Get the artifacts currently active in the game
+        let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
+        if(!artifacts.length){
+            //Finishes the game
+            await pool.query('update game set gm_state_id = 3 where gm_id = ?', [game.id])
         }
     }
 }
