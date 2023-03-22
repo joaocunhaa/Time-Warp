@@ -31,38 +31,34 @@ class Board {
         //Draw Board
         for(let square = 1; square <= nSquares; square++){
             if(square <= 7){
-                fill(100,200,100);
                 right++;
             }else if(square <= 11){
-                fill(200,100,100);
                 down++;
             }else if(square <= 17){
-                fill(100,100,200)
                 right--;
             }else if(square <= 20){
-                fill(200,200,100);
                 down--;
             }else if(square <= 25){
-                fill(100,200,200);
                 right++;
             }else if(square <= 27){
-                fill(200,200,200);
                 down++;
             }else if(square <= 31){
-                fill(100,100,100);
                 right--;
             }else if(square <= 32){
-                fill(50,100,100);
                 down--;
             }else if(square <= 35){
-                fill(50,50,200);
                 right++;
-            }
+            } 
+            
+            changeEras(square);
+            //Draw the block
             rect(this.x + 80 * right, this.y + 80 * down, 80, 80);
-            text(square,this.x + 85 * right, this.y + 85 * down)
+            //Write the block number
+            text(square,this.x + 80 * right + 10, this.y + 80 * down+ 40)
+            //Draw x's on artifacts positions
             for(let artifact of GameInfo.artifactsOnBoard){
                 if(artifact.current_position == square){
-                    text("X",this.x + 90 * right, this.y + 90 * down)
+                    text("X",this.x + 80 * right + 40, this.y + 80 * down + 40)
                 }
             }
         }
@@ -106,4 +102,22 @@ function positionToCoordinates(position){
     }
 
     return{x: x, y: y}
+}
+
+function changeEras(square){
+    if(square <= 5){
+        fill(100,200,100);
+    }else if(square <= 10){
+        fill(200,100,100);
+    }else if(square <= 15){
+        fill(100,100,200)
+    }else if(square <= 20){
+        fill(200,200,100);
+    }else if(square <= 25){
+        fill(100,200,200);
+    }else if(square <= 30){
+        fill(200,200,200);
+    }else if(square <= 35){
+        fill(100,100,100);
+    }
 }
