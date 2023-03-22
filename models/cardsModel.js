@@ -81,6 +81,9 @@ class Card{
                 case 4:
                     successfull = await timeReverse(game);
                     break;
+                case 5:
+                    successfull = await paradox(game);
+                    break;
             }
             //Verify if everything goes right with the card action
             if(successfull.result == false) {
@@ -169,4 +172,15 @@ async function timeReverse(game){
     return{result: true, msg: ""}
 }
 
+async function paradox(game){
+    let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
+    let [eras] = await pool.query('select * from era');
+    for(let artifact of artifacts){
+        let randomEra = Utils.randomNumber(eras.length);
+        let position = Utils.randomPosition(randomEra);
+        await pool.query(`update game_artifact set ga_current_position = ? where ga_id = ?`, [position, artifact.ga_id]);
+    }
+
+    return{result: true, msg: ""}
+}
 module.exports = Card;

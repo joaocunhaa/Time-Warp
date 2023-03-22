@@ -19,7 +19,7 @@ insert into card(crd_name, crd_description) values ('Time Reverse', 'This card r
 
 -- insert into card(crd_name, crd_description) values ('Time Loop', 'This card skips the opponent’s turn and you play twice in a row');
 
--- insert into card(crd_name, crd_description) values ('Paradox', 'This card creates a paradox by altering the timeline, shuffling the artifacts between eras');
+insert into card(crd_name, crd_description) values ('Paradox', 'This card creates a paradox by altering the timeline, shuffling the artifacts between eras');
 
 #Eras
 insert into era(era_name) values ('Egyptian Era');
