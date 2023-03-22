@@ -27,8 +27,14 @@ class Pawn{
                 return{status: 400, result: {msg: "You cant play, since is not your turn"}}
             }
             //Check if the board is reversed
-            if (game.reversed_board == true){
+            if (game.reversedBoard){
                 if(game.player.position == 1){
+                    //Get the artifacts currently active in the game
+                    let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
+                    if(!artifacts.length){
+                        //Finishes the game
+                        await pool.query('update game set gm_state_id = 3 where gm_id = ?', [game.id])
+                    }
                     //Goes back to position 35
                     nextPosition = 35;
                 }else{

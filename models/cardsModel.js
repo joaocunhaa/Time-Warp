@@ -78,6 +78,9 @@ class Card{
                 case 3:
                     successfull = await timeJump(game);
                     break;
+                case 4:
+                    successfull = await timeReverse(game);
+                    break;
             }
             //Verify if everything goes right with the card action
             if(successfull.result == false) {
@@ -148,7 +151,16 @@ async function timeJump(game){
     console.log(next_era, next_position);
     //Update on database
     await pool.query('update user_game set ug_current_position = ? where ug_id = ?', [next_position, game.player.id]);
-    return{successfull: true, msg:""}
+    return{result: true, msg:""}
+}
+
+async function timeReverse(game){
+    if(game.reversedBoard){
+        await pool.query('update game set gm_reversed_board = ? where gm_id = ?', [false, game.id]);
+    }else{
+        await pool.query('update game set gm_reversed_board = ? where gm_id = ?', [true, game.id]);
+    }
+    return{result: true, msg: ""}
 }
 
 module.exports = Card;
