@@ -12,29 +12,28 @@
 
 <body><center>
   <header>
+    <h2></h2>
     <img src="assets/TimeWarpLogo.png" alt="TimeWarp" width="580" height="150">
-    <h1>Login</h1>
   </header>
+
   <main>
-    <p> If you have a match running you will enter that match.
-      Otherwise it will go to the match making page.
-    </p>
-    <form action="javascript:login()">
-      <table>
-        <tr>
-          <td>Name:</td>
-          <td><input type="text" autocomplete="username" id="name"></td>
-        </tr>
-        <tr>
-          <td>Password:</td>
-          <td><input type="password" autocomplete="current-password" id="password"></td>
-        </tr>
-      </table>
-      <p id="msg" class="warning"></p>
-      <p><input type="submit" value="Login"></p>
-      <p><a href="register.html">Create a new account</a></p>
-    </form>
+    <br></br>
+    <!-- Login Form -->
+    <div class="login-page">
+      <div class="form">
+        <h1 style="margin-top: 0px;">Login</h1>
+        
+        <form action="javascript:login()">
+          <input type="text" autocomplete="username" id="name" placeholder="username"/>
+          <input type="password" autocomplete="current-password" id="password" placeholder="password"/>
+
+          <p><input id="loginbutton" type="submit" value="Login"></p>
+
+          <p class="message">Not registered? <a href="register.html">Create an account</a></p>
+          <p id="msg" class="warning"></p>
+        </form>
+      </div>
+    </div>
   </main></center>
 </body>
-
 </html>

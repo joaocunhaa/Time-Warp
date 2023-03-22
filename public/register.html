@@ -10,26 +10,28 @@
 
 <body><center>
   <header>
+    <h2></h2>
     <img src="assets/TimeWarpLogo.png" alt="TimeWarp" width="580" height="150">
-    <h1>Register</h1>
   </header>
+
   <main>
-    <form action="javascript:register()">
-      <table>
-        <tr>
-          <td>Name:</td>
-          <td><input type="text" autocomplete="username" id="name"></td>
-        </tr>
-        <tr>
-          <td>Password:</td>
-          <td><input type="password" autocomplete="new-password"  id="password"></td>
-        </tr>
-      </table>
-      <p id="msg" class="warning"></p>
-      <p><input type="submit" value="Register"></p>
-      <p><a href="index.html">Login page</a></p>
-    </form>
+    <br></br>
+    <!-- Register Form -->
+    <div class="login-page">
+      <div class="form">
+        <h1 style="margin-top: 0px;">Register</h1>
+        
+        <form action="javascript:register()">
+          <input type="text" autocomplete="username" id="name" placeholder="username"/>
+          <input type="password" autocomplete="new-password" id="password" placeholder="password"/>
+
+          <p><input id="loginbutton" type="submit" value="Create Account"></p>
+
+          <p class="message">Already registered? <a href="index.html">Login</a></p>
+          <p id="msg" class="warning"></p>
+        </form>
+      </div>
+    </div>
   </main></center>
 </body>
-
 </html>
