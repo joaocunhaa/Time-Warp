@@ -14,11 +14,11 @@ insert into user_game_state (ugst_state) values ('End');
 # Cards
 insert into card(crd_name, crd_description) values ('Claim Artifact', 'This card claims the artifact of the current era');
 insert into card(crd_name, crd_description) values ('Steal Artifact', 'This card steals a random artifact of the opponent');
--- insert into card(crd_name, crd_description) values ('Time Jump', 'This card skips ahead on the timeline to the next era')
+insert into card(crd_name, crd_description) values ('Time Jump', 'This card skips ahead on the timeline to the next era');
 
--- insert into card(crd_name, crd_description) values ('Time Loop', 'This card skips the opponent’s turn and you play twice in a row')
+-- insert into card(crd_name, crd_description) values ('Time Loop', 'This card skips the opponent’s turn and you play twice in a row');
 
--- insert into card(crd_name, crd_description) values ('Paradox', 'This card creates a paradox by altering the timeline, shuffling the artifacts between eras')
+-- insert into card(crd_name, crd_description) values ('Paradox', 'This card creates a paradox by altering the timeline, shuffling the artifacts between eras');
 
 #Eras
 insert into era(era_name) values ('Egyptian Era');

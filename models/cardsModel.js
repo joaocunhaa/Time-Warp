@@ -75,6 +75,9 @@ class Card{
                 case 2:
                     successfull = await stealArtifact(game);
                     break;
+                case 3:
+                    successfull = await timeJump(game);
+                    break;
             }
             //Verify if everything goes right with the card action
             if(successfull.result == false) {
@@ -120,6 +123,32 @@ async function stealArtifact(game){
     //Update the owner of the selected artifact
     await pool.query('update game_artifact set ga_current_owner = ? where ga_id = ?', [game.player.id, oppArtifacts[randomArtifact-1].ga_id]);
     return{result: true, msg: "Succesfully Played"}
+}
+
+async function timeJump(game){
+    //Get the current era
+    let current_era = Math.ceil(game.player.position / 5);
+    let next_era;
+    //Calculate the next era
+    if(game.reversedBoard){
+        next_era = current_era - 1;
+        //If is lower than 1, then he goes to the last era
+        if(next_era < 1){
+            next_era = 7;
+        }
+    }else{
+        next_era = current_era + 1;
+        //If is higher than 7, then he goes to the first era
+        if(next_era > 7){
+            next_era = 1;
+        }
+    }
+    //Take the era and put the player in the first position of the era ("- 4")
+    let next_position = next_era * 5 - 4;
+    console.log(next_era, next_position);
+    //Update on database
+    await pool.query('update user_game set ug_current_position = ? where ug_id = ?', [next_position, game.player.id]);
+    return{successfull: true, msg:""}
 }
 
 module.exports = Card;
