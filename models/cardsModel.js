@@ -147,8 +147,11 @@ async function timeJump(game){
         }
     }
     //Take the era and put the player in the first position of the era ("- 4")
-    let next_position = next_era * 5 - 4;
-    console.log(next_era, next_position);
+
+    let next_position;
+    if(game.reversedBoard)
+        nextposition = next_era * 5 + 4;
+    else nextposition = next_era * 5 - 4;
     //Update on database
     await pool.query('update user_game set ug_current_position = ? where ug_id = ?', [next_position, game.player.id]);
     return{result: true, msg:""}
