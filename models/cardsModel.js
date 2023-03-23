@@ -136,7 +136,7 @@ async function timeJump(game){
     let current_era = Math.ceil(game.player.position / 5);
     let next_era;
     //Calculate the next era
-    if(game.reversedBoard){
+    if(game.player.reversed_direction){
         next_era = current_era - 1;
         //If is lower than 1, then he goes to the last era
         if(next_era < 1){
@@ -150,9 +150,8 @@ async function timeJump(game){
         }
     }
     //Take the era and put the player in the first position of the era ("- 4")
-
     let next_position;
-    if(game.reversedBoard){
+    if(game.player.reversed_direction){
         next_position = next_era * 5;
     }else{
         next_position = next_era * 5 - 4;
@@ -164,10 +163,17 @@ async function timeJump(game){
 }
 
 async function timeReverse(game){
-    if(game.reversedBoard){
-        await pool.query('update game set gm_reversed_board = ? where gm_id = ?', [false, game.id]);
+    //Player Reverse
+    if(game.player.reversed_direction){
+        await pool.query('update user_game set ug_reversed_direction = false where ug_id = ?', [game.player.id]);
     }else{
-        await pool.query('update game set gm_reversed_board = ? where gm_id = ?', [true, game.id]);
+        await pool.query('update user_game set ug_reversed_direction = true where ug_id = ?', [game.player.id]);
+    }
+    //Opp Reverse
+    if(game.opponents[0].reversed_direction){
+        await pool.query('update user_game set ug_reversed_direction = false where ug_id = ?', [game.opponents[0].id]);
+    }else{
+        await pool.query('update user_game set ug_reversed_direction = true where ug_id = ?', [game.opponents[0].id]);
     }
     return{result: true, msg: ""}
 }

@@ -16,29 +16,30 @@ class State {
 // For now it is only an auxiliary class to hold data in here 
 // so no need to create a model file for it
 class Player {
-    constructor(id,name,state, position) {
+    constructor(id,name,state, position, reversed_direction) {
         this.id = id;        
         this.name = name;
         this.state= state;
         this.position = position;
+        this.reversed_direction = reversed_direction;
     }
     export() {
         let player = new Player();
         player.name = this.name;
         player.state = this.state.export();
         player.position = this.position;
+        player.reversed_direction = this.reversed_direction;
         return player;
     }
 }
 
 class Game {
-    constructor(id,turn,state,player,opponents, reversedBoard) {
+    constructor(id,turn,state,player,opponents) {
         this.id = id;
         this.turn = turn;
         this.state = state;
         this.player = player;
         this.opponents = opponents || [];
-        this.reversedBoard = reversedBoard;
     }
     export() {
         let game = new Game();
@@ -48,7 +49,6 @@ class Game {
         if (this.player)
             game.player = this.player.export();
         game.opponents = this.opponents.map(o => o.export());
-        game.reversedBoard = this.reversedBoard;
         return game;
     }    
 
@@ -62,7 +62,7 @@ class Game {
             where ug_game_id=?`, [game.id]);
             for (let dbPlayer of dbPlayers) {
                 let player = new Player(dbPlayer.ug_id,dbPlayer.usr_name, 
-                            new State(dbPlayer.ugst_id,dbPlayer.ugst_state), dbPlayer.ug_current_position );
+                            new State(dbPlayer.ugst_id,dbPlayer.ugst_state), dbPlayer.ug_current_position, dbPlayer.ug_reversed_direction);
                 if (dbPlayer.usr_id == userId) game.player = player;
                 else game.opponents.push(player);
             }
@@ -89,7 +89,6 @@ class Game {
                 return result;
             }
             game = result.result;
-            game.reversedBoard = dbGame.gm_reversed_board;
         return { status: 200, result: game} ;
         } catch (err) {
             console.log(err);
@@ -105,13 +104,12 @@ class Game {
                     where gst_state = 'Waiting'`);
             let games = [];
             for (let dbGame of dbGames) {
-                let game = new Game(dbGame.gm_id,dbGame.gm_turn,new State(dbGame.gst_id,dbGame.gst_state),dbGame.gm_reversed_board);
+                let game = new Game(dbGame.gm_id,dbGame.gm_turn,new State(dbGame.gst_id,dbGame.gst_state));
                 let result = await this.fillPlayersOfGame(userId,game);
                 if (result.status != 200) {
                     return result;
                 }
                 game = result.result;
-                game.reversedBoard = dbGame.gm_reversed_board;
                 games.push(game);
             }
             return { status: 200, result: games} ;

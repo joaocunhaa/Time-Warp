@@ -14,7 +14,6 @@ create table game (
     gm_id int not null auto_increment,
     gm_turn int not null default 1,
     gm_state_id int not null,
-    gm_reversed_board boolean default false,
     primary key (gm_id));
 
 create table card(
@@ -64,6 +63,7 @@ create table user_game (
     ug_game_id int not null,
     ug_state_id int not null,
     ug_current_position int not null default 1,
+    ug_reversed_direction boolean default false,
     primary key (ug_id));
 
 create table user_game_state (
@@ -112,3 +112,5 @@ alter table game_artifact add constraint ga_fk_artifact
 alter table game_artifact add constraint ga_fk_ug
             foreign key (ga_current_owner) references user_game(ug_id)
             ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+select * from user_game
