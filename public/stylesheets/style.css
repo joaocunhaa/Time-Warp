@@ -1,6 +1,8 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: white;
+  color: black;
 }
 
 a {
@@ -105,6 +107,15 @@ button.game {
 }
 
 /* Waiting Menu */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* min-height: 100vh; */
+  /* margin: 0; */
+  /* background: black; */
+}
+
 .clock-loader {
   --clock-color: var(--primary-color);
   --clock-width: 4rem;
