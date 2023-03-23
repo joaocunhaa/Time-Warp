@@ -8,10 +8,10 @@ class ScoreBoard {
         this.game = game;
     }
     draw() {
-        fill(74, 54, 35);
+        fill(143, 121, 101);
         stroke(0, 0, 0);
         rect(SB_POSX, SB_POSY, SB_WIDTH, SB_HEIGHT, 5, 5, 5, 5);
-        fill(255, 255, 255);
+        fill(0, 0, 0);
         textAlign(LEFT, CENTER);
         textSize(18);
         textStyle(NORMAL);

@@ -37,19 +37,19 @@ async function setup() {
     // Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
     GameInfo.movePawn.parent('game');
-    GameInfo.movePawn.position(GameInfo.width - 250, GameInfo.height - 75);
+    GameInfo.movePawn.position(GameInfo.width - 260, GameInfo.height - 100);
     GameInfo.movePawn.mousePressed(movePawnAction);
     GameInfo.movePawn.addClass('game');
 
     GameInfo.drawCard = createButton('Draw card');
     GameInfo.drawCard.parent('game');
-    GameInfo.drawCard.position(GameInfo.width - 250, GameInfo.height - 125);
+    GameInfo.drawCard.position(GameInfo.width - 260, GameInfo.height - 150);
     GameInfo.drawCard.mousePressed(drawCardAction);
     GameInfo.drawCard.addClass('game');
 
     GameInfo.dropCard = createButton('Drop Card');
     GameInfo.dropCard.parent('game');
-    GameInfo.dropCard.position(GameInfo.width - 250, GameInfo.height - 175);
+    GameInfo.dropCard.position(GameInfo.width - 1175, GameInfo.height - 125);
     GameInfo.dropCard.mousePressed(changeDropMode);
     GameInfo.dropCard.addClass('game')
 

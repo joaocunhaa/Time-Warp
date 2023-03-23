@@ -53,8 +53,8 @@ class Deck{
     }
 
     draw(){
-        fill(180);
-        rect(this.x-20, this.y-10, 730, 200)
+        fill(143, 121, 101);
+        rect(this.x-20, this.y-10, 730, 200, 5, 5, 5, 5)
         for (let card of this.cards) {
             card.draw();
         }
