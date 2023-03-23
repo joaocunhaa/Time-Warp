@@ -14,7 +14,7 @@ insert into user_game_state (ugst_state) values ('End');
 
 # Cards
 insert into card(crd_name, crd_description) values ('Claim Artifact', 'This card claims the artifact of the current era');
-insert into card(crd_name, crd_description) values ('Steal Artifact', 'This card steals a random artifact of the opponent');
+insert into card(crd_name, crd_description) values ('Drop Artifact', 'This card drops a random artifact of the opponent in a random position of the board');
 insert into card(crd_name, crd_description) values ('Time Jump', 'This card skips ahead on the timeline to the next era');
 insert into card(crd_name, crd_description) values ('Time Reverse', 'This card reverses the board, now, all the players walk in the reverse direction');
 insert into card(crd_name, crd_description) values ('Paradox', 'This card creates a paradox by altering the timeline, shuffling the artifacts between eras');

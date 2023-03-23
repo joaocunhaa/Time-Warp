@@ -73,7 +73,7 @@ class Card{
                     successfull = await claimArtifact(game); 
                     break;
                 case 2:
-                    successfull = await stealArtifact(game);
+                    successfull = await dropArtifact(game);
                     break;
                 case 3:
                     successfull = await timeJump(game);
@@ -141,7 +141,7 @@ async function claimArtifact(game){
     return {result: successfull, msg: msg};
 }
 
-async function stealArtifact(game){
+async function dropArtifact(game){
     //Get all opp's artifacts
     let [oppArtifacts] = await pool.query('select * from game_artifact where ga_current_owner = ?', [game.opponents[0].id]);
     //Verify if opp have some artifact
@@ -150,8 +150,9 @@ async function stealArtifact(game){
     }
     //Select a random Artifact from this list
     let randomArtifact = Utils.randomNumber(oppArtifacts.length);
-    //Update the owner of the selected artifact
-    await pool.query('update game_artifact set ga_current_owner = ? where ga_id = ?', [game.player.id, oppArtifacts[randomArtifact-1].ga_id]);
+    let randomPosition = Utils.randomNumber(35); //35 is the amount of squares
+    await pool.query('update game_artifact set ga_current_owner = null where ga_id = ?', [oppArtifacts[randomArtifact-1].ga_id]);
+    await pool.query('update game_artifact set ga_current_position = ? where ga_id = ?', [randomPosition, oppArtifacts[randomArtifact-1].ga_id]);
     return{result: true, msg: "Succesfully Played"}
 }
 
