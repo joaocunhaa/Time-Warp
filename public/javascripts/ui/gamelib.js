@@ -65,7 +65,7 @@ async function setup() {
 }
 
 function draw() {
-    background(220);
+    background(180,180,180);
     if (GameInfo.loading) {
         textAlign(CENTER, CENTER);
         textSize(40);
