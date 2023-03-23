@@ -121,3 +121,23 @@ async function requestPlayCard(selectedCard) {
         return { err: err };
     }
 }
+
+async function requestSurrend() {
+    try {
+        const response = await fetch(`/api/pawns/surrend`,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                }),
+                method: "PATCH"
+            });
+        return { successful: response.status == 200 };
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+        return { err: err };
+    }
+}

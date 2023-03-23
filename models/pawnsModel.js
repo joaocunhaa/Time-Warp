@@ -61,6 +61,18 @@ class Pawn{
             return{status: 500, result: err}
         }
     }
+
+    static async surrender(game){
+        try{
+            //Pass all the artifacts for the opponent
+            await pool.query('update game_artifact set ga_current_owner = ? where ga_gm_id = ?', [game.opponents[0].id, game.id]);
+            await pool.query('update game set gm_state_id = 5 where gm_id = ?', [game.id]);
+            return{status: 200, result: "Surrendered successfully!"}
+        } catch(err) {
+            console.log(err);
+            return{status:500, result: err};
+        }
+    }
 }
 
 async function checkEndGame(game){

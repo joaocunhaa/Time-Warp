@@ -61,6 +61,13 @@ async function playCardAction(selectedCard) {
     }
 }
 
+async function surrendAction() {
+    if (confirm(`Do you want to surrend?`)) {
+        let result = await requestSurrend();
+        if (!result.successful) alert("Something went wrong surrending.");
+    }
+}
+
 async function endturnAction() {
     let result = await requestEndTurn();
     if (result.successful) {

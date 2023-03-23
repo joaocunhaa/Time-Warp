@@ -39,14 +39,19 @@ async function setup() {
     GameInfo.movePawn.parent('game');
     GameInfo.movePawn.position(GameInfo.width-150,GameInfo.height-50);
     GameInfo.movePawn.mousePressed(movePawnAction);
-    GameInfo.movePawn.addClass('game')
+    GameInfo.movePawn.addClass('game');
 
     GameInfo.drawCard = createButton('Draw card');
     GameInfo.drawCard.parent('game');
     GameInfo.drawCard.position(GameInfo.width-150,GameInfo.height-100);
     GameInfo.drawCard.mousePressed(drawCardAction);
-    GameInfo.drawCard.addClass('game')
+    GameInfo.drawCard.addClass('game');
 
+    GameInfo.surrend = createButton('Surrender');
+    GameInfo.surrend.parent('game');
+    GameInfo.surrend.position(GameInfo.width-120,20);
+    GameInfo.surrend.mousePressed(surrendAction);
+    GameInfo.surrend.addClass('game')
 
     GameInfo.prepareUI();
     

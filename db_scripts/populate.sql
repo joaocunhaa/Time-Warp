@@ -5,6 +5,7 @@ insert into game_state (gst_state) values ('Waiting');
 insert into game_state (gst_state) values ('Started');
 insert into game_state (gst_state) values ('Finished');
 insert into game_state (gst_state) values ('Canceled');
+insert into game_state (gst_state) values ('Surrendered');
 
 #Do not change the order, but you can add more in the end
 insert into user_game_state (ugst_state) values ('Waiting');
