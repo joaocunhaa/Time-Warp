@@ -98,6 +98,27 @@ class Card{
             return{status: 200, result:err}
         }
     }
+
+    static async dropCard(game, body){
+        try{
+            //Verify if its player's turn
+            if(game.player.state == "Waiting"){
+                return{status: 400, result: {msg: "You can't drop since its not your turn!"}}
+            }
+            let [card] = await pool.query('select * from user_game_card where ugc_id = ?', [body.selected_card]);
+            if(!card.length){
+                return{status: 400, result: {msg: "Select a valid card"}}
+            }
+
+            await pool.query('delete from user_game_card where ugc_id = ?', [body.selected_card]);
+
+            //Return success
+            return{status:200, result: {msg: "Card descarted succesfully"}}
+        } catch(err) {
+            console.log(err);
+            return{status: 500, result: err}
+        }
+    }
 }
 
 async function claimArtifact(game){

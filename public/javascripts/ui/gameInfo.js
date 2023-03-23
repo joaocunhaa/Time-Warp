@@ -24,6 +24,9 @@ class GameInfo  {
     static images = {};
     static sounds = {};
 
+    //Drop Card
+    static dropping = false;
+
     // renderers
     static scoreBoard;
     static board;
@@ -39,9 +42,11 @@ class GameInfo  {
         if (GameInfo.game.player.state == "Playing") { 
             GameInfo.movePawn.show();
             GameInfo.drawCard.show();
+            GameInfo.dropCard.show();
         } else if (GameInfo.game.player.state == "Waiting") {
             GameInfo.movePawn.hide();
             GameInfo.drawCard.hide();
+            GameInfo.dropCard.hide();
         }
         GameInfo.surrend.show();
     }

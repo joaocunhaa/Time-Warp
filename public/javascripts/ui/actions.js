@@ -61,11 +61,26 @@ async function playCardAction(selectedCard) {
     }
 }
 
+async function dropCardAction(selectedCard) {
+    if (confirm(`Do you want to drop the "${selectedCard.name}" card?`)) {
+        let result = await requestDropCard(selectedCard.id);
+        if (result.successful) {
+            await endturnAction();
+        } else alert("Something went wrong when playing a card.");
+    }
+}
+
 async function surrendAction() {
     if (confirm(`Do you want to surrend?`)) {
         let result = await requestSurrend();
         if (!result.successful) alert("Something went wrong surrending.");
     }
+}
+
+async function changeDropMode(){
+    if(!GameInfo.dropping)
+        GameInfo.dropping = true;
+    else GameInfo.dropping = false;
 }
 
 async function endturnAction() {

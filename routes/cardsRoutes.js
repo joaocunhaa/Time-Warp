@@ -46,4 +46,18 @@ router.patch("/play", auth.verifyAuth, async function(req,res,next){
     }
 });
 
+router.patch("/drop", auth.verifyAuth, async function(req,res,next){
+    try{
+        if(!req.game){
+            res.status(400).send({msg: "You're not in a game"});
+        } else {
+            let result = await Card.dropCard(req.game, req.body);
+            res.status(result.status).send(result.result);
+        }
+    } catch(err) {
+        console.log(err);
+        res.status(500).send(err);        
+    }
+});
+
 module.exports = router;

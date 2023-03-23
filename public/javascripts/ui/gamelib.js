@@ -52,6 +52,12 @@ async function setup() {
     GameInfo.surrend.position(GameInfo.width-120,20);
     GameInfo.surrend.mousePressed(surrendAction);
     GameInfo.surrend.addClass('game')
+    
+    GameInfo.dropCard = createButton('Drop Card');
+    GameInfo.dropCard.parent('game');
+    GameInfo.dropCard.position(GameInfo.width-150,GameInfo.height-150);
+    GameInfo.dropCard.mousePressed(changeDropMode);
+    GameInfo.dropCard.addClass('game')
 
     GameInfo.prepareUI();
     
@@ -72,6 +78,11 @@ function draw() {
         GameInfo.playerDeck.draw();
         GameInfo.playerListArtifacts.draw();
         GameInfo.oppListArtifacts.draw();
+        if(GameInfo.dropping){
+            GameInfo.dropCard.elt.textContent = "Cancel"
+        }else{
+            GameInfo.dropCard.elt.textContent = "Drop Card"
+        }
     }
 }
 

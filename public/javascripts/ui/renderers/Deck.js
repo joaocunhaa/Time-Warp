@@ -12,8 +12,11 @@ class Card{
     draw(){
         stroke(0);
         strokeWeight(2);
-        if(GameInfo.game.player.state == "Playing") fill(255);
-        else fill(200);
+        if(GameInfo.game.player.state == "Playing") {
+            if(GameInfo.dropping){
+                fill(150,50,50);
+            }else fill(255);
+        }else fill(200);
         rect(this.x, this.y, Card.width, Card.height);
         strokeWeight(0);
         fill(0);
@@ -60,10 +63,18 @@ class Deck{
 
     click() {
         if (this.clickAction) {
-            for (let card of this.cards) {
-                if (card.click()) {
-                    this.clickAction(card);
-                } 
+            if(!GameInfo.dropping){
+                for (let card of this.cards) {
+                    if (card.click()) {
+                        this.clickAction(card);
+                    } 
+                }
+            }else{
+                for (let card of this.cards) {
+                    if (card.click()) {
+                        dropCardAction(card);
+                    } 
+                }
             }
         }
     }
