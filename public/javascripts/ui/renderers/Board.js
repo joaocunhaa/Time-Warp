@@ -51,11 +51,11 @@ class Board {
             }
 
             changeEras(square);
-            //Draw the block
+            // Draw the block
             rect(this.x + 80 * right, this.y + 80 * down, 80, 80);
-            //Write the block number
+            // Write the block number
             text(square, this.x + 80 * right + 10, this.y + 80 * down + 40)
-            //Draw x's on artifacts positions
+            // Draw x's on artifacts positions
             for (let artifact of GameInfo.artifactsOnBoard) {
                 if (artifact.current_position == square) {
                     text("X", this.x + 80 * right + 40, this.y + 80 * down + 40)

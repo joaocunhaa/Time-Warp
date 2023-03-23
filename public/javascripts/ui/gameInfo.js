@@ -1,6 +1,6 @@
 // All the variables for the game UI
 // we only have one game info so everything is static
-class GameInfo  {
+class GameInfo {
     // settings variables
     static width = 1366;
     static height = 800;
@@ -39,7 +39,7 @@ class GameInfo  {
     // Write your UI settings for each game state here
     // Call the method every time there is a game state change
     static prepareUI() {
-        if (GameInfo.game.player.state == "Playing") { 
+        if (GameInfo.game.player.state == "Playing") {
             GameInfo.movePawn.show();
             GameInfo.drawCard.show();
             GameInfo.dropCard.show();
