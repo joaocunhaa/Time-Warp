@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  padding: 60px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: white;
   color: black;
@@ -14,16 +14,18 @@ a {
   font-size: larger;
 }
 
-/* Login and Register Forms */
+/* Forms */
 .form {
   position: relative;
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
   margin: 0 auto 100px;
+  margin-top: 0px;
   margin-bottom: 0px;
   padding: 45px;
   text-align: center;
+  align-content: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
@@ -51,10 +53,7 @@ a {
   text-decoration: none;
 }
 
-.form .register-form {
-  display: none;
-}
-
+/* Buttons */
 #loginbutton {
   text-transform: uppercase;
   outline: 0;
@@ -67,98 +66,94 @@ a {
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;
   cursor: pointer;
+  margin-top: 5px;
 }
 
 #loginbutton:hover,#loginbutton:active,#loginbutton:focus {
-  background: #a07c43;
+  background: #8f7965;
 }
 
+/* Logout Button */
+#logoutbutton {
+  text-transform: uppercase;
+  outline: 0;
+  background: #4a3623;
+  width: 100px;
+  margin-bottom: 0px;
+  border: 0;
+  padding: 15px;
+  color: #ffffff;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+#logoutbutton:hover,#logoutbutton:active,#logoutbutton:focus {
+  background: #8f7965;
+}
 
 /* Match Select Menu CSS */
 #matches {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  cursor: pointer;
 }
 
 #matches section {
-  background-color: crimson;
+  background-color: #517253;
+  width: 100%;
   color: white;
   margin: 5px;
-  padding: 5px 100px;
+  padding: 0px 100px;
 }
 
+#matches section:hover,#matches section:active,#matches section:focus {
+  background: #8f7965;
+}
 
 /* Game CSS */
 #game {
   position: relative;
   margin: -20px auto 50px auto;
+  margin-top: -30px;
+  margin-bottom: -50px;
   padding: 0px;
 }
 
 button.game {
+  text-transform: uppercase;
   font-size: 1.5em;
-  background-color: #2ea44f;
+  background-color: #4a3623;
   color: white;
   border: 1px solid rgba(27, 31, 35, .15);
   border-radius: 6px;
   text-align: center;
   font-weight: bold;
+  cursor: pointer;
 }
 
-/* Waiting Menu */
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* min-height: 100vh; */
-  /* margin: 0; */
-  /* background: black; */
+#button.game:hover,#button.game:active,#button.game:focus {
+  background-color: #8f7965;
 }
 
-.clock-loader {
-  --clock-color: var(--primary-color);
-  --clock-width: 4rem;
-  --clock-radius: calc(var(--clock-width) / 2);
-  --clock-minute-length: calc(var(--clock-width) * 0.4);
-  --clock-hour-length: calc(var(--clock-width) * 0.2);
-  --clock-thickness: 0.2rem;
-
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: var(--clock-width);
-  height: var(--clock-width);
-  border: 3px solid var(--clock-color);
-  border-radius: 50%;
-
-  &::before,
-  &::after {
-    position: absolute;
-    content: "";
-    top: calc(var(--clock-radius) * 0.25);
-    width: var(--clock-thickness);
-    background: var(--clock-color);
-    border-radius: 10px;
-    transform-origin: center calc(100% - calc(var(--clock-thickness) / 2));
-    animation: spin infinite linear;
-  }
-
-  &::before {
-    height: var(--clock-minute-length);
-    animation-duration: 2s;
-  }
-
-  &::after {
-    top: calc(var(--clock-radius) * 0.25 + var(--clock-hour-length));
-    height: var(--clock-hour-length);
-    animation-duration: 15s;
-  }
+/* Waiting Menu Clock */
+.clock{width: 80px; height: 80px; border-radius:100%; 
+  background:#333 ; margin:10px; border:5px solid  #fff ; position:relative; box-shadow:0 5px 0 0 rgba(0, 0, 0, .3),inset 0 5px 0 0 rgba(0, 0, 0, .3), inset 0 0 0 34px #8f7965;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(1turn);
-  }
+.clock:after {content:"";width: 5px; height: 60px;
+ display:block; position:absolute; top:0; bottom: 0; left: 0; right: 0; margin: auto; box-shadow: inset 0px 2px 0 0 #fff, inset 0px 30px 0 0 #333;
+ animation:clock 2s linear infinite;}
+
+.clock:before{content:"";width: 5px; height: 50px; display:block; position:absolute; top:0; bottom: 0; left: 0; right: 0; margin: auto; box-shadow: inset 0px 2px 0 0 #fff, inset 0px 25px 0 0 #333;
+ animation:clockb 6s linear infinite;}
+
+@keyframes clock {
+  100%{transform: rotate(360deg);}
+}
+
+@keyframes clockb {
+  100%{transform: rotate(360deg);}
 }

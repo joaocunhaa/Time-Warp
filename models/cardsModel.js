@@ -134,7 +134,7 @@ async function claimArtifact(game){
         }
     }
     if(successfull == false)
-        msg = "There is no artifacts at this position!";
+        msg = "There are no artifacts at this position!";
     return {result: successfull, msg: msg};
 }
 
@@ -159,13 +159,13 @@ async function timeJump(game){
     //Calculate the next era
     if(game.player.reversed_direction){
         next_era = current_era - 1;
-        //If is lower than 1, then he goes to the last era
+        //If is lower than 1, then the player goes to the last era
         if(next_era < 1){
             next_era = 7;
         }
     }else{
         next_era = current_era + 1;
-        //If is higher than 7, then he goes to the first era
+        //If it is higher than 7, then the player goes to the first era
         if(next_era > 7){
             next_era = 1;
         }

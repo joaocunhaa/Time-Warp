@@ -35,7 +35,7 @@ async function getCards(){
     else GameInfo.playerDeck = new Deck(result.result.playerCards, 370, 600, await playCardAction);
 }
 
-//Actions
+// Actions
 async function movePawnAction() {
     let result = await requestMovePawn();
     if (result.successful) {

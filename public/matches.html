@@ -12,22 +12,21 @@
 </head>  
 
 <body><center>
-  <header>  
-    <h2></h2>
+  <header>
     <img src="assets/TimeWarpLogo.png" alt="TimeWarp" width="580" height="150">
+  </header>
 
-    <h2><span id="player">Hello ______</span>
-      <input type="button" value="Logout" onclick="logout()"></h2>
-
-    <h1>Choose a match or create a new one</h1></header>
   <main>
+    <br></br>
+    <div class="form">
+      <h2><span id="player">Hello ______</span> <input type="button" id="logoutbutton" value="Logout" onclick="logout()"></h2>
     
-    <p>After creating or joining a match you cannot leave and cannot 
-        create/join other matches until you finish that match</p>
-        
-    <section id="matches"></section>
-
-    <input type="button" value="Create my match" onclick="createMatch()">
+      <h1>Join a match or create a new one</h1>
+    
+      <section id="matches"></section>
+    
+      <input type="button" id="loginbutton" value="Create match" onclick="createMatch()">
+    </div>
   </main></center>
 </body>
 

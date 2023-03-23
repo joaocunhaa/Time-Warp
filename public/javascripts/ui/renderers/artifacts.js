@@ -1,3 +1,4 @@
+// Artifacts Box
 class Artifact{
     constructor(name, x, y, width, height){
         this.name = name;
@@ -21,6 +22,7 @@ class Artifact{
     }
 }
 
+// Artifacts List
 class ListArtifacts{
     constructor(entity, artifacts){
         this.entity = entity;
