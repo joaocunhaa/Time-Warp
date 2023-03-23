@@ -65,6 +65,7 @@ async function dropCardAction(selectedCard) {
     if (confirm(`Do you want to drop the "${selectedCard.name}" card?`)) {
         let result = await requestDropCard(selectedCard.id);
         if (result.successful) {
+            GameInfo.dropping = false;
             await endturnAction();
         } else alert("Something went wrong when playing a card.");
     }

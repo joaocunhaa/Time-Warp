@@ -84,6 +84,9 @@ class Card{
                 case 5:
                     successfull = await paradox(game);
                     break;
+                case 6: 
+                    successfull = await switchPlayers(game);
+                    break;
             }
             //Verify if everything goes right with the card action
             if(successfull.result == false) {
@@ -208,6 +211,14 @@ async function paradox(game){
         await pool.query(`update game_artifact set ga_current_position = ? where ga_id = ?`, [position, artifact.ga_id]);
     }
 
+    return{result: true, msg: ""}
+}
+
+async function switchPlayers(game){
+    let oppPosition = game.opponents[0].position;
+    let playerPosition = game.player.position;
+    await pool.query('update user_game set ug_current_position = ? where ug_id = ?', [oppPosition, game.player.id]);
+    await pool.query('update user_game set ug_current_position = ? where ug_id = ?', [playerPosition, game.opponents[0].id]);
     return{result: true, msg: ""}
 }
 module.exports = Card;

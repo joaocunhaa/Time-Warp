@@ -17,10 +17,8 @@ insert into card(crd_name, crd_description) values ('Claim Artifact', 'This card
 insert into card(crd_name, crd_description) values ('Steal Artifact', 'This card steals a random artifact of the opponent');
 insert into card(crd_name, crd_description) values ('Time Jump', 'This card skips ahead on the timeline to the next era');
 insert into card(crd_name, crd_description) values ('Time Reverse', 'This card reverses the board, now, all the players walk in the reverse direction');
-
--- insert into card(crd_name, crd_description) values ('Time Loop', 'This card skips the opponent’s turn and you play twice in a row');
-
 insert into card(crd_name, crd_description) values ('Paradox', 'This card creates a paradox by altering the timeline, shuffling the artifacts between eras');
+insert into card(crd_name, crd_description) values ('Time Trader', 'This card switch your position with the enemy position');
 
 #Eras
 insert into era(era_name) values ('Egyptian Era');
@@ -40,3 +38,5 @@ insert into artifact(art_name, art_era_id) values ('Shogun Weapon',5);
 insert into artifact(art_name, art_era_id) values ('Industrial Wheels',6);
 insert into artifact(art_name, art_era_id) values ('Flamethrower',7);
 --insert into user_game_card(ugc_ug_id, ugc_crd_id) values (1,2);
+insert into user(usr_name, usr_pass) values ("me", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
+insert into user(usr_name, usr_pass) values ("me2", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
