@@ -5,11 +5,11 @@ insert into game_state (gst_state) values ('Waiting');
 insert into game_state (gst_state) values ('Started');
 insert into game_state (gst_state) values ('Finished');
 insert into game_state (gst_state) values ('Canceled');
-insert into game_state (gst_state) values ('Surrendered');
 
 #Do not change the order, but you can add more in the end
 insert into user_game_state (ugst_state) values ('Waiting');
 insert into user_game_state (ugst_state) values ('Playing');
+insert into user_game_state (ugst_state) values ('Score');
 insert into user_game_state (ugst_state) values ('End');
 
 # Cards
@@ -37,6 +37,10 @@ insert into artifact(art_name, art_era_id) values ('Samurai Sword',4);
 insert into artifact(art_name, art_era_id) values ('Shogun Weapon',5);
 insert into artifact(art_name, art_era_id) values ('Industrial Wheels',6);
 insert into artifact(art_name, art_era_id) values ('Flamethrower',7);
---insert into user_game_card(ugc_ug_id, ugc_crd_id) values (1,2);
 insert into user(usr_name, usr_pass) values ("me", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
 insert into user(usr_name, usr_pass) values ("me2", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
+
+# Possible end game states
+insert into scoreboard_state (sbs_state) values ('Tied');
+insert into scoreboard_state (sbs_state) values ('Lost');
+insert into scoreboard_state (sbs_state) values ('Won');

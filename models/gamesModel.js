@@ -1,17 +1,6 @@
 const pool = require("../config/database");
 const Utils = require("../config/utils");
-
-// For now it is only an auxiliary class to hold data in here 
-// so no need to create a model file for it
-class State {
-    constructor(id, name) {
-        this.id = id;
-        this.name = name;
-    }
-    export() {
-        return this.name;
-    }
-}
+const State = require("./statesModel");
 
 // For now it is only an auxiliary class to hold data in here 
 // so no need to create a model file for it
@@ -78,8 +67,10 @@ class Game {
             let [dbGames] =
                 await pool.query(`Select * from game 
                     inner join user_game on gm_id = ug_game_id 
+                    inner join user_game_state on ug_state_id = ugst_id
                     inner join game_state on gm_state_id = gst_id
-                    where ug_user_id=? and gst_state IN ('Waiting','Started')`, [id]);
+                    where ug_user_id=? and (gst_state IN ('Waiting','Started')
+                    or (gst_state = 'Finished' and ugst_state = 'Score'))`, [id]);
             if (dbGames.length==0)
                 return {status:200, result:false};
             let dbGame = dbGames[0];

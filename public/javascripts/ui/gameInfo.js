@@ -29,12 +29,16 @@ class GameInfo {
 
     // renderers
     static scoreBoard;
+    static scoreWindow;
     static board;
 
     // buttons
     static movePawn;
     static drawCard;
     static surrend;
+
+    //windows
+    static scoreWindow;
 
     // Write your UI settings for each game state here
     // Call the method every time there is a game state change
@@ -43,11 +47,18 @@ class GameInfo {
             GameInfo.movePawn.show();
             GameInfo.drawCard.show();
             GameInfo.dropCard.show();
+            GameInfo.surrend.show();
         } else if (GameInfo.game.player.state == "Waiting") {
             GameInfo.movePawn.hide();
             GameInfo.drawCard.hide();
             GameInfo.dropCard.hide();
+            GameInfo.surrend.show();
+        }else if (GameInfo.game.player.state == "Score") {
+            GameInfo.movePawn.hide();
+            GameInfo.drawCard.hide();
+            GameInfo.dropCard.hide();
+            GameInfo.surrend.hide();
+            GameInfo.scoreWindow.open();
         }
-        GameInfo.surrend.show();
     }
 }

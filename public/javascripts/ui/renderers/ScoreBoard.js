@@ -20,7 +20,7 @@ class ScoreBoard {
         text("Opponent: " + this.game.opponents[0].name, SB_POSX + 10, SB_POSY + 3 * SB_HEIGHT / 4);
         text(`(${this.game.player.state})`, SB_POSX + 200, SB_POSY + 2 * SB_HEIGHT / 4);
         text(`(${this.game.opponents[0].state})`, SB_POSX + 200, SB_POSY + 3 * SB_HEIGHT / 4);
-        if (this.game.state == "Finished") {
+        if (this.game.state == "Finished" || this.game.state == "Surrendered") {
             fill(200, 0, 0);
             textSize(24);
             textStyle(BOLD);

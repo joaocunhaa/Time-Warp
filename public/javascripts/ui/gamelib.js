@@ -8,12 +8,14 @@ async function refresh() {
         await getCollectedArtifacts();
         await getCards();
         if (GameInfo.game.player.state != "Waiting") {
-            // The moment we pass from waiting to play
+            GameInfo.prepareUI();
+        }
+    }else{
+        if(GameInfo.game.state != "Finished") {
+            await getGameInfo();
             GameInfo.prepareUI();
         }
     }
-    // Nothing to do when we are playing since we control all that happens 
-    // so no update is needed from the server
 }
 
 function preload() {
@@ -32,7 +34,7 @@ async function setup() {
     await getArtifactsOnBoard();
     await getCollectedArtifacts();
     await getCards();
-    setInterval(refresh, 1000);
+    setInterval(refresh, 500);
 
     // Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
@@ -71,6 +73,8 @@ function draw() {
         textSize(40);
         fill('black');
         text('Loading...', GameInfo.width / 2, GameInfo.height / 2);
+    } else if (GameInfo.game.state == "Finished" && GameInfo.scoreWindow) {
+        GameInfo.scoreWindow.draw();
     } else {
         GameInfo.scoreBoard.draw();
         GameInfo.board.draw();

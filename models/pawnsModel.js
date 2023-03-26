@@ -35,7 +35,7 @@ class Pawn{
                         await pool.query('update user_game set ug_reversed_direction = false where ug_id = ?', [game.player.id]);
                         nextPosition = game.player.position + 1;
                     }else{
-                        await pool.query('update game set gm_state_id = 3 where gm_id = ?', [game.id]);
+                        await endGame(game);
                     }
                 }else{
                     nextPosition = game.player.position - 1;
@@ -47,7 +47,7 @@ class Pawn{
                         await pool.query('update user_game set ug_reversed_direction = true where ug_id = ?', [game.player.id]);
                         nextPosition = game.player.position - 1;
                     }else{
-                        await pool.query('update game set gm_state_id = 3 where gm_id = ?', [game.id]);
+                        await endGame(game);
                     }
                 }else{
                     nextPosition = game.player.position + 1;
@@ -66,7 +66,8 @@ class Pawn{
         try{
             //Pass all the artifacts for the opponent
             await pool.query('update game_artifact set ga_current_owner = ? where ga_gm_id = ?', [game.opponents[0].id, game.id]);
-            await pool.query('update game set gm_state_id = 5 where gm_id = ?', [game.id]);
+            await endGame(game);
+            // await pool.query('update game set gm_state_id = 5 where gm_id = ?', [game.id]);
             return{status: 200, result: "Surrendered successfully!"}
         } catch(err) {
             console.log(err);
@@ -82,6 +83,27 @@ async function checkEndGame(game){
         hasEnded = true;
     }
     return hasEnded;
+}
+
+async function endGame(game){
+    // Both players go to score phase (id = 3)
+    let sqlPlayer = `Update user_game set ug_state_id = ? where ug_id = ?`;
+    await pool.query(sqlPlayer, [3, game.player.id]);
+    await pool.query(sqlPlayer, [3, game.opponents[0].id]);
+    // Set game to finished (id = 3)
+    await pool.query(`Update game set gm_state_id=? where gm_id = ?`, [3, game.id]);
+
+    let [playerArtifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = ?', [game.id, game.player.id]);
+    let [oppArtifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = ?', [game.id, game.opponents[0].id]);
+    
+    let sqlScore = `Insert into scoreboard (sb_ug_id,sb_state_id) values (?,?)`;
+    if(playerArtifacts.length > oppArtifacts.length){
+        await pool.query(sqlScore, [game.player.id, 3]);
+        await pool.query(sqlScore, [game.opponents[0].id, 2]);
+    }else{
+        await pool.query(sqlScore, [game.player.id, 2]);
+        await pool.query(sqlScore, [game.opponents[0].id, 3]);
+    }
 }
 
 

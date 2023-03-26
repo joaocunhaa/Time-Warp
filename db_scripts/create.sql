@@ -71,6 +71,19 @@ create table user_game_state (
     ugst_state varchar(60) not null,
     primary key (ugst_id));
 
+create table scoreboard(
+    sb_id int NOT NULL AUTO_INCREMENT,
+    sb_ug_id int not null,
+    sb_state_id int not null,
+    PRIMARY KEY(sb_id)
+);
+
+create table scoreboard_state(
+    sbs_id int not null AUTO_INCREMENT,
+    sbs_state VARCHAR(60) not null,
+    PRIMARY KEY(sbs_id)
+);
+
 # Foreign Keys
 
 alter table game add constraint game_fk_match_state
@@ -112,5 +125,10 @@ alter table game_artifact add constraint ga_fk_artifact
 alter table game_artifact add constraint ga_fk_ug
             foreign key (ga_current_owner) references user_game(ug_id)
             ON DELETE NO ACTION ON UPDATE NO ACTION;
+alter table scoreboard add constraint scoreboard_fk_user_game
+            foreign key (sb_ug_id) references user_game(ug_id) 
+			ON DELETE NO ACTION ON UPDATE NO ACTION;  
 
-select * from user_game
+alter table scoreboard add constraint scoreboard_fk_scoreboard_state
+            foreign key (sb_state_id) references scoreboard_state(sbs_id) 
+			ON DELETE NO ACTION ON UPDATE NO ACTION;  
