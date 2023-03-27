@@ -1,16 +1,41 @@
+/* Light mode */
+@media (prefers-color-scheme: light) {
+  :root {
+      --body-bg: #FFFFFF;
+      --body-color: #000000;
+      --form-color: white;
+      --input-color: #f2f2f2;
+      --browntext-color: #4a3623;
+      --redtext-color: darkred;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+      --body-bg: #181a1b;
+      --body-color: #FFFFFF;
+      --form-color: #181a1b;
+      --input-color: #1f2223;
+      --browntext-color: #8f7965;
+      --redtext-color: rgb(138, 59, 59);
+  }
+}
+
 body {
   padding: 60px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: white;
-  color: black;
+  background-color: var(--body-bg);
+  color: var(--body-color);
 }
 
 a {
   color: #00B7FF;
 }
 
+/* Login or Register Message */
 .warning {
-  color: darkred;
+  color: var(--redtext-color);
   font-size: larger;
 }
 
@@ -18,7 +43,7 @@ a {
 .form {
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
+  background: var(--form-color);
   max-width: 360px;
   margin: 0 auto 100px;
   margin-top: 35px;
@@ -31,25 +56,26 @@ a {
 
 .form input {
   outline: 0;
-  background: #f2f2f2;
+  background: var(--input-color);
   width: 100%;
   border: 0;
   margin: 0 0 15px;
   padding: 15px;
   box-sizing: border-box;
   font-size: 14px;
+  color: var(--body-color);
 }
 
 /* Not Registered Text */
 .form .message {
   margin: 15px 0 0;
-  color: #000000;
+  color: var(--body-color);
   font-size: 14px;
 }
 
 /* Create an Account Text */
 .form .message a {
-  color: #4a3623;
+  color: var(--browntext-color);
   text-decoration: none;
 }
 
