@@ -39,6 +39,10 @@ insert into artifact(art_name, art_era_id) values ('Industrial Wheels',6);
 insert into artifact(art_name, art_era_id) values ('Flamethrower',7);
 insert into user(usr_name, usr_pass) values ("me", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
 insert into user(usr_name, usr_pass) values ("me2", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
+insert into user(usr_name, usr_pass) values ("me3", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
+insert into user(usr_name, usr_pass) values ("me4", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
+insert into user(usr_name, usr_pass) values ("me5", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
+insert into user(usr_name, usr_pass) values ("me6", "$2b$10$wfN00R4eCvre18IWt6Tiduo0jM6JpZhPHMgyXop4urdTF1zD.JolS");
 
 # Possible end game states
 insert into scoreboard_state (sbs_state) values ('Tied');
