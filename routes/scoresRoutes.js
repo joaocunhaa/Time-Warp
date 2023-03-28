@@ -24,10 +24,10 @@ router.get('/auth', auth.verifyAuth, async function (req, res, next) {
     }
 });
 // Get score of all games that have finished
-router.get('/', async function (req, res, next) {
+router.get('/', auth.verifyAuth, async function (req, res, next) {
     try {
-        console.log("Get score of all of games that have finished");
-        let result = await ScoreBoardLine.getAllGameResults();
+        console.log("Get score of all of games that have finished with this player");
+        let result = await ScoreBoardLine.getAllGameResults(req.user);
         res.status(result.status).send(result.result.map(s=>s.export()));
     } catch (err) {
         console.log(err);

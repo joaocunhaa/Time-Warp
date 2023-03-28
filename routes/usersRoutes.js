@@ -6,7 +6,7 @@ const auth = require("../middleware/auth");
 const tokenSize = 64;
 
 
-// Get information about the authenticated user (only the name)
+// Get information about the authenticated user
 router.get('/auth',auth.verifyAuth,  async function (req, res, next) {
     try {
         console.log("Get authenticated user");
@@ -14,7 +14,8 @@ router.get('/auth',auth.verifyAuth,  async function (req, res, next) {
         if (result.status != 200) 
             res.status(result.status).send(result.result);
         let user = new User();
-        // sendig only the name
+        // sending name and id
+        user.id = req.user.id;
         user.name = result.result.name;
         res.status(result.status).send(user);
     } catch (err) {

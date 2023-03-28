@@ -75,14 +75,39 @@ class ScoreBoardLine {
         }
     }
 
-    static async getAllGameResults() {
+    static async getAllGameResults(user) {
         try {
+            //Should change, i want just the match history of the player that is asking for
+            // let [dbSBLines] = await pool.query(`Select * from scoreboard 
+            // inner join user_game on sb_ug_id = ug_id
+            // inner join game on ug_game_id = gm_id 
+            // inner join user on ug_user_id = usr_id
+            // inner join scoreboard_state on sb_state_id = sbs_id
+            // order by gm_id desc`);
+            // let sbLines = [];
+            // let currGameId = -1;
+            // let currSB;
+            // for (let line of dbSBLines) {
+            //     if (line.gm_id != currGameId) {
+            //         if (currSB) sbLines.push(currSB);
+            //         currSB = new ScoreBoardLine(line.gm_id,[]);
+            //         currGameId = line.gm_id;
+            //     }
+            //     let pScore = new PlayerScore(line.usr_id,line.ug_id,line.usr_name,
+            //         new State(line.sbs_id,line.sbs_state) );
+            //     currSB.playerScores.push(pScore);
+            // }
+            // if (currSB) sbLines.push(currSB);
+            // return {status:200, result: sbLines};
+
             let [dbSBLines] = await pool.query(`Select * from scoreboard 
-            inner join user_game on sb_user_game_id = ug_id
+            inner join user_game on sb_ug_id = ug_id
             inner join game on ug_game_id = gm_id 
             inner join user on ug_user_id = usr_id
             inner join scoreboard_state on sb_state_id = sbs_id
-            order by gm_id desc`);
+            where usr_id = ?
+            order by gm_id desc`, [user.id]);
+
             let sbLines = [];
             let currGameId = -1;
             let currSB;
