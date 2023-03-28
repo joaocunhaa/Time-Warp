@@ -15,7 +15,7 @@ class Play {
             // Changing the game state to start
             await pool.query(`Update game set gm_state_id=? where gm_id = ?`, [2, game.id]);
 
-             // ---- Specific rules for each game start bellow
+            // ---- Specific rules for each game start bellow
 
         } catch (err) {
             console.log(err);
@@ -34,10 +34,10 @@ class Play {
         try {
             // Change player state to waiting (1)
             await pool.query(`Update user_game set ug_state_id=? where ug_id = ?`,
-                [1,game.player.id]); 
+                [1, game.player.id]);
             // Change opponent state to playing (2)
             await pool.query(`Update user_game set ug_state_id=? where ug_id = ?`,
-                [2,game.opponents[0].id]);
+                [2, game.opponents[0].id]);
             // Increase the number of turns.
             // NOTE: With the information we have we need to increase the turn
             // each time a player ends. If you want the client to see only a changed
@@ -45,13 +45,13 @@ class Play {
             // Change "game.turn = this.turn;" to "game.turn = Math.ceil(this.turn/2);" 
             await pool.query(`Update game set gm_turn=gm_turn+1 where gm_id = ?`,
                 [game.id]);
-                 
-        
-            return {status:200, result: {msg: "Your turn ended."}};
+
+
+            return { status: 200, result: { msg: "Your turn ended." } };
         } catch (err) {
             console.log(err);
             return { status: 500, result: err };
-        } 
+        }
     }
 }
 

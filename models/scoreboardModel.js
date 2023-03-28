@@ -1,15 +1,15 @@
 const pool = require("../config/database");
 const State = require("./statesModel");
 
-class PlayerScore{
-    constructor(id,playerId,name,state){
+class PlayerScore {
+    constructor(id, playerId, name, state) {
         this.id = id;
         this.playerId = playerId;
         this.name = name;
         this.state = state;
     }
 
-    export(){
+    export() {
         let score = new PlayerScore();
         score.id = this.id;
         score.name = this.name;
@@ -17,45 +17,48 @@ class PlayerScore{
         return score;
     }
 
-     static async getPlayerScore(playerId) {
+    static async getPlayerScore(playerId) {
         try {
             let [dbPlayerScores] = await pool.query(`Select * from user 
             inner join user_game on ug_user_id = usr_id
             inner join scoreboard on sb_ug_id = ug_id
             inner join scoreboard_state on sb_state_id = sbs_id
             where ug_id=?`, [playerId]);
+
             let dbPS = dbPlayerScores[0];
-            let pScore = new PlayerScore(dbPS.usr_id,dbPS.ug_id,dbPS.usr_name,
-                            new State(dbPS.sbs_id,dbPS.sbs_state) );
-            return {status:200, result: pScore};
+            let pScore = new PlayerScore(dbPS.usr_id, dbPS.ug_id, dbPS.usr_name, new State(dbPS.sbs_id, dbPS.sbs_state));
+
+            return { status: 200, result: pScore };
         } catch (err) {
             console.log(err);
             return { status: 500, result: err };
         }
-    }   
+    }
 }
 
 class ScoreBoardLine {
-    constructor (gameId,playerScores) {
+    constructor(gameId, playerScores) {
         this.gameId = gameId;
         this.playerScores = playerScores;
     }
 
     export() {
-        return new ScoreBoardLine(this.gameId,this.playerScores.map(p=>p.export()));
+        return new ScoreBoardLine(this.gameId, this.playerScores.map(p => p.export()));
     }
 
-    static async getScoreBoardLine(gameId,playerIds) {
+    static async getScoreBoardLine(gameId, playerIds) {
         try {
             let pScores = [];
             for (let pId of playerIds) {
                 let result = await PlayerScore.getPlayerScore(pId);
-                if (result.status!=200) return result;
+                if (result.status != 200) return result;
                 pScores.push(result.result);
             }
-            let sbLine = new ScoreBoardLine(gameId,pScores);
-            return {status:200, result: sbLine};
-        }  catch (err) {
+
+            let sbLine = new ScoreBoardLine(gameId, pScores);
+
+            return { status: 200, result: sbLine };
+        } catch (err) {
             console.log(err);
             return { status: 500, result: err };
         }
@@ -67,8 +70,10 @@ class ScoreBoardLine {
             for (let opp of game.opponents) {
                 playerIds.push(opp.id);
             }
-            let result = await ScoreBoardLine.getScoreBoardLine(game.id,playerIds);
-            return result ;
+
+            let result = await ScoreBoardLine.getScoreBoardLine(game.id, playerIds);
+
+            return result;
         } catch (err) {
             console.log(err);
             return { status: 500, result: err };
@@ -77,29 +82,6 @@ class ScoreBoardLine {
 
     static async getAllGameResults(user) {
         try {
-            //Should change, i want just the match history of the player that is asking for
-            // let [dbSBLines] = await pool.query(`Select * from scoreboard 
-            // inner join user_game on sb_ug_id = ug_id
-            // inner join game on ug_game_id = gm_id 
-            // inner join user on ug_user_id = usr_id
-            // inner join scoreboard_state on sb_state_id = sbs_id
-            // order by gm_id desc`);
-            // let sbLines = [];
-            // let currGameId = -1;
-            // let currSB;
-            // for (let line of dbSBLines) {
-            //     if (line.gm_id != currGameId) {
-            //         if (currSB) sbLines.push(currSB);
-            //         currSB = new ScoreBoardLine(line.gm_id,[]);
-            //         currGameId = line.gm_id;
-            //     }
-            //     let pScore = new PlayerScore(line.usr_id,line.ug_id,line.usr_name,
-            //         new State(line.sbs_id,line.sbs_state) );
-            //     currSB.playerScores.push(pScore);
-            // }
-            // if (currSB) sbLines.push(currSB);
-            // return {status:200, result: sbLines};
-
             let [dbSBLines] = await pool.query(`Select * from scoreboard 
             inner join user_game on sb_ug_id = ug_id
             inner join game on ug_game_id = gm_id 
@@ -114,15 +96,19 @@ class ScoreBoardLine {
             for (let line of dbSBLines) {
                 if (line.gm_id != currGameId) {
                     if (currSB) sbLines.push(currSB);
-                    currSB = new ScoreBoardLine(line.gm_id,[]);
+                    currSB = new ScoreBoardLine(line.gm_id, []);
                     currGameId = line.gm_id;
                 }
-                let pScore = new PlayerScore(line.usr_id,line.ug_id,line.usr_name,
-                    new State(line.sbs_id,line.sbs_state) );
+
+                let pScore = new PlayerScore(line.usr_id, line.ug_id, line.usr_name, new State(line.sbs_id, line.sbs_state));
+
                 currSB.playerScores.push(pScore);
             }
-            if (currSB) sbLines.push(currSB);
-            return {status:200, result: sbLines};
+
+            if (currSB)
+                sbLines.push(currSB);
+
+            return { status: 200, result: sbLines };
         } catch (err) {
             console.log(err);
             return { status: 500, result: err };
@@ -131,8 +117,8 @@ class ScoreBoardLine {
 
     static async closeScorePlayer(game) {
         try {
-            await pool.query(`Update user_game set ug_state_id = 4 where ug_id = ?`,game.player.id);
-            return {status:200, result: {msg: "Score closed. You can check all scores in the Score Board page."}};
+            await pool.query(`Update user_game set ug_state_id = 4 where ug_id = ?`, game.player.id);
+            return { status: 200, result: { msg: "Score closed. You can check all scores in the Score Board page." } };
         } catch (err) {
             console.log(err);
             return { status: 500, result: err };
