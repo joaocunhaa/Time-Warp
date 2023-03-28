@@ -32,20 +32,6 @@ router.post("/draw", auth.verifyAuth, async function(req,res,next){
     }
 });
 
-router.post("/draw/cheat", auth.verifyAuth, async function(req,res,next){
-    try{
-        if(!req.game){
-            res.status(400).send({msg: "You're not in a game"});
-        } else {
-            let result = await Card.drawCard(req.game, true, req.body);
-            res.status(result.status).send(result.result);
-        }
-    } catch(err) {
-        console.log(err);
-        res.status(500).send(err);
-    }
-});
-
 router.patch("/play", auth.verifyAuth, async function(req,res,next){
     try{
         if(!req.game){
@@ -65,7 +51,7 @@ router.patch("/drop", auth.verifyAuth, async function(req,res,next){
         if(!req.game){
             res.status(400).send({msg: "You're not in a game"});
         } else {
-            let result = await Card.dropCard(req.game, req.body);
+            let result = await Card.dropCard(req.game, false, req.body);
             res.status(result.status).send(result.result);
         }
     } catch(err) {
@@ -73,5 +59,36 @@ router.patch("/drop", auth.verifyAuth, async function(req,res,next){
         res.status(500).send(err);        
     }
 });
+
+//Cheats
+
+router.post("/draw/cheat", auth.verifyAuth, async function(req,res,next){
+    try{
+        if(!req.game){
+            res.status(400).send({msg: "You're not in a game"});
+        } else {
+            let result = await Card.drawCard(req.game, true, req.body);
+            res.status(result.status).send(result.result);
+        }
+    } catch(err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+});
+
+router.patch("/drop/cheat", auth.verifyAuth, async function(req,res,next){
+    try{
+        if(!req.game){
+            res.status(400).send({msg: "You're not in a game"});
+        } else {
+            let result = await Card.dropCard(req.game, true, null);
+            res.status(result.status).send(result.result);
+        }
+    } catch(err) {
+        console.log(err);
+        res.status(500).send(err);        
+    }
+});
+
 
 module.exports = router;

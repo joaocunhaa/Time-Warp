@@ -195,6 +195,26 @@ async function requestDrawCardCheat(selected_card) {
                 }),
                 method: "POST"
             });
+        return { successful: response.status == 200};
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+        return { err: err };
+    }
+}
+
+async function requestDropCardCheat() {
+    try {
+        const response = await fetch(`/api/cards/drop/cheat`,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                }),
+                method: "PATCH"
+            });
         return { successful: response.status == 200 };
     } catch (err) {
         // Treat 500 errors here

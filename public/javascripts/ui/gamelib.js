@@ -95,18 +95,21 @@ async function mouseClicked() {
 }
 
 function keyPressed(){
-    //Draw Card Cheat
-    if(keyCode === 71){
+    //Draw Specific Card Cheat
+    if(keyCode === 71)                  //g
         drawCardCheat(1); //Claim Arfifact
-    }else if(keyCode === 72){
+    else if(keyCode === 72)             //h
         drawCardCheat(2); //Drop Arfifact
-    }else if(keyCode === 74){
+    else if(keyCode === 74)             //j
         drawCardCheat(3); //Time Jump
-    }else if(keyCode === 75){
+    else if(keyCode === 75)             //k
         drawCardCheat(4); //Time Reverse
-    }else if(keyCode === 76){
+    else if(keyCode === 76)             //l
         drawCardCheat(5); //Paradox
-    }else if(keyCode === 186){
+    else if(keyCode === 186)            //ç
         drawCardCheat(6); //Time Trader
-    }
+
+    //Drop All Cards Cheat
+    else if(keyCode === 80)             //p
+        dropCardCheat()
 }

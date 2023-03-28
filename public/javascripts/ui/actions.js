@@ -72,7 +72,7 @@ async function dropCardAction(selectedCard) {
         if (result.successful) {
             GameInfo.dropping = false;
             await endturnAction();
-        } else alert("Something went wrong when playing a card.");
+        } else alert("Something went wrong when dropping a card.");
     }
 }
 
@@ -114,4 +114,13 @@ async function drawCardCheat(selected_card) {
         alert("Something went wrong when drawing a card.");
 
     await getCards();
+}
+
+async function dropCardCheat() {
+    if (confirm(`Do you want to drop all your cards?`)) {
+        let result = await requestDropCardCheat();
+        if (result.successful) {
+            await getCards()
+        } else alert("Something went wrong when dropping a card.");
+    }
 }

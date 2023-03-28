@@ -63,7 +63,7 @@ class Card{
         try{
             let successfull = {result: false, msg: null};
             //Verify if its player's turn
-            if(game.player.state == "Waiting"){
+            if(game.player.state.name == "Waiting"){
                 return{status: 400, result: {msg: "You can't play since its not your turn!"}}
             }
 
@@ -107,19 +107,23 @@ class Card{
         }
     }
 
-    static async dropCard(game, body){
+    static async dropCard(game, cheat, body){
         try{
-            //Verify if its player's turn
-            if(game.player.state == "Waiting"){
-                return{status: 400, result: {msg: "You can't drop since its not your turn!"}}
-            }
-            let [card] = await pool.query('select * from user_game_card where ugc_id = ?', [body.selected_card]);
-            if(!card.length){
-                return{status: 400, result: {msg: "Select a valid card"}}
-            }
+            if(!cheat) {
+                //Verify if its player's turn
+                if(game.player.state.name == "Waiting"){
+                    return{status: 400, result: {msg: "You can't drop since its not your turn!"}}
+                }
+                let [card] = await pool.query('select * from user_game_card where ugc_id = ?', [body.selected_card]);
+                if(!card.length){
+                    return{status: 400, result: {msg: "Select a valid card"}}
+                }
 
-            await pool.query('delete from user_game_card where ugc_id = ?', [body.selected_card]);
-
+                await pool.query('delete from user_game_card where ugc_id = ?', [body.selected_card]);
+            }else{
+                await pool.query('delete from user_game_card where ugc_ug_id = ?', [game.player.id]);
+            }
+            
             //Return success
             return{status:200, result: {msg: "Card descarted succesfully"}}
         } catch(err) {
