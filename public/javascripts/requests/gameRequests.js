@@ -180,3 +180,25 @@ async function requestCloseScore() {
         return {err: err};
     }
 }
+
+//Cheats
+async function requestDrawCardCheat(selected_card) {
+    try {
+        const response = await fetch(`/api/cards/draw/cheat`,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    selected_card: selected_card
+                }),
+                method: "POST"
+            });
+        return { successful: response.status == 200 };
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+        return { err: err };
+    }
+}

@@ -1,5 +1,9 @@
 
 async function refresh() {
+    if(GameInfo.game.state != "Finished"){
+        await getGameInfo();
+        GameInfo.prepareUI();
+    }
     if (GameInfo.game.player.state == "Waiting") {
         // Every time we are waiting
         await getGameInfo();
@@ -8,11 +12,6 @@ async function refresh() {
         await getCollectedArtifacts();
         await getCards();
         if (GameInfo.game.player.state != "Waiting") {
-            GameInfo.prepareUI();
-        }
-    }else{
-        if(GameInfo.game.state != "Finished") {
-            await getGameInfo();
             GameInfo.prepareUI();
         }
     }
@@ -95,3 +94,19 @@ async function mouseClicked() {
     }
 }
 
+function keyPressed(){
+    //Draw Card Cheat
+    if(keyCode === 71){
+        drawCardCheat(1); //Claim Arfifact
+    }else if(keyCode === 72){
+        drawCardCheat(2); //Drop Arfifact
+    }else if(keyCode === 74){
+        drawCardCheat(3); //Time Jump
+    }else if(keyCode === 75){
+        drawCardCheat(4); //Time Reverse
+    }else if(keyCode === 76){
+        drawCardCheat(5); //Paradox
+    }else if(keyCode === 186){
+        drawCardCheat(6); //Time Trader
+    }
+}

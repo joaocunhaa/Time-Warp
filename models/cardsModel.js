@@ -33,7 +33,7 @@ class Card{
     static async drawCard(game, cheat, body){
         try{
             //Verify if its player's turn
-            if(game.player.state == "Waiting"){
+            if(game.player.state.name == "Waiting"){
                 return{status: 400, result: {msg: "You can't draw since its not your turn!"}}
             }
             //verify if player has more than 5 cards

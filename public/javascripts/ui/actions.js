@@ -106,3 +106,12 @@ async function closeScore() {
         await checkGame(true); // This should send the player back to matches
     } else alert("Something went wrong when closing the score.")
 }
+
+//Cheats
+async function drawCardCheat(selected_card) {
+    let result = await requestDrawCardCheat(selected_card);
+    if (!result.successful)
+        alert("Something went wrong when drawing a card.");
+
+    await getCards();
+}
