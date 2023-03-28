@@ -30,7 +30,7 @@ class Card{
         }
     }
 
-    static async drawCard(game){
+    static async drawCard(game, cheat, body){
         try{
             //Verify if its player's turn
             if(game.player.state == "Waiting"){
@@ -41,9 +41,14 @@ class Card{
             if(cards.length >= 5){
                 return{status: 400, result: {msg: "You can't have more than 5 cards!"}}
             }
-            //Select a random Card
-            [cards] = await pool.query('select * from card');
-            let selectedCard = Utils.randomNumber(cards.length);
+            let selectedCard;
+            if(!cheat){
+                //Select a random Card
+                [cards] = await pool.query('select * from card');
+                selectedCard = Utils.randomNumber(cards.length);
+            }else{
+                selectedCard = body.selected_card;
+            }
             //Insert into database
             await pool.query('insert into user_game_card(ugc_ug_id, ugc_crd_id) values (?,?)', [game.player.id, selectedCard]);
 
