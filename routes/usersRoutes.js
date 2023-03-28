@@ -5,13 +5,12 @@ const utils = require("../config/utils");
 const auth = require("../middleware/auth");
 const tokenSize = 64;
 
-
 // Get information about the authenticated user
-router.get('/auth',auth.verifyAuth,  async function (req, res, next) {
+router.get('/auth', auth.verifyAuth, async function (req, res, next) {
     try {
         console.log("Get authenticated user");
         let result = await User.getById(req.user.id);
-        if (result.status != 200) 
+        if (result.status != 200)
             res.status(result.status).send(result.result);
         let user = new User();
         // sending name and id
@@ -71,7 +70,7 @@ router.post('/auth', async function (req, res, next) {
         // and save it on the database
         user.token = token;
         result = await User.saveToken(user);
-        res.status(200).send({msg: "Successful Login!"});
+        res.status(200).send({ msg: "Successful Login!" });
     } catch (err) {
         console.log(err);
         res.status(500).send(err);
