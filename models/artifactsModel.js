@@ -47,6 +47,24 @@ class Artifact{
             return{status: 500, result: err}
         }
     }
+
+    static async collectAllArtifacts(game){
+        try{
+            console.log("HEHE")
+            //Verify if its player's turn
+            if(game.player.state.name == "Waiting"){
+                return{status: 400, result: {msg: "You can't collect since its not your turn!"}}
+            }
+            //Collect all
+            await pool.query('update game_artifact set ga_current_owner = ? where ga_gm_id = ?', [game.player.id, game.id]);
+
+            //Return success
+            return{status:200, result: {msg: "Collected Succesfully"}}
+        } catch(err) {
+            console.log(err);
+            return{status:500, result:err}
+        }
+    }
 }
 
 module.exports = Artifact

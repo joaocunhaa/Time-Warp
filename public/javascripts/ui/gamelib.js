@@ -111,5 +111,9 @@ function keyPressed(){
 
     //Drop All Cards Cheat
     else if(keyCode === 80)             //p
-        dropCardCheat()
+        dropCardCheat();
+    
+    //Collect All Artifacts Cheat
+    else if (keyCode === 85)            //u
+        collectAllArtifactsCheat();
 }

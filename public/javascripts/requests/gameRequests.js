@@ -222,3 +222,23 @@ async function requestDropCardCheat() {
         return { err: err };
     }
 }
+
+async function requestCollectArtifactsCheat() {
+    try {
+        const response = await fetch(`/api/arts/collect/cheat`,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                }),
+                method: "POST"
+            });
+        return { successful: response.status == 200};
+    } catch (err) {
+        // Treat 500 errors here
+        console.log(err);
+        return { err: err };
+    }
+}

@@ -120,7 +120,18 @@ async function dropCardCheat() {
     if (confirm(`Do you want to drop all your cards?`)) {
         let result = await requestDropCardCheat();
         if (result.successful) {
-            await getCards()
+            await getCards();
         } else alert("Something went wrong when dropping a card.");
+    }
+}
+
+async function collectAllArtifactsCheat() {
+    if (confirm(`Do you want to collect all artifacts?`)) {
+        let result = await requestCollectArtifactsCheat();
+        if (result.successful) {
+            await getGameInfo();
+            await getArtifactsOnBoard();
+            await getCollectedArtifacts();
+        } else alert("Something went wrong when collecting an artifact.");
     }
 }
