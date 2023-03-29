@@ -135,3 +135,11 @@ async function collectAllArtifactsCheat() {
         } else alert("Something went wrong when collecting an artifact.");
     }
 }
+
+async function movePawnCheat() {
+    let result = await requestMovePawn();
+    if (!result.successful) 
+        alert("Something went wrong when moving a pawn.");
+    await getGameInfo();
+    await getPawnsPositions();
+}

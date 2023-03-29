@@ -94,26 +94,30 @@ async function mouseClicked() {
     }
 }
 
-function keyPressed(){
+async function keyPressed(){
     //Draw Specific Card Cheat
     if(keyCode === 71)                  //g
-        drawCardCheat(1); //Claim Arfifact
+        await drawCardCheat(1); //Claim Arfifact
     else if(keyCode === 72)             //h
-        drawCardCheat(2); //Drop Arfifact
+        await drawCardCheat(2); //Drop Arfifact
     else if(keyCode === 74)             //j
-        drawCardCheat(3); //Time Jump
+        await drawCardCheat(3); //Time Jump
     else if(keyCode === 75)             //k
-        drawCardCheat(4); //Time Reverse
+        await drawCardCheat(4); //Time Reverse
     else if(keyCode === 76)             //l
-        drawCardCheat(5); //Paradox
+        await drawCardCheat(5); //Paradox
     else if(keyCode === 186)            //ç
-        drawCardCheat(6); //Time Trader
+        await drawCardCheat(6); //Time Trader
 
     //Drop All Cards Cheat
     else if(keyCode === 80)             //p
-        dropCardCheat();
+        await dropCardCheat();
     
     //Collect All Artifacts Cheat
     else if (keyCode === 85)            //u
-        collectAllArtifactsCheat();
+        await collectAllArtifactsCheat();
+
+    //Move Pawn without pass turn cheat
+    else if (keyCode === 77)            //m
+        await movePawnCheat();
 }
