@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 
 router.get("/", auth.verifyAuth, async function (req, res, next) {
     try {
-        console.log("Get Pawns Positions");
+        // console.log("Get Pawns Positions");
         if (!req.game) {
             res.status(401).send({ msg: "You are not in a game" })
         } else {

@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 
 router.get("/", auth.verifyAuth, async function (req, res, next) {
     try {
-        console.log("Get all the player cards");
+        // console.log("Get all the player cards");
         if (!req.game) {
             res.status(400).send({ msg: "You're not in a game" });
         } else {

@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 
 router.get("/", auth.verifyAuth, async function (req, res, next) {
     try {
-        console.log("Get All the Artifacts On-Board");
+        // console.log("Get All the Artifacts On-Board");
         if (!req.game) {
             res.status(400).send({ msg: "You're not in a game" })
         } else {
@@ -20,7 +20,7 @@ router.get("/", auth.verifyAuth, async function (req, res, next) {
 
 router.get("/collected", auth.verifyAuth, async function (req, res, next) {
     try {
-        console.log("Get all the collected Artifacts");
+        // console.log("Get all the collected Artifacts");
         if (!req.game) {
             res.status(400).send({ msg: "You're not in a game" })
         } else {
