@@ -74,7 +74,7 @@ insert into
   card(crd_name, crd_description)
 values
   (
-    'Time Trader',
+    'Switch',
     'This card switch your position with the enemy position'
   );
 #Eras

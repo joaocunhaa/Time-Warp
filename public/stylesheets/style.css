@@ -217,3 +217,11 @@ button.game {
 @keyframes clockb {
   100%{transform: rotate(360deg);}
 }
+
+/* Refresh Button */
+#refreshbutton {
+  background-color: var(--body-bg);
+  height: 10%;
+  width: 10%;
+  padding: 0px;
+}

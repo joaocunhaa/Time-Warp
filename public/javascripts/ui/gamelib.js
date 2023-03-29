@@ -1,11 +1,10 @@
-
 async function refresh() {
     if(GameInfo.game.state != "Finished"){
         await getGameInfo();
         GameInfo.prepareUI();
     }
     if (GameInfo.game.player.state == "Waiting") {
-        // Every time we are waiting
+        //Every time we are waiting
         await getGameInfo();
         await getPawnsPositions();
         await getArtifactsOnBoard();
@@ -22,12 +21,11 @@ function preload() {
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
 }
 
-
 async function setup() {
     let canvas = createCanvas(GameInfo.width, GameInfo.height);
     canvas.parent('game');
-    // Preload  images
 
+    //Preload images
     await getGameInfo();
     await getPawnsPositions();
     await getArtifactsOnBoard();
@@ -35,7 +33,7 @@ async function setup() {
     await getCards();
     setInterval(refresh, 500);
 
-    // Buttons (create a separated function if they are many)
+    //Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
     GameInfo.movePawn.parent('game');
     GameInfo.movePawn.position(GameInfo.width - 260, GameInfo.height - 100);

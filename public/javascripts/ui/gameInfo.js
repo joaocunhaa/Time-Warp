@@ -1,13 +1,13 @@
-// All the variables for the game UI
-// we only have one game info so everything is static
+//All the variables for the game UI
+//we only have one game info so everything is static
 class GameInfo {
-    // settings variables
+    //Settings variables
     static width = 1366;
     static height = 800;
 
     static loading = true;
 
-    // data
+    //Data
     static game;
 
     static playerPosition;
@@ -27,21 +27,21 @@ class GameInfo {
     //Drop Card
     static dropping = false;
 
-    // renderers
+    //Renderers
     static scoreBoard;
     static scoreWindow;
     static board;
 
-    // buttons
+    //Buttons
     static movePawn;
     static drawCard;
     static surrend;
 
-    //windows
+    //Windows
     static scoreWindow;
 
-    // Write your UI settings for each game state here
-    // Call the method every time there is a game state change
+    //Write your UI settings for each game state here
+    //Call the method every time there is a game state change
     static prepareUI() {
         if (GameInfo.game.player.state == "Playing") {
             GameInfo.movePawn.show();
