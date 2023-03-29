@@ -57,7 +57,7 @@ class Board {
             text(square, this.x + 80 * right + 10, this.y + 80 * down + 40)
             // Draw x's on artifacts positions
             for (let artifact of GameInfo.artifactsOnBoard) {
-                if (artifact.current_position == square) {
+                if (artifact.current_position == square && this.playerPosition == square) {
                     text("X", this.x + 80 * right + 40, this.y + 80 * down + 40)
                 }
             }
