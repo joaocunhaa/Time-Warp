@@ -19,6 +19,7 @@ async function refresh() {
 function preload() {
     GameInfo.images.playerPawn = loadImage("./assets/WhitePawn.png");
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
+    GameInfo.images.TimeWarp = loadImage("./assets/TimeWarpLogo.png");
 }
 
 async function setup() {
@@ -78,6 +79,7 @@ function draw() {
         GameInfo.playerDeck.draw();
         GameInfo.playerListArtifacts.draw();
         GameInfo.oppListArtifacts.draw();
+        image(GameInfo.images.TimeWarp, GameInfo.width / 2 - 260, 0, 580, 150);
         if (GameInfo.dropping) {
             GameInfo.dropCard.elt.textContent = "Cancel"
         } else {
