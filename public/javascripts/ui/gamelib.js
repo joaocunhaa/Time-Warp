@@ -79,7 +79,8 @@ function draw() {
         GameInfo.playerDeck.draw();
         GameInfo.playerListArtifacts.draw();
         GameInfo.oppListArtifacts.draw();
-        image(GameInfo.images.TimeWarp, GameInfo.width / 2 - 260, 0, 580, 150);
+        image(GameInfo.images.TimeWarp, GameInfo.width / 2 - 260, 10, 580, 150);
+        line(GameInfo.width / 2, 0, GameInfo.width / 2, GameInfo.height);
         if (GameInfo.dropping) {
             GameInfo.dropCard.elt.textContent = "Cancel"
         } else {

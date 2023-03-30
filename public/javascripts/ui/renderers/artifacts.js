@@ -59,13 +59,17 @@ class ListArtifacts {
         fill(0)
         textStyle(BOLD);
         textSize(24);
-        textAlign(CENTER, CENTER);
+        textAlign(LEFT, CENTER);
         stroke(0);
 
         if (this.entity == "Player") {
-            text("Your Artifacts", 100, 200);
+            text("Your Artifacts", 50, 205);
+            text(GameInfo.game.player.name, 10, 170);
+            text(`(${GameInfo.game.player.state})`, 10 + 140, 170);
         } else if (this.entity == "Opponent") {
-            text("Opponent Artifacts", 1235, 200);
+            text("Opponents Artifacts", 1100, 205);
+            text(GameInfo.game.opponents[0].name, 1100, 170);
+            text(`(${GameInfo.game.opponents[0].state})`, 1100 + 140, 170);
         }
 
         for (let artifact of this.artifacts) {
