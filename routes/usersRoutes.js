@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../models/usersModel");
+const { body, validationResult } = require('express-validator');
 const utils = require("../config/utils");
 const auth = require("../middleware/auth");
 const tokenSize = 64;
+const maxChars = 10;
 
 // Get information about the authenticated user
 router.get('/auth', auth.verifyAuth, async function (req, res, next) {
@@ -23,12 +25,18 @@ router.get('/auth', auth.verifyAuth, async function (req, res, next) {
     }
 });
 
-router.post('', async function (req, res, next) {
+router.post('', body('username').isLength({min: 1, max:maxChars}).withMessage(`Username needs to be shorter than ${maxChars} chars`),async function (req, res, next) {
     try {
         console.log("Register player ");
         let user = new User();
         user.name = req.body.username;
         user.pass = req.body.password;
+
+        const valid = validationResult(req);
+                      if (!valid.isEmpty()) {
+                          return res.status(401).json(valid.array());
+                      }
+        
         let result = await User.register(user);
         res.status(result.status).send(result.result);
     } catch (err) {

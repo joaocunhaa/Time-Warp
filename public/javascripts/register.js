@@ -7,6 +7,8 @@ async function register() {
         let res = await requestRegister(name,pass);
         if (res.successful) {
             msgDOM.textContent = "Account created. Go to login page";
+        } else if(res.bigUser) {
+            msgDOM.textContent = "Username needs to have at least 1 character and maximum 10";
         } else {
             msgDOM.textContent = "Was not able to register";
         }      

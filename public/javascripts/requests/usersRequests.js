@@ -14,7 +14,7 @@ async function requestRegister(user, pass) {
             });
         // We are not checking for errors (considering the GUI is only allowing correct choices)
         // We only need to send if the user registered or not 
-        return { successful: response.status == 200 };
+        return { successful: response.status == 200, bigUser: response.status == 401 };
     } catch (err) {
         // Treat 500 errors here
         console.log(err);
