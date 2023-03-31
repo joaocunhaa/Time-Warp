@@ -9,13 +9,13 @@ class Artifact {
     }
 
     draw() {
-        fill(255)
+        fill(200)
         strokeWeight(2);
         rect(this.x, this.y, this.width, this.height);
         strokeWeight(0);
         fill(0)
         textStyle(BOLD);
-        textSize(14);
+        textSize(16);
         textAlign(CENTER, CENTER);
         stroke(0);
         text(this.name, this.x + this.width / 2, this.y + this.height / 2);
@@ -35,20 +35,20 @@ class ListArtifacts {
         let y = 0;
         if (this.entity == "Player") {
             for (let artifact of artifacts) {
-                if (y < 6 && y >= 4) {
+                if (y == 7) {
                     y = 0;
                     x++;
                 }
-                arts.push(new Artifact(artifact.name, 20 + 140 * x, 230 + 60 * y, 130, 50));
+                arts.push(new Artifact(artifact.name, 38 + 140 * x, 230 + 60 * y, 210, 50));
                 y++;
             }
         } else if (this.entity == "Opponent") {
             for (let artifact of artifacts) {
-                if (y < 6 && y >= 4) {
+                if (y == 7) {
                     y = 0;
                     x++;
                 }
-                arts.push(new Artifact(artifact.name, 1230 - 140 * x, 230 + 60 * y, 130, 50));
+                arts.push(new Artifact(artifact.name, 1118 - 140 * x, 230 + 60 * y, 210, 50));
                 y++;
             }
         }
@@ -59,17 +59,23 @@ class ListArtifacts {
         fill(0)
         textStyle(BOLD);
         textSize(24);
-        textAlign(LEFT, CENTER);
+        textAlign(CENTER, CENTER);
         stroke(0);
 
         if (this.entity == "Player") {
-            text("Your Artifacts", 50, 205);
-            text(GameInfo.game.player.name, 10, 170);
-            text(`(${GameInfo.game.player.state})`, 10 + 140, 170);
+            fill(143, 121, 101);
+            rect(20, 110, 245, 545, 5, 5, 5, 5)
+            fill(0)
+            text(GameInfo.game.player.name, 140, 135);
+            text(`(${GameInfo.game.player.state})`, 140, 170);
+            text("Your Artifacts", 140, 205);
         } else if (this.entity == "Opponent") {
-            text("Opponents Artifacts", 1100, 205);
-            text(GameInfo.game.opponents[0].name, 1100, 170);
-            text(`(${GameInfo.game.opponents[0].state})`, 1100 + 140, 170);
+            fill(143, 121, 101);
+            rect(1100, 110, 245, 545, 5, 5, 5, 5)
+            fill(0)
+            text(GameInfo.game.opponents[0].name, 1222, 135);
+            text(`(${GameInfo.game.opponents[0].state})`, 1222, 170);
+            text("Opponents Artifacts", 1222, 205);
         }
 
         for (let artifact of this.artifacts) {

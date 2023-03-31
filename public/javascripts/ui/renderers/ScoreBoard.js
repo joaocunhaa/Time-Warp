@@ -10,16 +10,16 @@ class ScoreBoard {
     draw() {
         fill(143, 121, 101);
         stroke(0, 0, 0);
-        rect(SB_POSX, SB_POSY, SB_WIDTH, SB_HEIGHT, 5, 5, 5, 5);
+        rect(25, 25, 120, 30, 5, 5, 5, 5);
         fill(0, 0, 0);
         textAlign(LEFT, CENTER);
-        textSize(18);
-        textStyle(NORMAL);
-        text("Turn: " + this.game.turn, SB_POSX + 10, SB_POSY + SB_HEIGHT / 4)
-        text("Player: " + this.game.player.name, SB_POSX + 10, SB_POSY + 2 * SB_HEIGHT / 4);
-        text("Opponent: " + this.game.opponents[0].name, SB_POSX + 10, SB_POSY + 3 * SB_HEIGHT / 4);
-        text(`(${this.game.player.state})`, SB_POSX + 200, SB_POSY + 2 * SB_HEIGHT / 4);
-        text(`(${this.game.opponents[0].state})`, SB_POSX + 200, SB_POSY + 3 * SB_HEIGHT / 4);
+        textSize(24);
+        textStyle(BOLD);
+        text("TURN: " + this.game.turn, 25 + 12, 25 + 65 / 4)
+        // text("Player: " + this.game.player.name, SB_POSX + 10, SB_POSY + 2 * SB_HEIGHT / 4);
+        // text("Opponent: " + this.game.opponents[0].name, SB_POSX + 10, SB_POSY + 3 * SB_HEIGHT / 4);
+        // text(`(${this.game.player.state})`, SB_POSX + 200, SB_POSY + 2 * SB_HEIGHT / 4);
+        // text(`(${this.game.opponents[0].state})`, SB_POSX + 200, SB_POSY + 3 * SB_HEIGHT / 4);
         if (this.game.state == "Finished" || this.game.state == "Surrendered") {
             fill(200, 0, 0);
             textSize(24);

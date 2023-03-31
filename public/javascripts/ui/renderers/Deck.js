@@ -21,6 +21,7 @@ class Card{
         strokeWeight(0);
         fill(0);
         textAlign(CENTER, CENTER);
+        textSize(18)
         text(this.name, this.x + Card.width/2, this.y + Card.height/2);
     }
 
