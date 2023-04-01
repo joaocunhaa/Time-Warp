@@ -1,3 +1,4 @@
+//Get Functions
 async function getGameInfo() {
     let result = await requestPlayerGame();
     if (!result.successful) {
@@ -40,7 +41,7 @@ async function getCards(){
     else GameInfo.playerDeck = new Deck(result.result.playerCards, 683 - 365 + 20, 600, await playCardAction);
 }
 
-// Actions
+// Buttons Actions
 async function movePawnAction() {
     let result = await requestMovePawn();
     if (result.successful) {
@@ -85,6 +86,7 @@ async function surrendAction() {
     }
 }
 
+//Secondary Actions
 async function changeDropMode(){
     if(!GameInfo.dropping)
         GameInfo.dropping = true;

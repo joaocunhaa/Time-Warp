@@ -1,24 +1,24 @@
 /* Light mode */
 @media (prefers-color-scheme: light) {
   :root {
-      --body-bg: #FFFFFF;
-      --body-color: #000000;
-      --form-color: white;
-      --input-color: #f2f2f2;
-      --browntext-color: #4a3623;
-      --redtext-color: darkred;
+    --body-bg: #FFFFFF;
+    --body-color: #000000;
+    --form-color: white;
+    --input-color: #f2f2f2;
+    --browntext-color: #4a3623;
+    --redtext-color: darkred;
   }
 }
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-      --body-bg: #181a1b;
-      --body-color: #FFFFFF;
-      --form-color: #181a1b;
-      --input-color: #1f2223;
-      --browntext-color: #8f7965;
-      --redtext-color: #8A3B3B;
+    --body-bg: #181a1b;
+    --body-color: #FFFFFF;
+    --form-color: #181a1b;
+    --input-color: #1f2223;
+    --browntext-color: #8f7965;
+    --redtext-color: #8A3B3B;
   }
 }
 
@@ -30,7 +30,7 @@ body {
 }
 
 /* Login or Register Message */
-.warning {
+p.warning {
   color: var(--redtext-color);
   font-size: larger;
 }
@@ -64,23 +64,23 @@ body {
 }
 
 /* Not Registered Text */
-.form .message {
+.form #message {
   margin: 15px 0 0;
   color: var(--body-color);
   font-size: 14px;
 }
 
 /* Create an Account Text */
-.form .message a {
+.form #message a {
   color: var(--browntext-color);
   text-decoration: none;
 }
 
 /* Buttons */
-#buttons {
+input.buttons {
+  background: #4a3623;
   text-transform: uppercase;
   outline: 0;
-  background: #4a3623;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -92,12 +92,14 @@ body {
   margin-top: 5px;
 }
 
-#buttons:hover,#buttons:active,#buttons:focus {
+input.buttons:hover,
+input.buttons:active,
+input.buttons:focus {
   background: #8f7965;
 }
 
-/* Create Match Button */
-#smallbuttons {
+/* Small Buttons */
+input.smallbuttons {
   text-transform: uppercase;
   background: #4a3623;
   color: #ffffff;
@@ -107,12 +109,14 @@ body {
   width: 271px;
 }
 
-#smallbuttons:hover,#smallbuttons:active,#smallbuttons:focus {
+input.smallbuttons:hover,
+input.smallbuttons:active,
+input.smallbuttons:focus {
   background: #8f7965;
 }
 
 /* Logout Button */
-#logoutbutton {
+input#logoutbutton {
   text-transform: uppercase;
   outline: 0;
   background: #4a3623;
@@ -127,101 +131,8 @@ body {
   cursor: pointer;
 }
 
-#logoutbutton:hover,#logoutbutton:active,#logoutbutton:focus {
+input#logoutbutton:hover,
+input#logoutbutton:active,
+input#logoutbutton:focus {
   background: #8f7965;
-}
-
-/* Match Select Menu CSS */
-#matches {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-#matches section {
-  background-color: #517253;
-  width: 100%;
-  color: white;
-  margin: 5px 45px;
-  padding: 0px 100px;
-  cursor: pointer;
-}
-
-#matches section:hover,#matches section:active,#matches section:focus {
-  background: #8f7965;
-}
-
-/* Match History Menu CSS */
-#scores {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-#scores section {
-  width: 100%;
-  color: white;
-  margin: 5px 45px;
-  padding: 0px 0px;
-}
-
-#scores section.won {
-  background-color: #517253;
-}
-
-#scores section.lost {
-  background-color: #8B0000;
-}
-
-/* Game CSS */
-#game {
-  position: relative;
-  margin: -20px auto 50px auto;
-  margin-top: -30px;
-  margin-bottom: -50px;
-  padding: 0px;
-}
-
-button.game {
-  text-transform: uppercase;
-  font-size: 1.5em;
-  background-color: #8f7965;
-  color: black;
-  border: 1px solid rgba(27, 31, 35, .15);
-  border-radius: 6px;
-  text-align: center;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#button.game:hover,#button.game:active,#button.game:focus {
-  background-color: #8f7965;
-}
-
-/* Waiting Menu Clock */
-.clock{width: 80px; height: 80px; border-radius:100%; 
-  background:#333 ; margin:10px; border:5px solid  #fff ; position:relative; box-shadow:0 5px 0 0 rgba(0, 0, 0, .3),inset 0 5px 0 0 rgba(0, 0, 0, .3), inset 0 0 0 34px #8f7965;
-}
-
-.clock:after {content:"";width: 5px; height: 60px;
- display:block; position:absolute; top:0; bottom: 0; left: 0; right: 0; margin: auto; box-shadow: inset 0px 2px 0 0 #fff, inset 0px 30px 0 0 #333;
- animation:clock 2s linear infinite;}
-
-.clock:before{content:"";width: 5px; height: 50px; display:block; position:absolute; top:0; bottom: 0; left: 0; right: 0; margin: auto; box-shadow: inset 0px 2px 0 0 #fff, inset 0px 25px 0 0 #333;
- animation:clockb 6s linear infinite;}
-
-@keyframes clock {
-  100%{transform: rotate(360deg);}
-}
-
-@keyframes clockb {
-  100%{transform: rotate(360deg);}
-}
-
-/* Refresh Button */
-#refreshbutton {
-  background-color: var(--body-bg);
-  height: 10%;
-  width: 10%;
-  padding: 0px;
 }

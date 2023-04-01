@@ -5,26 +5,32 @@
   <title>Time Warp</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="/stylesheets/matches.css">
   <script src="./javascripts/utils/verifications.js"></script>
   <script src="./javascripts/requests/matchesRequests.js"></script>
   <script src="./javascripts/requests/usersRequests.js"></script>
   <script src="./javascripts/matches.js"></script>
-</head>  
+</head>
 
-<body><center>
-  <header>
-    <img src="assets/TimeWarpLogo.png" alt="Time Warp Logo" width="580" height="150">
-  </header>
+<body>
+  <center>
+    <header>
+      <img src="./assets/TimeWarpLogo.png" alt="Time Warp Logo" width="580" height="150">
+    </header>
 
-  <main>
-    <div class="form">
-      <h2><span id="player">Hello _</span> <input type="button" id="logoutbutton" value="Logout" onclick="logout()"></h2>
-      <h1>Join a match or create a new one</h1>
-      <input type="image" id="refreshbutton" src="assets/Refresh.png" onclick="refresh()"/>
-      <section id="matches"></section>
-      <input type="button" id="smallbuttons" value="Create match" onclick="createMatch()">
-      <input type="button" id="buttons" value="Match History" onclick="window.location.pathname = 'scoreboardList.html'">
-    </div>
-  </main>
-</body></center>
+    <main>
+      <div class="form">
+        <h2><span id="player">Hello _</span> <input type="button" id="logoutbutton" value="Logout" onclick="logout()">
+        </h2>
+        <h1>Join a match or create a new one</h1>
+        <input type="image" id="refreshbutton" src="./assets/Refresh.png" onclick="refresh()" />
+        <section id="matches"></section>
+        <input class="smallbuttons" type="button" value="Create match" onclick="createMatch()">
+        <input type="button" class="buttons" value="Match History"
+          onclick="window.location.pathname = 'scoreboardList.html'">
+      </div>
+    </main>
+</body>
+</center>
+
 </html>

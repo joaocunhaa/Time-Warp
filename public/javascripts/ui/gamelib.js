@@ -1,25 +1,19 @@
 async function refresh() {
     if(GameInfo.game.state != "Finished"){
         await getGameInfo();
-        GameInfo.prepareUI();
-    }
-    if (GameInfo.game.player.state == "Waiting") {
-        //Every time we are waiting
-        await getGameInfo();
         await getPawnsPositions();
         await getArtifactsOnBoard();
         await getCollectedArtifacts();
         await getCards();
-        if (GameInfo.game.player.state != "Waiting") {
-            GameInfo.prepareUI();
-        }
+        GameInfo.prepareUI();
     }
 }
 
 function preload() {
     GameInfo.images.playerPawn = loadImage("./assets/WhitePawn.png");
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
-    GameInfo.images.TimeWarp = loadImage("./assets/TimeWarpLogo.png");
+    GameInfo.images.logo = loadImage("./assets/TimeWarpLogo.png");
+    GameInfo.images.background = loadImage("./assets/Background.png")
 }
 
 async function setup() {
@@ -27,7 +21,6 @@ async function setup() {
     canvas.parent('game');
 
     //Preload images
-    bg = loadImage("./assets/Background.png")
     await getGameInfo();
     await getPawnsPositions();
     await getArtifactsOnBoard();
@@ -66,7 +59,7 @@ async function setup() {
 }
 
 function draw() {
-    background(bg);
+    background(GameInfo.images.background);
     if (GameInfo.loading) {
         textAlign(CENTER, CENTER);
         textSize(40);
@@ -80,7 +73,7 @@ function draw() {
         GameInfo.playerDeck.draw();
         GameInfo.playerListArtifacts.draw();
         GameInfo.oppListArtifacts.draw();
-        image(GameInfo.images.TimeWarp, GameInfo.width / 2 - 290, 10, 580, 150);
+        image(GameInfo.images.logo, GameInfo.width / 2 - 290, 10, 580, 150);
         if (GameInfo.dropping) {
             GameInfo.dropCard.elt.textContent = "Cancel"
         } else {

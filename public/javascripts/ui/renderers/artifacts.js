@@ -31,25 +31,15 @@ class ListArtifacts {
 
     createArtifacts(artifacts) {
         let arts = [];
-        let x = 0;
         let y = 0;
         if (this.entity == "Player") {
             for (let artifact of artifacts) {
-                if (y == 7) {
-                    y = 0;
-                    x++;
-                }
-                arts.push(new Artifact(artifact.name, 38 + 140 * x, 230 + 60 * y, 210, 50));
+                arts.push(new Artifact(artifact.name, 38 + 140, 230 + 60 * y, 210, 50));
                 y++;
             }
         } else if (this.entity == "Opponent") {
             for (let artifact of artifacts) {
-                if (y == 7) {
-                    y = 0;
-                    x++;
-                }
-                arts.push(new Artifact(artifact.name, 1118 - 140 * x, 230 + 60 * y, 210, 50));
-                y++;
+                arts.push(new Artifact(artifact.name, 1118 - 140, 230 + 60 * y, 210, 50));
             }
         }
         return arts;
@@ -75,7 +65,7 @@ class ListArtifacts {
             fill(0)
             text(GameInfo.game.opponents[0].name, 1222, 135);
             text(`(${GameInfo.game.opponents[0].state})`, 1222, 170);
-            text("Opponents Artifacts", 1222, 205);
+            text("Opponent's Artifacts", 1222, 205);
         }
 
         for (let artifact of this.artifacts) {

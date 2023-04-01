@@ -11,7 +11,6 @@ class Board {
         this.height = height;
         this.playerPawnImg = playerPawnImg;
         this.oppPawnImg = oppPawnImg;
-        /// precomputed
     }
 
     update(playerPosition, oppPosition) {
@@ -23,8 +22,10 @@ class Board {
         strokeWeight(5);
         let down = 0;
         let right = 0;
+        
         let position = positionToCoordinates(this.playerPosition);
         let playerPawnPosition = { x: position.x, y: position.y };
+
         position = positionToCoordinates(this.oppPosition);
         let oppPawnPosition = { x: position.x, y: position.y };
 
