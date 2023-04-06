@@ -147,14 +147,16 @@ async function claimArtifact(game) {
     let [artifacts] = await pool.query("select * from game_artifact where ga_gm_id = ?", [game.id]);
     for (let artifact of artifacts) {
         if (game.player.position == artifact.ga_current_position) {
-            await pool.query("update game_artifact set ga_current_owner = ? where ga_id = ?", [game.player.id, artifact.ga_id]);
-            await pool.query("update game_artifact set ga_current_position = null where ga_id = ?", [artifact.ga_id]);
-            successfull = true;
-        }
+            if(artifact.ga_drop_user == game.player.id && !game.player.touched_final){
+                msg = "You need to touch the final to take a dropped artifact";
+            }else{
+                await pool.query("update game_artifact set ga_current_owner = ? where ga_id = ?", [game.player.id, artifact.ga_id]);
+                await pool.query("update game_artifact set ga_current_position = null where ga_id = ?", [artifact.ga_id]);
+                successfull = true;
+            } 
+        }else msg = "There are no artifacts at this position!";
     }
-
-    if (successfull == false)
-        msg = "There are no artifacts at this position!";
+        
     return { result: successfull, msg: msg };
 }
 
@@ -169,8 +171,16 @@ async function dropArtifact(game) {
     //Select a random Artifact from this list
     let randomArtifact = Utils.randomNumber(oppArtifacts.length);
     let randomPosition = Utils.randomNumber(35); //35 is the amount of squares
-    await pool.query('update game_artifact set ga_current_owner = null where ga_id = ?', [oppArtifacts[randomArtifact - 1].ga_id]);
+    let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = null and ga_current_position = ?', [game.id, randomPosition]);
+
+    while(artifacts.length){
+        randomPosition = Utils.randomNumber(35); //35 is the amount of squares
+        [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = null and ga_current_position = ?', [game.id, randomPosition]);
+    }
+
+    await pool.query('update game_artifact set ga_current_owner = null, ga_dropped = true, ga_drop_user = ? where ga_id = ?', [game.player.id, oppArtifacts[randomArtifact - 1].ga_id]);
     await pool.query('update game_artifact set ga_current_position = ? where ga_id = ?', [randomPosition, oppArtifacts[randomArtifact - 1].ga_id]);
+    await pool.query('update user_game set ug_touched_final = false');
     return { result: true, msg: "Succesfully Played" }
 }
 
