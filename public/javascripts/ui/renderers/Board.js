@@ -11,7 +11,6 @@ class Board {
         this.height = height;
         this.playerPawnImg = playerPawnImg;
         this.oppPawnImg = oppPawnImg;
-        /// precomputed
     }
 
     update(playerPosition, oppPosition) {
@@ -23,8 +22,10 @@ class Board {
         strokeWeight(5);
         let down = 0;
         let right = 0;
+        
         let position = positionToCoordinates(this.playerPosition);
         let playerPawnPosition = { x: position.x, y: position.y };
+
         position = positionToCoordinates(this.oppPosition);
         let oppPawnPosition = { x: position.x, y: position.y };
 
@@ -57,8 +58,12 @@ class Board {
             text(square, this.x + 80 * right + 10, this.y + 80 * down + 40)
             // Draw x's on artifacts positions
             for (let artifact of GameInfo.artifactsOnBoard) {
-                if (artifact.current_position == square && this.playerPosition == square) {
-                    text("X", this.x + 80 * right + 40, this.y + 80 * down + 40)
+                if (artifact.current_position == square) {
+                    if(artifact.drop_user == GameInfo.game.player.id && !GameInfo.game.player.touched_final){
+                        fill(65);
+                        text("X", this.x + 80 * right + 40, this.y + 80 * down + 40);
+                        fill(0);
+                    }else text("X", this.x + 80 * right + 40, this.y + 80 * down + 40);
                 }
             }
         }

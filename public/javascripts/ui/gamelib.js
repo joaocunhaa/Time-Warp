@@ -1,25 +1,19 @@
 async function refresh() {
     if(GameInfo.game.state != "Finished"){
         await getGameInfo();
-        GameInfo.prepareUI();
-    }
-    if (GameInfo.game.player.state == "Waiting") {
-        //Every time we are waiting
-        await getGameInfo();
         await getPawnsPositions();
         await getArtifactsOnBoard();
         await getCollectedArtifacts();
         await getCards();
-        if (GameInfo.game.player.state != "Waiting") {
-            GameInfo.prepareUI();
-        }
+        GameInfo.prepareUI();
     }
 }
 
 function preload() {
     GameInfo.images.playerPawn = loadImage("./assets/WhitePawn.png");
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
-    GameInfo.images.TimeWarp = loadImage("./assets/TimeWarpLogo.png");
+    GameInfo.images.logo = loadImage("./assets/TimeWarpLogo.png");
+    GameInfo.images.background = loadImage("./assets/Background.png")
 }
 
 async function setup() {
@@ -37,25 +31,25 @@ async function setup() {
     //Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
     GameInfo.movePawn.parent('game');
-    GameInfo.movePawn.position(GameInfo.width - 260, GameInfo.height - 100);
+    GameInfo.movePawn.position(1070, 725);
     GameInfo.movePawn.mousePressed(movePawnAction);
     GameInfo.movePawn.addClass('game');
 
     GameInfo.drawCard = createButton('Draw card');
     GameInfo.drawCard.parent('game');
-    GameInfo.drawCard.position(GameInfo.width - 260, GameInfo.height - 150);
+    GameInfo.drawCard.position(1070, 675);
     GameInfo.drawCard.mousePressed(drawCardAction);
     GameInfo.drawCard.addClass('game');
 
     GameInfo.dropCard = createButton('Drop Card');
     GameInfo.dropCard.parent('game');
-    GameInfo.dropCard.position(GameInfo.width - 1175, GameInfo.height - 125);
+    GameInfo.dropCard.position(155, 675);
     GameInfo.dropCard.mousePressed(changeDropMode);
     GameInfo.dropCard.addClass('game')
 
     GameInfo.surrend = createButton('Surrender');
     GameInfo.surrend.parent('game');
-    GameInfo.surrend.position(GameInfo.width - 175, 25);
+    GameInfo.surrend.position(1191, 25);
     GameInfo.surrend.mousePressed(surrendAction);
     GameInfo.surrend.addClass('game')
 
@@ -65,7 +59,7 @@ async function setup() {
 }
 
 function draw() {
-    background(180,180,180);
+    background(GameInfo.images.background);
     if (GameInfo.loading) {
         textAlign(CENTER, CENTER);
         textSize(40);
@@ -79,8 +73,7 @@ function draw() {
         GameInfo.playerDeck.draw();
         GameInfo.playerListArtifacts.draw();
         GameInfo.oppListArtifacts.draw();
-        image(GameInfo.images.TimeWarp, GameInfo.width / 2 - 260, 10, 580, 150);
-        line(GameInfo.width / 2, 0, GameInfo.width / 2, GameInfo.height);
+        image(GameInfo.images.logo, GameInfo.width / 2 - 290, 10, 580, 150);
         if (GameInfo.dropping) {
             GameInfo.dropCard.elt.textContent = "Cancel"
         } else {

@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Time Warp</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="./stylesheets/style.css">
+    <link rel="stylesheet" href="./stylesheets/waiting.css">
     <script src="./javascripts/utils/verifications.js"></script>
     <script src="./javascripts/requests/matchesRequests.js"></script>
     <script src="./javascripts/requests/usersRequests.js"></script>
     <script src="./javascripts/waiting.js"></script>
 </head>
 
-<body><center>
-    <header>
-        <img src="./assets/TimeWarpLogo.png" alt="TimeWarp" width="580" height="150">
-    </header>
+<body>
+    <center>
+        <header>
+            <img src="./assets/TimeWarpLogo.png" alt="TimeWarp" width="580" height="150">
+        </header>
 
-    <body>
-        <div class="form">
-            <h2 id="player"> Hello _</h2>
-            <h1> You started a game!</h1>
-            <center><div class="clock"></div></center>
-            <h4> Waiting for other player to join...</h4>
-            <input type="button" id="buttons" value="Cancel game" onclick="cancel()">
-        </div>
-    </body></center>
+        <body>
+            <div class="form">
+                <h2 id="player"> Hello _</h2>
+                <h1> You started a game!</h1>
+                <center>
+                    <div class="clock"></div>
+                </center>
+                <h4> Waiting for other player to join...</h4>
+                <input type="button" class="buttons" value="Cancel game" onclick="cancel()">
+            </div>
+        </body>
+    </center>
 </body>
+
 </html>

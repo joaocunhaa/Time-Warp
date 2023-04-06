@@ -32,7 +32,8 @@ class Pawn {
                 if (game.player.position == 1) {
                     let hasEnded = await checkEndGame(game);
                     if (!hasEnded) {
-                        await pool.query('update user_game set ug_reversed_direction = false where ug_id = ?', [game.player.id]);
+                        await pool.query('update user_game set ug_reversed_direction = false, ug_touched_final = true where ug_id = ?', [game.player.id]);
+                        await pool.query('update game_artifact set ga_drop_user = null where ga_drop_user = ?', [game.player.id]);
                         nextPosition = game.player.position + 1;
                     } else { await endGame(game); }
                 } else { nextPosition = game.player.position - 1; }
@@ -40,7 +41,8 @@ class Pawn {
                 if (game.player.position == 35) {
                     let hasEnded = await checkEndGame(game);
                     if (!hasEnded) {
-                        await pool.query('update user_game set ug_reversed_direction = true where ug_id = ?', [game.player.id]);
+                        await pool.query('update user_game set ug_reversed_direction = true, ug_touched_final = true where ug_id = ?', [game.player.id]);
+                        await pool.query('update game_artifact set ga_drop_user = null where ug_id = ?', [game.player.id]);
                         nextPosition = game.player.position - 1;
                     } else { await endGame(game); }
                 } else { nextPosition = game.player.position + 1; }

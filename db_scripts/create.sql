@@ -43,6 +43,8 @@ create table game_artifact(
   ga_art_id int not null,
   ga_current_owner int,
   ga_current_position int,
+  ga_dropped boolean default false,
+  ga_drop_user int,
   primary key(ga_id)
 );
 create table game_state (
@@ -57,6 +59,7 @@ create table user_game (
   ug_state_id int not null,
   ug_current_position int not null default 1,
   ug_reversed_direction boolean default false,
+  ug_touched_final boolean default false,
   primary key (ug_id)
 );
 create table user_game_state (
@@ -115,7 +118,7 @@ add
 alter table
   game_artifact
 add
-  constraint ga_fk_ug foreign key (ga_current_owner) references user_game(ug_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  constraint ga_drop_user_fk_ug foreign key (ga_drop_user) references user_game(ug_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 alter table
   scoreboard
 add

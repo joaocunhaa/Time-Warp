@@ -9,20 +9,24 @@
   <script src="./javascripts/requests/matchesRequests.js"></script>
   <script src="./javascripts/requests/usersRequests.js"></script>
   <script src="./javascripts/scoreboardList.js"></script>
-</head>  
+</head>
 
-<body><center>
-  <header>
-    <img src="./assets/TimeWarpLogo.png" alt="Time Warp Logo" width="580" height="150">
-  </header>
+<body>
+  <center>
+    <header>
+      <img src="./assets/TimeWarpLogo.png" alt="Time Warp Logo" width="580" height="150">
+    </header>
 
-  <main>
-    <div class="form">
-      <h2><span id="player">Hello _</span> <input type="button" id="logoutbutton" value="Logout" onclick="logout()"></h2>
-      <h1>Match History</h1>
-      <section id="scores"></section>
-      <input type="button" id="smallbuttons" value="Back" onclick="window.location.pathname = 'matches.html'">
-    </div>
-  </main>
-</body></center>
+    <main>
+      <div class="form">
+        <h2><span id="player">Hello _</span> <input type="button" id="logoutbutton" value="Logout" onclick="logout()">
+        </h2>
+        <h1>Match History</h1>
+        <section id="scores"></section>
+        <input type="button" class="smallbuttons" value="Back" onclick="window.location.pathname = 'matches.html'">
+      </div>
+    </main>
+</body>
+</center>
+
 </html>

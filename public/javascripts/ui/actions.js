@@ -1,3 +1,4 @@
+//Get Functions
 async function getGameInfo() {
     let result = await requestPlayerGame();
     if (!result.successful) {
@@ -20,7 +21,7 @@ async function getPawnsPositions(){
     GameInfo.playerPosition = positions.result.playerPawn.position;
     GameInfo.oppPosition = positions.result.oppPawn.position;
     if (GameInfo.board) GameInfo.board.update(GameInfo.playerPosition, GameInfo.oppPosition); 
-    else GameInfo.board = new Board(GameInfo.playerPosition, GameInfo.oppPosition, 350, 170, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
+    else GameInfo.board = new Board(GameInfo.playerPosition, GameInfo.oppPosition, 683 - 80 - 280, 170, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
 }
 
 async function getArtifactsOnBoard(){
@@ -37,10 +38,10 @@ async function getCollectedArtifacts(){
 async function getCards(){
     let result = await requestCards();
     if (GameInfo.playerDeck) GameInfo.playerDeck.update(result.result.playerCards); 
-    else GameInfo.playerDeck = new Deck(result.result.playerCards, 370, 600, await playCardAction);
+    else GameInfo.playerDeck = new Deck(result.result.playerCards, 683 - 365 + 20, 600, await playCardAction);
 }
 
-// Actions
+// Buttons Actions
 async function movePawnAction() {
     let result = await requestMovePawn();
     if (result.successful) {
@@ -85,6 +86,7 @@ async function surrendAction() {
     }
 }
 
+//Secondary Actions
 async function changeDropMode(){
     if(!GameInfo.dropping)
         GameInfo.dropping = true;

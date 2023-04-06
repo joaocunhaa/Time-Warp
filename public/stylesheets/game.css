@@ -1,0 +1,26 @@
+/* Game CSS */
+#game {
+    position: relative;
+    margin: -20px auto 50px auto;
+    margin-top: -30px;
+    margin-bottom: -50px;
+    padding: 0px;
+  }
+  
+  button.game {
+    text-transform: uppercase;
+    font-size: 1.5em;
+    background-color: #8f7965;
+    color: black;
+    border: 1px solid rgba(27, 31, 35, .15);
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  #button.game:hover,
+  #button.game:active,
+  #button.game:focus {
+    background-color: #8f7965;
+  }
