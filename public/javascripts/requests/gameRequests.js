@@ -133,7 +133,7 @@ async function requestDropCard(selectedCard) {
                 body: JSON.stringify({
                     selected_card: selectedCard
                 }),
-                method: "PATCH"
+                method: "DELETE"
             });
         return { successful: response.status == 200 };
     } catch (err) {

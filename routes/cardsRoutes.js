@@ -48,7 +48,7 @@ router.patch("/play", auth.verifyAuth, async function (req, res, next) {
     }
 });
 
-router.patch("/drop", auth.verifyAuth, async function (req, res, next) {
+router.delete("/drop", auth.verifyAuth, async function (req, res, next) {
     try {
         console.log("Drop a card");
         if (!req.game) {
