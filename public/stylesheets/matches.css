@@ -46,9 +46,9 @@
 #refreshbutton {
   background-color: var(--body-bg);
   height: 35px;
-  width: 40px;
+  width: 35px;
   padding: 0px;
-  position: absolute;
+  position: center;
   left: 10px;
   top: 10px;
 }
