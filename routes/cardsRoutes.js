@@ -80,7 +80,7 @@ router.post("/draw/cheat", auth.verifyAuth, async function (req, res, next) {
     }
 });
 
-router.patch("/drop/cheat", auth.verifyAuth, async function (req, res, next) {
+router.delete("/drop/cheat", auth.verifyAuth, async function (req, res, next) {
     try {
         console.log("Cheat: Drop All Cards");
         if (!req.game) {

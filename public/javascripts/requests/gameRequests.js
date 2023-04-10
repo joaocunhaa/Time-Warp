@@ -213,7 +213,7 @@ async function requestDropCardCheat() {
                 },
                 body: JSON.stringify({
                 }),
-                method: "PATCH"
+                method: "DELETE"
             });
         return { successful: response.status == 200 };
     } catch (err) {
