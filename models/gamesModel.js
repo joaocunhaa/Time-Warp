@@ -83,6 +83,12 @@ class Game {
                 return result;
             
             game = result.result;
+            if(game.player.position == 1 || game.player.position == 35 || game.opponents[0].position == 1 || game.opponents[0].position == 35){
+                let hasEnded = await checkEndGame(game);
+                if(hasEnded){
+                    await endGame(game);
+                }
+            }
             return { status: 200, result: game };
         } catch (err) {
             console.log(err);
@@ -192,6 +198,36 @@ async function setGameArtifacts(game) {
     for (let artifact of artifacts) {
         let position = Utils.randomPosition(artifact.art_era_id);
         await pool.query(`insert into game_artifact(ga_gm_id, ga_art_id, ga_current_position) values(?,?,?)`, [game, artifact.art_id, position]);
+    }
+}
+
+async function checkEndGame(game) {
+    let hasEnded = false;
+    let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
+    if (!artifacts.length) {
+        hasEnded = true;
+    }
+    return hasEnded;
+}
+
+async function endGame(game) {
+    // Both players go to score phase (id = 3)
+    let sqlPlayer = `Update user_game set ug_state_id = ? where ug_id = ?`;
+    await pool.query(sqlPlayer, [3, game.player.id]);
+    await pool.query(sqlPlayer, [3, game.opponents[0].id]);
+    // Set game to finished (id = 3)
+    await pool.query(`Update game set gm_state_id=? where gm_id = ?`, [3, game.id]);
+
+    let [playerArtifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = ?', [game.id, game.player.id]);
+    let [oppArtifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = ?', [game.id, game.opponents[0].id]);
+
+    let sqlScore = `Insert into scoreboard (sb_ug_id,sb_state_id) values (?,?)`;
+    if (playerArtifacts.length > oppArtifacts.length) {
+        await pool.query(sqlScore, [game.player.id, 3]);
+        await pool.query(sqlScore, [game.opponents[0].id, 2]);
+    } else {
+        await pool.query(sqlScore, [game.player.id, 2]);
+        await pool.query(sqlScore, [game.opponents[0].id, 3]);
     }
 }
 

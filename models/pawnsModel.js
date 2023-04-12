@@ -11,7 +11,6 @@ class Pawn {
             let result = {};
             result.playerPawn = new Pawn(game.player.id, game.player.position);
             result.oppPawn = new Pawn(game.opponents[0].id, game.opponents[0].position);
-            await checkEndGame(game);
 
             return { status: 200, result: result }
         } catch (err) {
@@ -30,21 +29,15 @@ class Pawn {
             //Reversing Board
             if (game.player.reversed_direction) {
                 if (game.player.position == 1) {
-                    let hasEnded = await checkEndGame(game);
-                    if (!hasEnded) {
-                        await pool.query('update user_game set ug_reversed_direction = false, ug_touched_final = true where ug_id = ?', [game.player.id]);
-                        await pool.query('update game_artifact set ga_drop_user = null where ga_drop_user = ?', [game.player.id]);
-                        nextPosition = game.player.position + 1;
-                    } else { await endGame(game); }
+                    await pool.query('update user_game set ug_reversed_direction = false, ug_touched_final = true where ug_id = ?', [game.player.id]);
+                    await pool.query('update game_artifact set ga_drop_user = null where ga_drop_user = ?', [game.player.id]);
+                    nextPosition = game.player.position + 1;
                 } else { nextPosition = game.player.position - 1; }
             } else {
                 if (game.player.position == 35) {
-                    let hasEnded = await checkEndGame(game);
-                    if (!hasEnded) {
-                        await pool.query('update user_game set ug_reversed_direction = true, ug_touched_final = true where ug_id = ?', [game.player.id]);
-                        await pool.query('update game_artifact set ga_drop_user = null where ug_id = ?', [game.player.id]);
-                        nextPosition = game.player.position - 1;
-                    } else { await endGame(game); }
+                    await pool.query('update user_game set ug_reversed_direction = true, ug_touched_final = true where ug_id = ?', [game.player.id]);
+                    await pool.query('update game_artifact set ga_drop_user = null where ga_drop_user = ?', [game.player.id]);
+                    nextPosition = game.player.position - 1;
                 } else { nextPosition = game.player.position + 1; }
             }
 
@@ -69,36 +62,5 @@ class Pawn {
         }
     }
 }
-
-async function checkEndGame(game) {
-    let hasEnded = false;
-    let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
-    if (!artifacts.length) {
-        hasEnded = true;
-    }
-    return hasEnded;
-}
-
-async function endGame(game) {
-    // Both players go to score phase (id = 3)
-    let sqlPlayer = `Update user_game set ug_state_id = ? where ug_id = ?`;
-    await pool.query(sqlPlayer, [3, game.player.id]);
-    await pool.query(sqlPlayer, [3, game.opponents[0].id]);
-    // Set game to finished (id = 3)
-    await pool.query(`Update game set gm_state_id=? where gm_id = ?`, [3, game.id]);
-
-    let [playerArtifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = ?', [game.id, game.player.id]);
-    let [oppArtifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = ?', [game.id, game.opponents[0].id]);
-
-    let sqlScore = `Insert into scoreboard (sb_ug_id,sb_state_id) values (?,?)`;
-    if (playerArtifacts.length > oppArtifacts.length) {
-        await pool.query(sqlScore, [game.player.id, 3]);
-        await pool.query(sqlScore, [game.opponents[0].id, 2]);
-    } else {
-        await pool.query(sqlScore, [game.player.id, 2]);
-        await pool.query(sqlScore, [game.opponents[0].id, 3]);
-    }
-}
-
 
 module.exports = Pawn;

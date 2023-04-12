@@ -34,12 +34,13 @@ class ListArtifacts {
         let y = 0;
         if (this.entity == "Player") {
             for (let artifact of artifacts) {
-                arts.push(new Artifact(artifact.name, 38 + 140, 230 + 60 * y, 210, 50));
+                arts.push(new Artifact(artifact.name, 140 - 105, 230 + 60 * y, 210, 50));
                 y++;
             }
         } else if (this.entity == "Opponent") {
             for (let artifact of artifacts) {
-                arts.push(new Artifact(artifact.name, 1118 - 140, 230 + 60 * y, 210, 50));
+                arts.push(new Artifact(artifact.name, 1222 - 105, 230 + 60 * y, 210, 50));
+                y++;
             }
         }
         return arts;
