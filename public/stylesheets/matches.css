@@ -20,28 +20,6 @@
   background: #8f7965;
 }
 
-/* Match History Menu CSS */
-#scores {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-#scores section {
-  width: 100%;
-  color: white;
-  margin: 5px 45px;
-  padding: 0px 0px;
-}
-
-#scores section.won {
-  background-color: #517253;
-}
-
-#scores section.lost {
-  background-color: #8B0000;
-}
-
 /* Refresh Button */
 #refreshbutton {
   background-color: var(--body-bg);
