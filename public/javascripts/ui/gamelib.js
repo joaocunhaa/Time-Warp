@@ -101,7 +101,7 @@ async function keyPressed(){
     else if(keyCode === 76)             //l
         await drawCardCheat(5); //Paradox
     else if(keyCode === 186)            //ç
-        await drawCardCheat(6); //Time Trader
+        await drawCardCheat(6); //Switch
 
     //Drop All Cards Cheat
     else if(keyCode === 80)             //p
