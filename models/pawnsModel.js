@@ -1,4 +1,5 @@
 const pool = require("../config/database");
+const Games = require("./gamesModel");
 
 class Pawn {
     constructor(id, position) {
@@ -54,7 +55,7 @@ class Pawn {
         try {
             //Pass all the artifacts for the opponent
             await pool.query('update game_artifact set ga_current_owner = ? where ga_gm_id = ?', [game.opponents[0].id, game.id]);
-            await endGame(game);
+            await Games.endGame(game);
             return { status: 200, result: "Surrendered successfully!" }
         } catch (err) {
             console.log(err);
