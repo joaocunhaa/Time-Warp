@@ -171,12 +171,11 @@ async function dropArtifact(game) {
     //Select a random Artifact from this list
     let randomArtifact = Utils.randomNumber(oppArtifacts.length);
     let randomPosition = Utils.randomNumber(35); //35 is the amount of squares
-    let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = null and ga_current_position = ?', [game.id, randomPosition]);
-
-    while(artifacts.length){
-        randomPosition = Utils.randomNumber(35); //35 is the amount of squares
+    let artifacts = [];
+    do{
         [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = null and ga_current_position = ?', [game.id, randomPosition]);
-    }
+        randomPosition = Utils.randomNumber(35); //35 is the amount of squares
+    } while(artifacts.length)
 
     await pool.query('update game_artifact set ga_current_owner = null, ga_dropped = true, ga_drop_user = ? where ga_id = ?', [game.player.id, oppArtifacts[randomArtifact - 1].ga_id]);
     await pool.query('update game_artifact set ga_current_position = ? where ga_id = ?', [randomPosition, oppArtifacts[randomArtifact - 1].ga_id]);
