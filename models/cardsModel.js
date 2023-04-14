@@ -175,9 +175,6 @@ async function dropArtifact(game) {
     do{
         randomPosition = Utils.randomNumber(35); //35 is the amount of squares
         [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_position = ?', [game.id, randomPosition]);
-        
-        console.log(artifacts);
-        console.log(artifacts.length);
     } while(artifacts.length > 0)
 
     await pool.query('update game_artifact set ga_current_owner = null, ga_dropped = true, ga_drop_user = ?, ga_current_position = ? where ga_id = ?', [game.player.id, randomPosition, oppArtifacts[randomArtifact - 1].ga_id]);
