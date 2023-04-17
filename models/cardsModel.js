@@ -161,6 +161,10 @@ async function claimArtifact(game) {
 }
 
 async function dropArtifact(game) {
+    let current_era = Math.ceil(game.player.position / 5) ;
+    let opp_era = Math.ceil(game.opponents[0].position / 5);
+    if(current_era != opp_era)
+        return { result: false, msg: "You need to be in the same era as the opponent" }
     //Get all opp's artifacts
     let [oppArtifacts] = await pool.query('select * from game_artifact where ga_current_owner = ?', [game.opponents[0].id]);
 
@@ -170,7 +174,7 @@ async function dropArtifact(game) {
 
     //Select a random Artifact from this list
     let randomArtifact = Utils.randomNumber(oppArtifacts.length);
-    let randomPosition = 20;
+    let randomPosition = 0;
     let [artifacts] = [];
     do{
         randomPosition = Utils.randomNumber(35); //35 is the amount of squares

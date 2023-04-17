@@ -131,9 +131,10 @@ class Game {
             // create the game
             let [result] = await pool.query(`Insert into game (gm_state_id) values (?)`, [1]);
             let gameId = result.insertId;
+            let position = await setRandomPosition()
             // add the user to the game
-            await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id) values (?,?,?)`,
-                [userId, gameId, 1]);
+            await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id,ug_current_position) values (?,?,?,?)`,
+                [userId, gameId, 1, position]);
             return { status: 200, result: { msg: "You created a new game." } };
         } catch (err) {
             console.log(err);
@@ -180,11 +181,12 @@ class Game {
             // Randomly determine who starts    
             let myTurn = (Math.random() < 0.5);
 
-            setGameArtifacts(gameId);
+            await setGameArtifacts(gameId);
+            let position = await setRandomPosition();
 
             // We join the game but the game still has not started, that will be done outside
-            let [result] = await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id) values (?,?,?)`,
-                [userId, gameId, 1]);
+            let [result] = await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id, ug_current_position) values (?,?,?,?)`,
+                [userId, gameId, 1, position]);
 
             return { status: 200, result: { msg: "You joined the game." } };
         } catch (err) {
@@ -231,6 +233,11 @@ async function setGameArtifacts(game) {
         let position = Utils.randomPosition(artifact.art_era_id);
         await pool.query(`insert into game_artifact(ga_gm_id, ga_art_id, ga_current_position) values(?,?,?)`, [game, artifact.art_id, position]);
     }
+}
+
+async function setRandomPosition(){
+    let randomPosition = Utils.randomNumber(35);
+    return randomPosition;
 }
 
 module.exports = Game;
