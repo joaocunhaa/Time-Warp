@@ -183,10 +183,20 @@ class Game {
 
             await setGameArtifacts(gameId);
             let position = await setRandomPosition();
+            
+            //Define start direction
+            let [opp] = await pool.query("select * from user_game where ug_user_id != ? and ug_game_id = ?", [userId, gameId]);
 
-            // We join the game but the game still has not started, that will be done outside
-            let [result] = await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id, ug_current_position) values (?,?,?,?)`,
-                [userId, gameId, 1, position]);
+            if(opp[0].ug_current_position > position){
+                await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id, ug_current_position, ug_reversed_direction) values (?,?,?,?, true)`, [userId, gameId, 1, position]);
+            }else if (opp[0].ug_current_position < position){
+                await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id, ug_current_position, ug_reversed_direction) values (?,?,?,?, false)`, [userId, gameId, 1, position]);
+                //update opponnent's direction
+                await pool.query(`update user_game set ug_reversed_direction = true where ug_id = ?`, [opp[0].ug_id]);
+            }else{
+                await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id, ug_current_position, ug_reversed_direction) values (?,?,?,?, false)`, [userId, gameId, 1, position]);
+            }
+            
 
             return { status: 200, result: { msg: "You joined the game." } };
         } catch (err) {
@@ -236,8 +246,7 @@ async function setGameArtifacts(game) {
 }
 
 async function setRandomPosition(){
-    let randomPosition = Utils.randomNumber(35);
-    return randomPosition;
+    return Utils.randomNumber(35);
 }
 
 module.exports = Game;
