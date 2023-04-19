@@ -13,6 +13,8 @@ class GameInfo {
     static playerPosition;
     static oppPosition;
 
+    static playerEra;
+
     static artifactsOnBoard;
 
     static playerListArtifacts;

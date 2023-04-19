@@ -54,14 +54,14 @@ class ListArtifacts {
         stroke(0);
 
         if (this.entity == "Player") {
-            fill(143, 121, 101);
+            fill(143, 121, 101, 125);
             rect(20, 110, 245, 545, 5, 5, 5, 5)
             fill(0)
             text(GameInfo.game.player.name, 140, 135);
             text(`(${GameInfo.game.player.state})`, 140, 170);
             text("Your Artifacts", 140, 205);
         } else if (this.entity == "Opponent") {
-            fill(143, 121, 101);
+            fill(143, 121, 101, 125);
             rect(1100, 110, 245, 545, 5, 5, 5, 5)
             fill(0)
             text(GameInfo.game.opponents[0].name, 1222, 135);
