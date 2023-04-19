@@ -54,7 +54,7 @@ class Deck{
     }
 
     draw(){
-        fill(143, 121, 101);
+        fill(143, 121, 101, 125);
         rect(this.x-20, this.y-10, 730, 200, 5, 5, 5, 5)
         for (let card of this.cards) {
             card.draw();

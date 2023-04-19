@@ -5,6 +5,7 @@ async function refresh() {
         await getArtifactsOnBoard();
         await getCollectedArtifacts();
         await getCards();
+        GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
         GameInfo.prepareUI();
     }
 }
@@ -13,7 +14,14 @@ function preload() {
     GameInfo.images.playerPawn = loadImage("./assets/WhitePawn.png");
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
     GameInfo.images.logo = loadImage("./assets/TimeWarpLogo.png");
-    GameInfo.images.background = loadImage("./assets/Background.png")
+    GameInfo.images.background = [];
+    GameInfo.images.background.push(loadImage("./assets/Backgrounds/Egypt.jpg"));
+    GameInfo.images.background.push(loadImage("./assets/Backgrounds/Greece.jpg"));
+    GameInfo.images.background.push(loadImage("./assets/Backgrounds/Roman.jpg"));
+    GameInfo.images.background.push(loadImage("./assets/Backgrounds/Japan.jpg"));
+    GameInfo.images.background.push(loadImage("./assets/Backgrounds/Shogunate.jpg"));
+    GameInfo.images.background.push(loadImage("./assets/Backgrounds/Industrial.jpg"));
+    GameInfo.images.background.push(loadImage("./assets/Backgrounds/Information.jpg"));
 }
 
 async function setup() {
@@ -26,6 +34,7 @@ async function setup() {
     await getArtifactsOnBoard();
     await getCollectedArtifacts();
     await getCards();
+    GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
     setInterval(refresh, 500);
 
     //Buttons (create a separated function if they are many)
@@ -59,7 +68,6 @@ async function setup() {
 }
 
 function draw() {
-    background(GameInfo.images.background);
     if (GameInfo.loading) {
         textAlign(CENTER, CENTER);
         textSize(40);
@@ -68,6 +76,7 @@ function draw() {
     } else if (GameInfo.game.state == "Finished" && GameInfo.scoreWindow) {
         GameInfo.scoreWindow.draw();
     } else {
+        background(GameInfo.images.background[GameInfo.playerEra - 1]);
         GameInfo.scoreBoard.draw();
         GameInfo.board.draw();
         GameInfo.playerDeck.draw();
