@@ -246,7 +246,11 @@ async function setGameArtifacts(game) {
 }
 
 async function setRandomPosition(){
-    return Utils.randomNumber(35);
+    let randomPosition = 0;
+    do{
+        randomPosition = Utils.randomNumber(35);
+    }while(randomPosition <= 5 || randomPosition >= 31);
+    return randomPosition;
 }
 
 module.exports = Game;
