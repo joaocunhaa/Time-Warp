@@ -6,38 +6,38 @@ async function getGameInfo() {
         window.location.pathname = "index.html";
     } else {
         GameInfo.game = result.game;
-        if (GameInfo.scoreBoard) GameInfo.scoreBoard.update(GameInfo.game); 
+        if (GameInfo.scoreBoard) GameInfo.scoreBoard.update(GameInfo.game);
         else GameInfo.scoreBoard = new ScoreBoard(GameInfo.game);
         // if game ended we get the scores and prepare the ScoreWindow
         if (GameInfo.game.state == "Finished") {
             let result = await requestScore();
-            GameInfo.scoreWindow = new ScoreWindow(50,50,GameInfo.width-100,GameInfo.height-100,result.score,await closeScore);
+            GameInfo.scoreWindow = new ScoreWindow(GameInfo.width / 2 - (GameInfo.width - 700) / 2, GameInfo.height / 2 - (GameInfo.height - 550) / 2, GameInfo.width - 700, GameInfo.height - 550, result.score, await closeScore);
         }
     }
 }
 
-async function getPawnsPositions(){
+async function getPawnsPositions() {
     let positions = await requestPawnsPositions();
     GameInfo.playerPosition = positions.result.playerPawn.position;
     GameInfo.oppPosition = positions.result.oppPawn.position;
-    if (GameInfo.board) GameInfo.board.update(GameInfo.playerPosition, GameInfo.oppPosition); 
+    if (GameInfo.board) GameInfo.board.update(GameInfo.playerPosition, GameInfo.oppPosition);
     else GameInfo.board = new Board(GameInfo.playerPosition, GameInfo.oppPosition, 683 - 80 - 280, 170, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
 }
 
-async function getArtifactsOnBoard(){
+async function getArtifactsOnBoard() {
     let artifactsOnBoard = await requestArtifactsOnBoard();
     GameInfo.artifactsOnBoard = artifactsOnBoard.result;
 }
 
-async function getCollectedArtifacts(){
+async function getCollectedArtifacts() {
     let collectedArtifacts = await requestCollectedArtifacts();
     GameInfo.playerListArtifacts = new ListArtifacts("Player", collectedArtifacts.result.playerArtifacts);
     GameInfo.oppListArtifacts = new ListArtifacts("Opponent", collectedArtifacts.result.oppArtifacts);
 }
 
-async function getCards(){
+async function getCards() {
     let result = await requestCards();
-    if (GameInfo.playerDeck) GameInfo.playerDeck.update(result.result.playerCards); 
+    if (GameInfo.playerDeck) GameInfo.playerDeck.update(result.result.playerCards);
     else GameInfo.playerDeck = new Deck(result.result.playerCards, 683 - 365 + 20, 600, await playCardAction);
 }
 
@@ -51,7 +51,7 @@ async function movePawnAction() {
 
 async function drawCardAction() {
     let result = await requestDrawCard();
-    if(result.maxCards)
+    if (result.maxCards)
         alert("You can't have more than 5 cards.");
     if (result.successful) {
         await endturnAction();
@@ -87,8 +87,8 @@ async function surrendAction() {
 }
 
 //Secondary Actions
-async function changeDropMode(){
-    if(!GameInfo.dropping)
+async function changeDropMode() {
+    if (!GameInfo.dropping)
         GameInfo.dropping = true;
     else GameInfo.dropping = false;
 }
@@ -96,8 +96,8 @@ async function changeDropMode(){
 async function endturnAction() {
     let result = await requestEndTurn();
     if (result.successful) {
-        await  getGameInfo();
-        await  getPawnsPositions();
+        await getGameInfo();
+        await getPawnsPositions();
         GameInfo.prepareUI();
     } else alert("Something went wrong when ending the turn.");
 }
@@ -140,7 +140,7 @@ async function collectAllArtifactsCheat() {
 
 async function movePawnCheat() {
     let result = await requestMovePawn();
-    if (!result.successful) 
+    if (!result.successful)
         alert("Something went wrong when moving a pawn.");
     await getGameInfo();
     await getPawnsPositions();

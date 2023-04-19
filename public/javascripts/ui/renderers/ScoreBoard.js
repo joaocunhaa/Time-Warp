@@ -16,13 +16,6 @@ class ScoreBoard {
         textSize(24);
         textStyle(BOLD);
         text("TURN: " + this.game.turn, 25 + 12, 25 + 65 / 4)
-        if (this.game.state == "Finished" || this.game.state == "Surrendered") {
-            fill(200, 0, 0);
-            textSize(24);
-            textStyle(BOLD);
-            textAlign(CENTER, CENTER);
-            text("GAMEOVER", SB_POSX + 200, SB_POSY - 5 + SB_HEIGHT / 4)
-        }
     }
 
     update(game) {
