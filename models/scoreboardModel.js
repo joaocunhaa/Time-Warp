@@ -82,17 +82,16 @@ class ScoreBoardLine {
 
     static async getAllGameResults(user) {
         try {
-            let [dbSBLines] = await pool.query(`Select * from scoreboard 
-            inner join user_game on sb_ug_id = ug_id
-            inner join game on ug_game_id = gm_id 
-            inner join user on ug_user_id = usr_id
-            inner join scoreboard_state on sb_state_id = sbs_id
-            where usr_id = ?
+            let [dbSBLines] = await pool.query(`Select * from scoreboard ,
+            user_game, game, user, scoreboard_state
+            where sb_ug_id = ug_id and ug_game_id = gm_id and 
+            ug_user_id = usr_id and sb_state_id = sbs_id and usr_id = ?
             order by gm_id desc`, [user.id]);
 
             let sbLines = [];
             let currGameId = -1;
             let currSB;
+            console.log(dbSBLines);
             for (let line of dbSBLines) {
                 if (line.gm_id != currGameId) {
                     if (currSB) sbLines.push(currSB);
