@@ -54,24 +54,28 @@ async function movePawnAction() {
 
 async function drawCardAction() {
     if(!GameInfo.clicked){
+        GameInfo.clicked = true;
         let result = await requestDrawCard();
-        if(result.maxCards)
+        if(result.maxCards){
             alert("You can't have more than 5 cards.");
+            GameInfo.clicked = false;
+        }
         if (result.successful) {
-            GameInfo.clicked = true;
             await endturnAction();
-        } else alert("Something went wrong when drawing a card.");
+        } else {alert("Something went wrong when drawing a card."); GameInfo.clicked = false;}
     }
 }
 
 async function playCardAction(selectedCard) {
     if(!GameInfo.clicked){
+        GameInfo.clicked = true;
         if (confirm(`Do you want to play the "${selectedCard.name}" card?`)) {
             let result = await requestPlayCard(selectedCard.id);
             if (result.successful) {
-                GameInfo.clicked = true;
                 await endturnAction();
-            } else alert("Something went wrong when playing a card.");
+            } else {alert("Something went wrong when playing a card."); GameInfo.clicked = false;}
+        }else{
+            GameInfo.clicked = false;
         }
     }
 }
