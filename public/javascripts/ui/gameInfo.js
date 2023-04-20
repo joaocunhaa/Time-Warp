@@ -6,6 +6,7 @@ class GameInfo {
     static height = 800;
 
     static loading = true;
+    static clicked = false;
 
     //Data
     static game;
@@ -46,6 +47,7 @@ class GameInfo {
     //Call the method every time there is a game state change
     static prepareUI() {
         if (GameInfo.game.player.state == "Playing") {
+            clicked = false;
             GameInfo.movePawn.show();
             GameInfo.drawCard.show();
             GameInfo.dropCard.show();
@@ -56,6 +58,7 @@ class GameInfo {
             GameInfo.dropCard.hide();
             GameInfo.surrend.show();
         }else if (GameInfo.game.player.state == "Score") {
+            clicked = false;
             GameInfo.movePawn.hide();
             GameInfo.drawCard.hide();
             GameInfo.dropCard.hide();

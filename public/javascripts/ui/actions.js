@@ -43,27 +43,36 @@ async function getCards(){
 
 // Buttons Actions
 async function movePawnAction() {
-    let result = await requestMovePawn();
-    if (result.successful) {
-        await endturnAction();
-    } else alert("Something went wrong when moving a pawn.");
+    if(!GameInfo.clicked){
+        let result = await requestMovePawn();
+        if (result.successful) {
+            GameInfo.clicked = true;
+            await endturnAction();
+        } else alert("Something went wrong when moving a pawn.");
+    }
 }
 
 async function drawCardAction() {
-    let result = await requestDrawCard();
-    if(result.maxCards)
-        alert("You can't have more than 5 cards.");
-    if (result.successful) {
-        await endturnAction();
-    } else alert("Something went wrong when drawing a card.");
+    if(!GameInfo.clicked){
+        let result = await requestDrawCard();
+        if(result.maxCards)
+            alert("You can't have more than 5 cards.");
+        if (result.successful) {
+            GameInfo.clicked = true;
+            await endturnAction();
+        } else alert("Something went wrong when drawing a card.");
+    }
 }
 
 async function playCardAction(selectedCard) {
-    if (confirm(`Do you want to play the "${selectedCard.name}" card?`)) {
-        let result = await requestPlayCard(selectedCard.id);
-        if (result.successful) {
-            await endturnAction();
-        } else alert("Something went wrong when playing a card.");
+    if(!GameInfo.clicked){
+        if (confirm(`Do you want to play the "${selectedCard.name}" card?`)) {
+            let result = await requestPlayCard(selectedCard.id);
+            if (result.successful) {
+                GameInfo.clicked = true;
+                await endturnAction();
+            } else alert("Something went wrong when playing a card.");
+        }
     }
 }
 
