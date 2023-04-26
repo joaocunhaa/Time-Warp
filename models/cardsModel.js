@@ -181,7 +181,7 @@ async function dropArtifact(game) {
         [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_position = ?', [game.id, randomPosition]);
     } while(artifacts.length > 0)
 
-    await pool.query('update game_artifact set ga_current_owner = null, ga_dropped = true, ga_drop_user = ?, ga_current_position = ? where ga_id = ?', [game.player.id, randomPosition, oppArtifacts[randomArtifact - 1].ga_id]);
+    await pool.query('update game_artifact set ga_current_owner = null, ga_current_position = ? where ga_id = ?', [randomPosition, oppArtifacts[randomArtifact - 1].ga_id]);
     await pool.query('update user_game set ug_touched_final = false');
     return { result: true, msg: "Succesfully Played" }
 }

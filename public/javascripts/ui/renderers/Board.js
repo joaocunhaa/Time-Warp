@@ -59,11 +59,7 @@ class Board {
             // Draw x's on artifacts positions
             for (let artifact of GameInfo.artifactsOnBoard) {
                 if (artifact.current_position == square) {
-                    if(artifact.drop_user == GameInfo.game.player.id && !GameInfo.game.player.touched_final){
-                        fill(65);
-                        text("X", this.x + 80 * right + 40, this.y + 80 * down + 40);
-                        fill(0);
-                    }else text("X", this.x + 80 * right + 40, this.y + 80 * down + 40);
+                    text("X", this.x + 80 * right + 40, this.y + 80 * down + 40);
                 }
             }
         }
