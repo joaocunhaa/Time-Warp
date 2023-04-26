@@ -187,9 +187,9 @@ class Game {
             //Define start direction
             let [opp] = await pool.query("select * from user_game where ug_user_id != ? and ug_game_id = ?", [userId, gameId]);
 
-            if(opp[0].ug_current_position > position){
+            if(opp[0].ug_current_position < position){
                 await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id, ug_current_position, ug_reversed_direction) values (?,?,?,?, true)`, [userId, gameId, 1, position]);
-            }else if (opp[0].ug_current_position < position){
+            }else if (opp[0].ug_current_position > position){
                 await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id, ug_current_position, ug_reversed_direction) values (?,?,?,?, false)`, [userId, gameId, 1, position]);
                 //update opponnent's direction
                 await pool.query(`update user_game set ug_reversed_direction = true where ug_id = ?`, [opp[0].ug_id]);
