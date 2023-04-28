@@ -44,7 +44,8 @@ class Pawn {
 
             await pool.query('update user_game set ug_current_position = ? where ug_id = ?', [nextPosition, game.player.id]);
 
-            if(nextPosition == game.opponents[0].position){
+            if(nextPosition == game.opponents[0].position && game.canSwap == true){
+                console.log("IMMMM")
                 let result = await swapArtifacts(game);
                 return{status: 200, result:{msg: "Succesfully moved", swap: result.msg}}
             }
@@ -85,6 +86,9 @@ async function swapArtifacts(game){
     for(let artifact of oppArtifacts){
         await pool.query('update game_artifact set ga_current_owner = ? where ga_id = ?', [game.player.id, artifact.ga_id]);
     }
+
+    //Update game's info
+    await pool.query('update game set gm_can_swap = false, gm_last_swap = ?', [game.turn]);
 
     return{succesfull: true, msg:"Artifacts switched succcesfully"}
 }

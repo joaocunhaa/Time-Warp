@@ -12,6 +12,8 @@ create table game (
   gm_id int not null auto_increment,
   gm_turn int not null default 1,
   gm_state_id int not null,
+  gm_can_swap boolean default false,
+  gm_last_swap int default 0,
   primary key (gm_id)
 );
 create table card(

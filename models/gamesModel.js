@@ -26,12 +26,14 @@ class Player {
 }
 
 class Game {
-    constructor(id, turn, state, player, opponents) {
+    constructor(id, turn, state, player, opponents, canSwap, lastSwapTurn) {
         this.id = id;
         this.turn = turn;
         this.state = state;
         this.player = player;
         this.opponents = opponents || [];
+        this.canSwap = canSwap;
+        this.lastSwapTurn = lastSwapTurn;
     }
     export() {
         let game = new Game();
@@ -41,6 +43,8 @@ class Game {
         if (this.player)
             game.player = this.player.export();
         game.opponents = this.opponents.map(o => o.export());
+        game.canSwap = this.canSwap;
+        game.lastSwapTurn = this.lastSwapTurn;
         return game;
     }
 
@@ -79,8 +83,14 @@ class Game {
             let dbGame = dbGames[0];
             let game = new Game(dbGame.gm_id, dbGame.gm_turn, new State(dbGame.gst_id, dbGame.gst_state));
             let result = await this.fillPlayersOfGame(id, game);
+            game.canSwap = dbGame.gm_can_swap;
+            game.lastSwapTurn = dbGame.gm_last_swap;
             if (result.status != 200)
                 return result;
+            
+            if(game.turn - 5 >= game.lastSwapTurn){
+                await pool.query("update game set gm_can_swap = true where gm_id = ?", [game.id]);
+            }
             
             game = result.result;
             if(game.state.name == "Started"){
@@ -91,6 +101,8 @@ class Game {
                     }
                 }
             }
+
+            console.log(game);
             return { status: 200, result: game };
         } catch (err) {
             console.log(err);
@@ -107,6 +119,8 @@ class Game {
             let games = [];
             for (let dbGame of dbGames) {
                 let game = new Game(dbGame.gm_id, dbGame.gm_turn, new State(dbGame.gst_id, dbGame.gst_state));
+                game.canSwap = dbGame.gm_can_swap;
+                game.lastSwapTurn = dbGame.gm_last_swap;
                 let result = await this.fillPlayersOfGame(userId, game);
                 if (result.status != 200) {
                     return result;
