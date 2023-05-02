@@ -101,8 +101,6 @@ class Game {
                     }
                 }
             }
-
-            console.log(game);
             return { status: 200, result: game };
         } catch (err) {
             console.log(err);

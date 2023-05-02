@@ -11,11 +11,19 @@ class Board {
         this.height = height;
         this.playerPawnImg = playerPawnImg;
         this.oppPawnImg = oppPawnImg;
+        if (!GameInfo.game.player.reversed_direction)
+            this.playerNextPosition = playerPosition + 1
+        else
+            this.playerNextPosition = playerPosition - 1
     }
 
     update(playerPosition, oppPosition) {
         this.playerPosition = playerPosition;
         this.oppPosition = oppPosition;
+        if (!GameInfo.game.player.reversed_direction)
+            this.playerNextPosition = playerPosition + 1
+        else
+            this.playerNextPosition = playerPosition - 1
     }
 
     draw() {
@@ -25,6 +33,7 @@ class Board {
         
         let position = positionToCoordinates(this.playerPosition);
         let playerPawnPosition = { x: position.x, y: position.y };
+        let nextPosition = positionToCoordinates(this.playerNextPosition);
 
         position = positionToCoordinates(this.oppPosition);
         let oppPawnPosition = { x: position.x, y: position.y };
@@ -67,9 +76,57 @@ class Board {
         if (playerPawnPosition.x == oppPawnPosition.x && playerPawnPosition.y == oppPawnPosition.y) {
             image(this.playerPawnImg, this.x + 80 * playerPawnPosition.x, this.y + 80 * playerPawnPosition.y, 80, 40);
             image(this.oppPawnImg, this.x + 80 * oppPawnPosition.x, this.y + 40 + 80 * oppPawnPosition.y, 80, 40);
+            //Draw UI direction for player
+            if(this.playerPosition == 1 || this.playerPosition == 35){
+                image(GameInfo.images.reverse, (this.x + 80 * playerPawnPosition.x) + 20, (this.y + 80 * playerPawnPosition.y)+20, 40, 40);
+            }else if(nextPosition.y > playerPawnPosition.y){
+                //Baixo
+                strokeWeight(1)
+                fill(255)
+                triangle((this.x + 80 * playerPawnPosition.x)+30,(this.y + 80 * playerPawnPosition.y)+40, (this.x + 80 * playerPawnPosition.x)+50, (this.y + 80 * playerPawnPosition.y)+40, (this.x + 80 * playerPawnPosition.x)+40, (this.y + 80 * playerPawnPosition.y)+50)
+            }else if(nextPosition.y < playerPawnPosition.y){
+                //Cima
+                strokeWeight(1)
+                fill(255)
+                triangle((this.x + 80 * playerPawnPosition.x)+30,(this.y + 80 * playerPawnPosition.y)+40, (this.x + 80 * playerPawnPosition.x)+50, (this.y + 80 * playerPawnPosition.y)+40, (this.x + 80 * playerPawnPosition.x)+40, (this.y + 80 * playerPawnPosition.y)+30)
+            }else if(nextPosition.x > playerPawnPosition.x){
+                //Direita
+                strokeWeight(1)
+                fill(255)
+                triangle((this.x + 80 * playerPawnPosition.x)+40,(this.y + 80 * playerPawnPosition.y)+50, (this.x + 80 * playerPawnPosition.x)+40, (this.y + 80 * playerPawnPosition.y)+30, (this.x + 80 * playerPawnPosition.x)+50, (this.y + 80 * playerPawnPosition.y)+40)
+            }else if(nextPosition.x < playerPawnPosition.x){
+                //Esquerda
+                strokeWeight(1)
+                fill(255)
+                triangle((this.x + 80 * playerPawnPosition.x)+40,(this.y + 80 * playerPawnPosition.y)+50, (this.x + 80 * playerPawnPosition.x)+40, (this.y + 80 * playerPawnPosition.y)+30, (this.x + 80 * playerPawnPosition.x)+30, (this.y + 80 * playerPawnPosition.y)+40)
+            }
         } else {
             image(this.playerPawnImg, this.x + 80 * playerPawnPosition.x, this.y + 80 * playerPawnPosition.y, 80, 80);
             image(this.oppPawnImg, this.x + 80 * oppPawnPosition.x, this.y + 80 * oppPawnPosition.y, 80, 80);
+            //Draw UI direction for player
+            if(this.playerPosition == 1 || this.playerPosition == 35){
+                image(GameInfo.images.reverse, (this.x + 80 * playerPawnPosition.x) + 20, (this.y + 80 * playerPawnPosition.y)+20, 40, 40);
+            }else if(nextPosition.y > playerPawnPosition.y){
+                //Baixo
+                strokeWeight(1)
+                fill(255)
+                triangle((this.x + 80 * playerPawnPosition.x)+30,(this.y + 80 * playerPawnPosition.y)+40, (this.x + 80 * playerPawnPosition.x)+50, (this.y + 80 * playerPawnPosition.y)+40, (this.x + 80 * playerPawnPosition.x)+40, (this.y + 80 * playerPawnPosition.y)+50)
+            }else if(nextPosition.y < playerPawnPosition.y){
+                //Cima
+                strokeWeight(1)
+                fill(255)
+                triangle((this.x + 80 * playerPawnPosition.x)+30,(this.y + 80 * playerPawnPosition.y)+40, (this.x + 80 * playerPawnPosition.x)+50, (this.y + 80 * playerPawnPosition.y)+40, (this.x + 80 * playerPawnPosition.x)+40, (this.y + 80 * playerPawnPosition.y)+30)
+            }else if(nextPosition.x > playerPawnPosition.x){
+                //Direita
+                strokeWeight(1)
+                fill(255)
+                triangle((this.x + 80 * playerPawnPosition.x)+40,(this.y + 80 * playerPawnPosition.y)+50, (this.x + 80 * playerPawnPosition.x)+40, (this.y + 80 * playerPawnPosition.y)+30, (this.x + 80 * playerPawnPosition.x)+50, (this.y + 80 * playerPawnPosition.y)+40)
+            }else if(nextPosition.x < playerPawnPosition.x){
+                //Esquerda
+                strokeWeight(1)
+                fill(255)
+                triangle((this.x + 80 * playerPawnPosition.x)+40,(this.y + 80 * playerPawnPosition.y)+50, (this.x + 80 * playerPawnPosition.x)+40, (this.y + 80 * playerPawnPosition.y)+30, (this.x + 80 * playerPawnPosition.x)+30, (this.y + 80 * playerPawnPosition.y)+40)
+            }
         }
 
         strokeWeight(0);

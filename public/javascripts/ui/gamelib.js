@@ -14,6 +14,7 @@ function preload() {
     GameInfo.images.playerPawn = loadImage("./assets/WhitePawn.png");
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
     GameInfo.images.logo = loadImage("./assets/TimeWarpLogo.png");
+    GameInfo.images.reverse = loadImage("./assets/reverse.png");
     GameInfo.images.background = [];
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Egypt.jpg"));
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Greece.jpg"));
