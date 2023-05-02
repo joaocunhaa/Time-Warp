@@ -61,7 +61,7 @@ create table user_game (
   ug_state_id int not null,
   ug_current_position int not null default 1,
   ug_reversed_direction boolean default false,
-  ug_touched_final boolean default false,
+  ug_protected boolean default false,
   primary key (ug_id)
 );
 create table user_game_state (

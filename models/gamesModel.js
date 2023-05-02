@@ -5,13 +5,13 @@ const State = require("./statesModel");
 // For now it is only an auxiliary class to hold data in here 
 // so no need to create a model file for it
 class Player {
-    constructor(id, name, state, position, reversed_direction, touched_final) {
+    constructor(id, name, state, position, reversed_direction, ug_protected) {
         this.id = id;
         this.name = name;
         this.state = state;
         this.position = position;
         this.reversed_direction = reversed_direction;
-        this.touched_final = touched_final;
+        this.protected = ug_protected;
     }
     export() {
         let player = new Player();
@@ -20,7 +20,7 @@ class Player {
         player.state = this.state.export();
         player.position = this.position;
         player.reversed_direction = this.reversed_direction;
-        player.touched_final = this.touched_final;
+        player.protected = this.protected;
         return player;
     }
 }
@@ -58,7 +58,7 @@ class Game {
             where ug_game_id=?`, [game.id]);
             for (let dbPlayer of dbPlayers) {
                 let player = new Player(dbPlayer.ug_id, dbPlayer.usr_name,
-                    new State(dbPlayer.ugst_id, dbPlayer.ugst_state), dbPlayer.ug_current_position, dbPlayer.ug_reversed_direction, dbPlayer.ug_touched_final);
+                    new State(dbPlayer.ugst_id, dbPlayer.ugst_state), dbPlayer.ug_current_position, dbPlayer.ug_reversed_direction, dbPlayer.ug_protected);
                 if (dbPlayer.usr_id == userId) game.player = player;
                 else game.opponents.push(player);
             }

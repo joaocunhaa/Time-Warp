@@ -72,8 +72,9 @@ async function playCardAction(selectedCard) {
         if (confirm(`Do you want to play the "${selectedCard.name}" card?`)) {
             let result = await requestPlayCard(selectedCard.id);
             if (result.successful) {
+                alert(result.alert);
                 await endturnAction();
-            } else {alert("Something went wrong when playing a card."); GameInfo.clicked = false;}
+            } else {alert(result.alert || "Something went wrong playing a card"); GameInfo.clicked = false;}
         }else{
             GameInfo.clicked = false;
         }

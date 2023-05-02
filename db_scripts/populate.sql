@@ -77,6 +77,14 @@ values
     'Switch',
     'This card switch your position with the enemy position'
   );
+
+insert into
+  card(crd_name, crd_description)
+values
+  (
+    'Action Shield',
+    'This card actives a shield that protects you of all effects'
+  );
 #Eras
 insert into
   era(era_name)

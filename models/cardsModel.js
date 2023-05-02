@@ -97,6 +97,9 @@ class Card {
                 case 6:
                     successfull = await switchPlayers(game);
                     break;
+                case 7:
+                    successfull = await cancelAction(game);
+                    break;
             }
 
             //Verify if everything goes right with the card action
@@ -106,9 +109,8 @@ class Card {
 
             //Delete card from database
             await pool.query("delete from user_game_card where ugc_id = ?", [body.selected_card]);
-
             //Return success
-            return { status: 200, result: { msg: "Card played succesfully" } }
+            return { status: 200, result: { msg:successfull.msg } }
         } catch (err) {
             console.log(err);
             return { status: 200, result: err }
@@ -141,19 +143,15 @@ class Card {
 
 async function claimArtifact(game) {
     let successfull = false;
-    let msg = "";
+    let msg = "Succesfully Played";
 
     //Get all artifacts of the game
     let [artifacts] = await pool.query("select * from game_artifact where ga_gm_id = ?", [game.id]);
     for (let artifact of artifacts) {
         if (game.player.position == artifact.ga_current_position) {
-            if(artifact.ga_drop_user == game.player.id && !game.player.touched_final){
-                msg = "You need to touch the final to take a dropped artifact";
-            }else{
-                await pool.query("update game_artifact set ga_current_owner = ? where ga_id = ?", [game.player.id, artifact.ga_id]);
-                await pool.query("update game_artifact set ga_current_position = null where ga_id = ?", [artifact.ga_id]);
-                successfull = true;
-            } 
+            await pool.query("update game_artifact set ga_current_owner = ? where ga_id = ?", [game.player.id, artifact.ga_id]);
+            await pool.query("update game_artifact set ga_current_position = null where ga_id = ?", [artifact.ga_id]);
+            successfull = true;
         }else msg = "There are no artifacts at this position!";
     }
         
@@ -161,6 +159,10 @@ async function claimArtifact(game) {
 }
 
 async function dropArtifact(game) {
+    if(game.opponents[0].protected == true){
+        await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
+        return { result: true, msg: "No action, opponent played a shield card" }
+    }
     let current_era = Math.ceil(game.player.position / 5) ;
     let opp_era = Math.ceil(game.opponents[0].position / 5);
     if(current_era != opp_era)
@@ -182,7 +184,6 @@ async function dropArtifact(game) {
     } while(artifacts.length > 0)
 
     await pool.query('update game_artifact set ga_current_owner = null, ga_current_position = ? where ga_id = ?', [randomPosition, oppArtifacts[randomArtifact - 1].ga_id]);
-    await pool.query('update user_game set ug_touched_final = false');
     return { result: true, msg: "Succesfully Played" }
 }
 
@@ -217,10 +218,14 @@ async function timeJump(game) {
     //Update on database
     await pool.query('update user_game set ug_current_position = ? where ug_id = ?', [next_position, game.player.id]);
 
-    return { result: true, msg: "" }
+    return { result: true, msg: "Succesfully Played" }
 }
 
 async function timeReverse(game) {
+    if(game.opponents[0].protected == true){
+        await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
+        return { result: true, msg: "No action, opponent played a shield card" }
+    }
     //Player Reverse
     if (game.player.reversed_direction)
         await pool.query('update user_game set ug_reversed_direction = false where ug_id = ?', [game.player.id]);
@@ -230,10 +235,14 @@ async function timeReverse(game) {
         await pool.query('update user_game set ug_reversed_direction = false where ug_id = ?', [game.opponents[0].id]);
     else await pool.query('update user_game set ug_reversed_direction = true where ug_id = ?', [game.opponents[0].id]);
 
-    return { result: true, msg: "" }
+    return { result: true, msg: "Succesfully Played" }
 }
 
 async function paradox(game) {
+    if(game.opponents[0].protected == true){
+        await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
+        return { result: true, msg: "No action, opponent played a shield card" }
+    }
     let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
     let [eras] = await pool.query('select * from era');
     for (let artifact of artifacts) {
@@ -242,14 +251,26 @@ async function paradox(game) {
         await pool.query(`update game_artifact set ga_current_position = ? where ga_id = ?`, [position, artifact.ga_id]);
     }
 
-    return { result: true, msg: "" }
+    return { result: true, msg: "Succesfully Played" }
 }
 
 async function switchPlayers(game) {
+    if(game.opponents[0].protected == true){
+        await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
+        return { result: true, msg: "No action, opponent played a shield card" }
+    }
     let oppPosition = game.opponents[0].position;
     let playerPosition = game.player.position;
     await pool.query('update user_game set ug_current_position = ? where ug_id = ?', [oppPosition, game.player.id]);
     await pool.query('update user_game set ug_current_position = ? where ug_id = ?', [playerPosition, game.opponents[0].id]);
-    return { result: true, msg: "" }
+    return { result: true, msg: "Succesfully Played" }
+}
+
+async function cancelAction(game) {
+    if(game.player.protected == true)
+        return { result: false, msg: "The player is already protected" }
+    
+    await pool.query('update user_game set ug_protected = true where ug_id = ?', [game.player.id]);
+    return { result: true, msg: "Succesfully Played" }
 }
 module.exports = Card;

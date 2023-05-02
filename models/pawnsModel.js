@@ -30,13 +30,13 @@ class Pawn {
             //Reversing Board
             if (game.player.reversed_direction) {
                 if (game.player.position == 1) {
-                    await pool.query('update user_game set ug_reversed_direction = false, ug_touched_final = true where ug_id = ?', [game.player.id]);
+                    await pool.query('update user_game set ug_reversed_direction = false where ug_id = ?', [game.player.id]);
                     await pool.query('update game_artifact set ga_drop_user = null where ga_drop_user = ?', [game.player.id]);
                     nextPosition = game.player.position + 1;
                 } else { nextPosition = game.player.position - 1; }
             } else {
                 if (game.player.position == 35) {
-                    await pool.query('update user_game set ug_reversed_direction = true, ug_touched_final = true where ug_id = ?', [game.player.id]);
+                    await pool.query('update user_game set ug_reversed_direction = true where ug_id = ?', [game.player.id]);
                     await pool.query('update game_artifact set ga_drop_user = null where ga_drop_user = ?', [game.player.id]);
                     nextPosition = game.player.position - 1;
                 } else { nextPosition = game.player.position + 1; }

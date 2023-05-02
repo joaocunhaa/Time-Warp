@@ -114,7 +114,9 @@ async function requestPlayCard(selectedCard) {
                 }),
                 method: "PATCH"
             });
-        return { successful: response.status == 200 };
+        console.log(response)
+        return { successful: response.status == 200,
+                 alert: response.statusText};
     } catch (err) {
         // Treat 500 errors here
         console.log(err);
