@@ -10,7 +10,7 @@ class ScoreBoard {
     draw() {
         fill(143, 121, 101);
         stroke(0, 0, 0);
-        rect(25, 25, 120, 30, 5, 5, 5, 5);
+        rect(25, 25, 130, 30, 5, 5, 5, 5);
         fill(0, 0, 0);
         textAlign(LEFT, CENTER);
         textSize(24);
