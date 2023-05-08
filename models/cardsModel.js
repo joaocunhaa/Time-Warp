@@ -179,7 +179,10 @@ async function dropArtifact(game) {
     let randomPosition = 0;
     let [artifacts] = [];
     do{
-        randomPosition = Utils.randomNumber(35); //35 is the amount of squares
+        let [artifactInfo] = await pool.query("select * from game_artifact inner join artifact on ga_art_id = art_id where ga_id = ?", [oppArtifacts[randomArtifact-1].ga_id]);
+        randomPosition = Utils.randomNumber(5) + (5 * artifactInfo[0].art_era_id)-5;
+        console.log(artifactInfo[0].art_era_id);
+        console.log(randomPosition);
         [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_position = ?', [game.id, randomPosition]);
     } while(artifacts.length > 0)
 

@@ -194,10 +194,14 @@ class Game {
             let myTurn = (Math.random() < 0.5);
 
             await setGameArtifacts(gameId);
-            let position = await setRandomPosition();
             
             //Define start direction
             let [opp] = await pool.query("select * from user_game where ug_user_id != ? and ug_game_id = ?", [userId, gameId]);
+            
+            let position;
+            do{
+                position = await setRandomPosition();
+            } while(position == opp[0].ug_current_position);
 
             if(opp[0].ug_current_position < position){
                 await pool.query(`Insert into user_game (ug_user_id,ug_game_id,ug_state_id, ug_current_position, ug_reversed_direction) values (?,?,?,?, true)`, [userId, gameId, 1, position]);

@@ -45,8 +45,6 @@ create table game_artifact(
   ga_art_id int not null,
   ga_current_owner int,
   ga_current_position int,
-  ga_dropped boolean default false,
-  ga_drop_user int,
   primary key(ga_id)
 );
 create table game_state (
@@ -129,3 +127,5 @@ alter table
   scoreboard
 add
   constraint scoreboard_fk_scoreboard_state foreign key (sb_state_id) references scoreboard_state(sbs_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+  select * from game_artifact inner join artifact on ga_art_id = art_id where ga_id = 5;
