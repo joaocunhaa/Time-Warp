@@ -1,3 +1,4 @@
+
 async function refresh() {
     if(GameInfo.game.state != "Finished"){
         await getGameInfo();
@@ -6,6 +7,17 @@ async function refresh() {
         await getCollectedArtifacts();
         await getCards();
         GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
+        if(GameInfo.currentTrack != GameInfo.sounds.bgSounds[GameInfo.playerEra - 1]){
+            GameInfo.currentTrack.setVolume(0, 2.5)
+            GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
+            GameInfo.currentTrack.setVolume(0)
+            GameInfo.currentTrack.loop();
+            GameInfo.currentTrack.setVolume(0.5, 5.0)
+        }else{
+            if(!GameInfo.currentTrack.isLooping()){
+                GameInfo.currentTrack.loop();
+            }
+        }
         GameInfo.prepareUI();
     }
 }
@@ -23,6 +35,17 @@ function preload() {
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Shogunate.jpg"));
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Industrial.jpg"));
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Information.jpg"));
+    GameInfo.sounds.bgSounds = [];
+    GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/egypt.mp3"));
+    GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/greece.mp3"));
+    GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/roman.wav"));
+    GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/japan1.mp3"));
+    GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/japan2.mp3"));
+    GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/steampunk.mp3"));
+    GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/futuristic.mp3"));
+    GameInfo.sounds.drawCard = loadSound("./assets/sounds/drawCard.mp3");
+    GameInfo.sounds.playCard = loadSound("./assets/sounds/cardPower.mp3");
+    GameInfo.sounds.pawn = loadSound("./assets/sounds/pawn.mp3");
 }
 
 async function setup() {
@@ -36,6 +59,7 @@ async function setup() {
     await getCollectedArtifacts();
     await getCards();
     GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
+    GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
     setInterval(refresh, 500);
 
     //Buttons (create a separated function if they are many)
@@ -68,7 +92,7 @@ async function setup() {
     GameInfo.loading = false;
 }
 
-function draw() {
+async function draw() {
     if (GameInfo.loading) {
         textAlign(CENTER, CENTER);
         textSize(40);
@@ -77,7 +101,7 @@ function draw() {
     } else if (GameInfo.game.state == "Finished" && GameInfo.scoreWindow) {
         GameInfo.scoreWindow.draw();
     } else {
-        background(GameInfo.images.background[GameInfo.playerEra - 1]);
+        background(GameInfo.images.background[GameInfo.playerEra - 1])
         GameInfo.scoreBoard.draw();
         GameInfo.board.draw();
         GameInfo.playerDeck.draw();

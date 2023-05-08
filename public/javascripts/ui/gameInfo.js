@@ -10,8 +10,10 @@ class GameInfo {
 
     //Data
     static game;
+    static currentTrack;
 
     static playerPosition;
+    static playerLastPosition;
     static oppPosition;
 
     static playerEra;

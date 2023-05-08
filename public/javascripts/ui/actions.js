@@ -19,6 +19,7 @@ async function getGameInfo() {
 async function getPawnsPositions() {
     let positions = await requestPawnsPositions();
     GameInfo.playerPosition = positions.result.playerPawn.position;
+    GameInfo.playerLastPosition = positions.result.playerPawn.position - 1;
     GameInfo.oppPosition = positions.result.oppPawn.position;
     if (GameInfo.board) GameInfo.board.update(GameInfo.playerPosition, GameInfo.oppPosition);
     else GameInfo.board = new Board(GameInfo.playerPosition, GameInfo.oppPosition, 683 - 80 - 280, 170, 600, 400, GameInfo.images.playerPawn, GameInfo.images.oppPawn);
@@ -47,6 +48,7 @@ async function movePawnAction() {
         let result = await requestMovePawn();
         if (result.successful) {
             GameInfo.clicked = true;
+            GameInfo.sounds.pawn.play();
             await endturnAction();
         } else alert("Something went wrong when moving a pawn.");
     }
@@ -61,6 +63,7 @@ async function drawCardAction() {
             GameInfo.clicked = false;
         }
         if (result.successful) {
+            GameInfo.sounds.drawCard.play();
             await endturnAction();
         } else {alert("Something went wrong when drawing a card."); GameInfo.clicked = false;}
     }
@@ -73,6 +76,7 @@ async function playCardAction(selectedCard) {
             let result = await requestPlayCard(selectedCard.id);
             if (result.successful) {
                 alert(result.alert);
+                GameInfo.sounds.playCard.play();
                 await endturnAction();
             } else {alert(result.alert || "Something went wrong playing a card"); GameInfo.clicked = false;}
         }else{
@@ -86,6 +90,7 @@ async function dropCardAction(selectedCard) {
         let result = await requestDropCard(selectedCard.id);
         if (result.successful) {
             GameInfo.dropping = false;
+            GameInfo.sounds.drawCard.play();
             await endturnAction();
         } else alert("Something went wrong when dropping a card.");
     }
@@ -129,6 +134,7 @@ async function drawCardCheat(selected_card) {
     if (!result.successful)
         alert("Something went wrong when drawing a card.");
 
+    GameInfo.sounds.drawCard.play();
     await getCards();
 }
 
@@ -136,6 +142,7 @@ async function dropCardCheat() {
     if (confirm(`Do you want to drop all your cards?`)) {
         let result = await requestDropCardCheat();
         if (result.successful) {
+            GameInfo.sounds.drawCard.play();
             await getCards();
         } else alert("Something went wrong when dropping a card.");
     }
@@ -158,4 +165,5 @@ async function movePawnCheat() {
         alert("Something went wrong when moving a pawn.");
     await getGameInfo();
     await getPawnsPositions();
+    GameInfo.sounds.pawn.play();
 }
