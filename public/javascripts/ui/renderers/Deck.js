@@ -18,17 +18,17 @@ class Card {
                 fill(150, 50, 50);
             } else fill(255);
         } else fill(200);
-        rect(this.x, this.y, Card.width, Card.height);
+        // rect(this.x, this.y, Card.width, Card.height);
         image(this.img, this.x, this.y, Card.width, Card.height);
         strokeWeight(0);
         fill(0);
         textAlign(CENTER, CENTER);
         textSize(18)
         if(this.name.length > 1){
-           text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 4);
-           text(this.name[1], this.x + Card.width / 2, this.y + Card.height / 1.5);
+           text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 1.65);
+           text(this.name[1], this.x + Card.width / 2, this.y + Card.height / 1.37);
         }else{
-            text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 1.5);
+            text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 1.55);
         }
     }
 

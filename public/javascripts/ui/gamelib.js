@@ -51,13 +51,13 @@ function preload() {
     GameInfo.sounds.pawn = loadSound("./assets/sounds/pawn.mp3");
     // Image of cards
     GameInfo.images.cards = {};
-    GameInfo.images.cards.timeReverse = loadImage("./assets/card.jpg");
-    GameInfo.images.cards.timeJump = loadImage("./assets/card.jpg");
-    GameInfo.images.cards.claimArtifact = loadImage("./assets/card.jpg");
-    GameInfo.images.cards.dropArtifact = loadImage("./assets/card.jpg");
-    GameInfo.images.cards.switch = loadImage("./assets/card.jpg");
-    GameInfo.images.cards.shield = loadImage("./assets/card.jpg");
-    GameInfo.images.cards.paradox = loadImage("./assets/card.jpg");
+    GameInfo.images.cards.timeReverse = loadImage("./assets/cards/TimeReverse.png");
+    GameInfo.images.cards.timeJump = loadImage("./assets/cards/TimeJump.png");
+    GameInfo.images.cards.claimArtifact = loadImage("./assets/cards/ClaimArtifact.png");
+    GameInfo.images.cards.dropArtifact = loadImage("./assets/cards/DropArtifact.png");
+    GameInfo.images.cards.switch = loadImage("./assets/cards/Switch.png");
+    GameInfo.images.cards.shield = loadImage("./assets/cards/ActionShield.png");
+    GameInfo.images.cards.paradox = loadImage("./assets/cards/Paradox.png");
 }
 
 async function setup() {
