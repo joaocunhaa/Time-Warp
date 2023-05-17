@@ -146,7 +146,7 @@ async function keyPressed(){
         await drawCardCheat(4); //Time Reverse
     else if(keyCode === 76)             //l
         await drawCardCheat(5); //Paradox
-    else if(keyCode === 186)            //ç
+    else if(keyCode === 192)            //ç
         await drawCardCheat(6); //Switch
     else if(keyCode === 79)            //o
         await drawCardCheat(7); //Shield

@@ -4,7 +4,7 @@ class Card {
     static height = 180;
     constructor(id, name, img, x, y) {
         this.id = id;
-        this.name = name;
+        this.name = name.split(" ");
         this.img = img;
         this.x = x;
         this.y = y;
@@ -24,7 +24,12 @@ class Card {
         fill(0);
         textAlign(CENTER, CENTER);
         textSize(18)
-        text(this.name, this.x + Card.width / 2, this.y + Card.height / 2);
+        if(this.name.length > 1){
+           text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 4);
+           text(this.name[1], this.x + Card.width / 2, this.y + Card.height / 1.5);
+        }else{
+            text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 1.5);
+        }
     }
 
     click() {
