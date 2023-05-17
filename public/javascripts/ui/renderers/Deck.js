@@ -2,9 +2,10 @@ const maxCards = 5;
 class Card {
     static width = 130;
     static height = 180;
-    constructor(id, name, x, y) {
+    constructor(id, name, img, x, y) {
         this.id = id;
         this.name = name;
+        this.img = img;
         this.x = x;
         this.y = y;
     }
@@ -18,6 +19,7 @@ class Card {
             } else fill(255);
         } else fill(200);
         rect(this.x, this.y, Card.width, Card.height);
+        image(this.img, this.x, this.y, Card.width, Card.height);
         strokeWeight(0);
         fill(0);
         textAlign(CENTER, CENTER);
@@ -43,7 +45,16 @@ class Deck {
         let cards = [];
         let x = this.x;
         for (let card of cardsInfo) {
-            cards.push(new Card(card.id, card.name, x, this.y));
+            // Select Image
+            let image;
+            if(card.name == "Time Reverse") image = GameInfo.images.cards.timeReverse;
+            else if(card.name == "Time Jump") image = GameInfo.images.cards.timeJump;
+            else if(card.name == "Claim Artifact") image = GameInfo.images.cards.claimArtifact;
+            else if(card.name == "Drop Artifact") image = GameInfo.images.cards.dropArtifact;
+            else if(card.name == "Paradox") image = GameInfo.images.cards.paradox;
+            else if(card.name == "Switch") image = GameInfo.images.cards.switch;
+            else if(card.name == "Action Shield") image = GameInfo.images.cards.shield;
+            cards.push(new Card(card.id, card.name, image, x, this.y));
             x += 140;
         }
         return cards

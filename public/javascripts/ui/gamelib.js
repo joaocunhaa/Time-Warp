@@ -27,6 +27,7 @@ function preload() {
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
     GameInfo.images.logo = loadImage("./assets/TimeWarpLogo.png");
     GameInfo.images.reverse = loadImage("./assets/reverse.png");
+    // Images from Background
     GameInfo.images.background = [];
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Egypt.jpg"));
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Greece.jpg"));
@@ -35,6 +36,7 @@ function preload() {
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Shogunate.jpg"));
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Industrial.jpg"));
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Information.jpg"));
+    // Sounds of each era
     GameInfo.sounds.bgSounds = [];
     GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/egypt.mp3"));
     GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/greece.mp3"));
@@ -43,9 +45,19 @@ function preload() {
     GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/japan2.mp3"));
     GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/steampunk.mp3"));
     GameInfo.sounds.bgSounds.push(loadSound("./assets/sounds/futuristic.mp3"));
+    // Sounds
     GameInfo.sounds.drawCard = loadSound("./assets/sounds/drawCard.mp3");
     GameInfo.sounds.playCard = loadSound("./assets/sounds/cardPower.mp3");
     GameInfo.sounds.pawn = loadSound("./assets/sounds/pawn.mp3");
+    // Image of cards
+    GameInfo.images.cards = {};
+    GameInfo.images.cards.timeReverse = loadImage("./assets/card.jpg");
+    GameInfo.images.cards.timeJump = loadImage("./assets/card.jpg");
+    GameInfo.images.cards.claimArtifact = loadImage("./assets/card.jpg");
+    GameInfo.images.cards.dropArtifact = loadImage("./assets/card.jpg");
+    GameInfo.images.cards.switch = loadImage("./assets/card.jpg");
+    GameInfo.images.cards.shield = loadImage("./assets/card.jpg");
+    GameInfo.images.cards.paradox = loadImage("./assets/card.jpg");
 }
 
 async function setup() {

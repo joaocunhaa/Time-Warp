@@ -116,10 +116,6 @@ alter table
 add
   constraint ga_fk_artifact foreign key (ga_art_id) references artifact(art_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 alter table
-  game_artifact
-add
-  constraint ga_drop_user_fk_ug foreign key (ga_drop_user) references user_game(ug_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
-alter table
   scoreboard
 add
   constraint scoreboard_fk_user_game foreign key (sb_ug_id) references user_game(ug_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
