@@ -1,4 +1,3 @@
-
 async function refresh() {
     if(GameInfo.game.state != "Finished"){
         await getGameInfo();
@@ -27,7 +26,7 @@ function preload() {
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
     GameInfo.images.logo = loadImage("./assets/TimeWarpLogo.png");
     GameInfo.images.reverse = loadImage("./assets/reverse.png");
-    // Images from Background
+    // Background Images
     GameInfo.images.background = [];
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Egypt.jpg"));
     GameInfo.images.background.push(loadImage("./assets/Backgrounds/Greece.jpg"));
@@ -49,7 +48,7 @@ function preload() {
     GameInfo.sounds.drawCard = loadSound("./assets/sounds/drawCard.mp3");
     GameInfo.sounds.playCard = loadSound("./assets/sounds/cardPower.mp3");
     GameInfo.sounds.pawn = loadSound("./assets/sounds/pawn.mp3");
-    // Image of cards
+    // Cards Images
     GameInfo.images.cards = {};
     GameInfo.images.cards.timeReverse = loadImage("./assets/cards/TimeReverse.png");
     GameInfo.images.cards.timeJump = loadImage("./assets/cards/TimeJump.png");
@@ -77,13 +76,13 @@ async function setup() {
     //Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
     GameInfo.movePawn.parent('game');
-    GameInfo.movePawn.position(1070, 725);
+    GameInfo.movePawn.position(1070, 700);
     GameInfo.movePawn.mousePressed(movePawnAction);
     GameInfo.movePawn.addClass('game');
 
     GameInfo.drawCard = createButton('Draw card');
     GameInfo.drawCard.parent('game');
-    GameInfo.drawCard.position(1070, 675);
+    GameInfo.drawCard.position(1070, 650);
     GameInfo.drawCard.mousePressed(drawCardAction);
     GameInfo.drawCard.addClass('game');
 

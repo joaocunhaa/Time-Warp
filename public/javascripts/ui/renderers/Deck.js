@@ -18,7 +18,6 @@ class Card {
                 fill(150, 50, 50);
             } else fill(255);
         } else fill(200);
-        // rect(this.x, this.y, Card.width, Card.height);
         image(this.img, this.x, this.y, Card.width, Card.height);
         strokeWeight(0);
         fill(0);
