@@ -9,9 +9,17 @@ class Card {
         this.img = img;
         this.x = x;
         this.y = y;
+        this.hovered = false;
     }
 
     draw() {
+        if(mouseX > this.x && mouseX < this.x + Card.width && mouseY > this.y && mouseY < this.y + Card.height && !this.hovered){
+            this.y -= 20;
+            this.hovered = true;
+        }else if(!this.hovered){
+            this.y = this.y;
+            this.hovered = false;
+        }
         stroke(0);
         strokeWeight(2);
         if (GameInfo.game.player.state == "Playing") {
@@ -29,7 +37,7 @@ class Card {
            text(this.name[1], this.x + Card.width / 2, this.y + Card.height / 1.37);
         }else{
             text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 1.55);
-        }
+        }        
     }
 
     click() {

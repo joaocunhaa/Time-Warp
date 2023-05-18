@@ -71,7 +71,7 @@ async function setup() {
     await getCards();
     GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
     GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
-    setInterval(refresh, 500);
+    setInterval(refresh, 50);
 
     //Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
