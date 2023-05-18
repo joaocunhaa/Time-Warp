@@ -2,9 +2,10 @@ const maxCards = 5;
 class Card {
     static width = 130;
     static height = 180;
-    constructor(id, name, img, x, y) {
+    constructor(id, name, description, img, x, y) {
         this.id = id;
         this.name = name.split(" ");
+        this.description = description;
         this.img = img;
         this.x = x;
         this.y = y;
@@ -58,7 +59,7 @@ class Deck {
             else if(card.name == "Paradox") image = GameInfo.images.cards.paradox;
             else if(card.name == "Switch") image = GameInfo.images.cards.switch;
             else if(card.name == "Action Shield") image = GameInfo.images.cards.shield;
-            cards.push(new Card(card.id, card.name, image, x, this.y));
+            cards.push(new Card(card.id, card.name, card.description, image, x, this.y));
             x += 140;
         }
         return cards

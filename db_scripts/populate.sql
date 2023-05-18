@@ -47,7 +47,7 @@ insert into
 values
   (
     'Drop Artifact',
-    'This card drops a random artifact of the opponent in a random position of the board'
+    'This card drops a random artifact of the opponent \n in a random position of the board'
   );
 insert into
   card(crd_name, crd_description)
@@ -61,14 +61,14 @@ insert into
 values
   (
     'Time Reverse',
-    'This card reverses the board, now, all the players walk in the reverse direction'
+    'This card reverses the board, \n all the players will walk in the reverse direction'
   );
 insert into
   card(crd_name, crd_description)
 values
   (
     'Paradox',
-    'This card creates a paradox by altering the timeline, shuffling the artifacts between eras'
+    'This card creates a paradox by altering the timeline, \n shuffling the artifacts between eras'
   );
 insert into
   card(crd_name, crd_description)

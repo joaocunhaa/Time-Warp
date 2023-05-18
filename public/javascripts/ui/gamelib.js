@@ -124,6 +124,16 @@ async function draw() {
         } else {
             GameInfo.dropCard.elt.textContent = "Drop Card"
         }
+
+        if(GameInfo.popUp){
+            GameInfo.popUp.open();
+            GameInfo.popUp.draw();
+        }
+
+        if(GameInfo.warning){
+            GameInfo.warning.open();
+            GameInfo.warning.draw();
+        }
     }
 }
 

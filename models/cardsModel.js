@@ -3,9 +3,10 @@ const pool = require("../config/database");
 const Utils = require("../config/utils")
 
 class Card {
-    constructor(id, name) {
+    constructor(id, name, description) {
         this.id = id;
         this.name = name;
+        this.description = description;
     }
 
     static async getCards(game) {
@@ -18,7 +19,7 @@ class Card {
             //Get all the cards of the player
             let [cards] = await pool.query('select * from user_game_card, card where ugc_crd_id = crd_id and ugc_ug_id = ?', [game.player.id]);
             for (let card of cards) {
-                result.playerCards.push(new Card(card.ugc_id, card.crd_name));
+                result.playerCards.push(new Card(card.ugc_id, card.crd_name, card.crd_description));
             }
 
             //Get the amount of cards that the opponent has

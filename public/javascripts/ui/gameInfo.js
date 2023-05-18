@@ -29,6 +29,10 @@ class GameInfo {
     static images = {};
     static sounds = {};
 
+    //Pop-ups
+    static warning;
+    static popUp;
+
     //Drop Card
     static dropping = false;
 
