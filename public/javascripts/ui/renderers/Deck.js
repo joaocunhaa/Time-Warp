@@ -13,25 +13,33 @@ class Card {
     }
 
     draw() {
-        if(mouseX > this.x && mouseX < this.x + Card.width && mouseY > this.y && mouseY < this.y + Card.height && !this.hovered){
+        //Hover Effect
+        if(mouseX > this.x && mouseX < this.x + Card.width && mouseY > this.y && mouseY < this.y + Card.height && !this.hovered && GameInfo.game.player.state == "Playing"){
             this.y -= 20;
             this.hovered = true;
         }else if(!this.hovered){
             this.y = this.y;
             this.hovered = false;
         }
+
         stroke(0);
         strokeWeight(2);
+        //Drop color change
         if (GameInfo.game.player.state == "Playing") {
             if (GameInfo.dropping) {
-                fill(150, 50, 50);
-            } else fill(255);
-        } else fill(200);
+                tint(150, 50, 50);
+            } else noTint();
+        } else noTint();
+        //Change if he's not playing
+        if (GameInfo.game.player.state == "Waiting") tint(150)
+        //Draw Card
         image(this.img, this.x, this.y, Card.width, Card.height);
+        noTint()
         strokeWeight(0);
         fill(0);
         textAlign(CENTER, CENTER);
         textSize(18)
+        //Write card's name
         if(this.name.length > 1){
            text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 1.65);
            text(this.name[1], this.x + Card.width / 2, this.y + Card.height / 1.37);
