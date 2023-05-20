@@ -57,6 +57,14 @@ function preload() {
     GameInfo.images.cards.switch = loadImage("./assets/cards/Switch.png");
     GameInfo.images.cards.shield = loadImage("./assets/cards/ActionShield.png");
     GameInfo.images.cards.paradox = loadImage("./assets/cards/Paradox.png");
+    //Cards Animations
+    GameInfo.images.cards.timeReverseAnim = loadImage("./assets/cards/anims/time_reverseIMAGE.png");
+    GameInfo.images.cards.timeJumpAnim = loadImage("./assets/cards/anims/time_jumpIMAGE.png");
+    GameInfo.images.cards.claimArtifactAnim = loadImage("./assets/cards/anims/claim_artifactIMAGE.png");
+    GameInfo.images.cards.dropArtifactAnim = loadImage("./assets/cards/anims/drop_artifactIMAGE.png");
+    GameInfo.images.cards.switchAnim = loadImage("./assets/cards/anims/switchIMAGE.png");
+    GameInfo.images.cards.shieldAnim = loadImage("./assets/cards/anims/action_shieldIMAGE.png");
+    GameInfo.images.cards.paradoxAnim = loadImage("./assets/cards/anims/paradoxIMAGE.png");
 }
 
 async function setup() {
@@ -71,7 +79,7 @@ async function setup() {
     await getCards();
     GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
     GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
-    setInterval(refresh, 50);
+    setInterval(refresh, 100);
 
     //Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
@@ -124,7 +132,7 @@ async function draw() {
         } else {
             GameInfo.dropCard.elt.textContent = "Drop Card"
         }
-
+        
         if(GameInfo.popUp){
             GameInfo.popUp.open();
             GameInfo.popUp.draw();
@@ -133,6 +141,32 @@ async function draw() {
         if(GameInfo.warning){
             GameInfo.warning.open();
             GameInfo.warning.draw();
+        }
+        if(GameInfo.currentCardAnimation){
+            tint(255,255,255,GameInfo.tintAnimation)
+            image(GameInfo.currentCardAnimation, GameInfo.width / 2 - 75, GameInfo.height / 2 - 75, 150, 150);
+            noTint();
+            if(frameCount >= 60){
+                animateCard();
+            }
+        }
+        
+    }
+}
+
+function animateCard(){
+    if(!GameInfo.reversingAnimation){
+        GameInfo.tintAnimation += 10;
+        if(GameInfo.tintAnimation > GameInfo.animationTintMax){
+            GameInfo.tintAnimation = GameInfo.animationTintMax;
+            GameInfo.reversingAnimation = true;
+        }
+    }else{
+        GameInfo.tintAnimation -= 10;
+        if(GameInfo.tintAnimation <= 0){
+            GameInfo.currentCardAnimation = null;
+            GameInfo.reversingAnimation = false;
+            GameInfo.tintAnimation = 0;
         }
     }
 }
