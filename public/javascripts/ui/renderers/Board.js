@@ -135,17 +135,17 @@ class Board {
         fill(0)
         stroke(0)
         strokeWeight(5)
-        line(this.x + 80 , this.y, this.x + 80 * 8, this.y);
-        line(this.x + 80 * 8, this.y, this.x + 80 * 8, this.y + 80 * 5);
-        line(this.x + 80, this.y + 80 * 5, this.x + 80 * 8 +3, this.y + 80 * 5);
-        line(this.x + 80, this.y + 80 * 5, this.x + 80, this.y + 80);
-        line(this.x + 80, this.y + 80, this.x + 80 * 7, this.y + 80);
-        line(this.x + 80 * 7, this.y + 80 * 4, this.x + 80 * 7, this.y + 80);
-        line(this.x + 80 * 2, this.y + 80 * 4, this.x + 80 * 7, this.y + 80 * 4);
-        line(this.x + 80 * 2, this.y + 80 * 4, this.x + 80 * 2, this.y + 80 * 2);
-        line(this.x + 80 * 2, this.y + 80 * 2, this.x + 80 * 6, this.y + 80 * 2);
-        line(this.x + 80 * 6, this.y + 80 * 3, this.x + 80 * 6, this.y + 80 * 2);
-        line(this.x + 80 * 3, this.y + 80 * 3, this.x + 80 * 6, this.y + 80 * 3);
+        line(this.x + 80 ,    this.y,          this.x + 80 * 8,    this.y);
+        line(this.x + 80 * 8, this.y,          this.x + 80 * 8,    this.y + 80 * 5);
+        line(this.x + 80,     this.y + 80 * 5, this.x + 80 * 8,    this.y + 80 * 5);
+        line(this.x + 80,     this.y + 80 * 5, this.x + 80,        this.y + 80);
+        line(this.x + 80,     this.y + 80,     this.x + 80 * 7,    this.y + 80);
+        line(this.x + 80 * 7, this.y + 80 * 4, this.x + 80 * 7,    this.y + 80);
+        line(this.x + 80 * 2, this.y + 80 * 4, this.x + 80 * 7,    this.y + 80 * 4);
+        line(this.x + 80 * 2, this.y + 80 * 4, this.x + 80 * 2,    this.y + 80 * 2);
+        line(this.x + 80 * 2, this.y + 80 * 2, this.x + 80 * 6,    this.y + 80 * 2);
+        line(this.x + 80 * 6, this.y + 80 * 3, this.x + 80 * 6,    this.y + 80 * 2);
+        line(this.x + 80 * 3, this.y + 80 * 3, this.x + 80 * 6,    this.y + 80 * 3);
 
         strokeWeight(0);
     }
