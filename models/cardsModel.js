@@ -204,6 +204,7 @@ async function timeJump(game) {
         //If is lower than 1, then the player goes to the last era
         if (next_era < 1) {
             next_era = 7;
+            await pool.query('update user_game set ug_reversed_direction = false where ug_id =?', [game.player.id]);
         }
     } else {
         next_era = current_era + 1;
@@ -211,6 +212,7 @@ async function timeJump(game) {
         //If it is higher than 7, then the player goes to the first era
         if (next_era > 7) {
             next_era = 1;
+            await pool.query('update user_game set ug_reversed_direction = true where ug_id =?', [game.player.id]);
         }
     }
 
