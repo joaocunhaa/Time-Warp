@@ -2,16 +2,67 @@
 #matches {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
+  width: 302px;
+  margin-left: 30px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+@media (prefers-color-scheme: light){
+  /* width */
+  #matches::-webkit-scrollbar {
+    width: 12px;
+    margin: 0px;
+  }
+
+  /* Track */
+  #matches::-webkit-scrollbar-track {
+    background: white; 
+  }
+  
+  /* Handle */
+  #matches::-webkit-scrollbar-thumb {
+    background: #4a3623; 
+  }
+
+  /* Handle on hover */
+  #matches::-webkit-scrollbar-thumb:hover {
+    background: #8f7965; 
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  /* width */
+  #matches::-webkit-scrollbar {
+    width: 12px;
+    margin: 0px;
+  }
+
+  /* Track */
+  #matches::-webkit-scrollbar-track {
+    background: #181a1b; 
+  }
+
+  /* Handle */
+  #matches::-webkit-scrollbar-thumb {
+    background: #4a3623; 
+  }
+
+  /* Handle on hover */
+  #matches::-webkit-scrollbar-thumb:hover {
+    background: #8f7965; 
+  }
 }
 
 #matches section {
   background-color: #517253;
   width: 100%;
   color: white;
-  margin: 5px 45px;
+  margin: 0px 10px 5px 10px;
   padding: 0px 100px;
   cursor: pointer;
+  transform: translateX(2%);
 }
 
 #matches section:hover,
