@@ -154,9 +154,9 @@ async function claimArtifact(game) {
             await pool.query("update game_artifact set ga_current_position = null where ga_id = ?", [artifact.ga_id]);
             successfull = true;
             msg = "Succesfully Played"
-        }else msg = "There are no artifacts at this position!";
+        }
     }
-        
+    if(!successfull) msg = "There are no artifacts at this position!";
     return { result: successfull, msg: msg };
 }
 
