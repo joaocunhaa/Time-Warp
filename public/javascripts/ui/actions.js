@@ -118,22 +118,24 @@ async function cardAction(card){
     let result = await requestPlayCard(card.id);
     if (result.successful) {
         if(!GameInfo.warning && result.alert != "Succesfully Played") GameInfo.warning = new Warning(result.alert, closeWarning)
-        GameInfo.sounds.playCard.play();
-        if(card.name[0] == "Time" && card.name[1] == "Jump")
-            GameInfo.currentCardAnimation = GameInfo.images.cards.timeJumpAnim;
-        else if(card.name[0] == "Time" && card.name[1] == "Reverse")
-            GameInfo.currentCardAnimation = GameInfo.images.cards.timeReverseAnim;
-        else if(card.name[0] == "Claim" && card.name[1] == "Artifact")
-            GameInfo.currentCardAnimation = GameInfo.images.cards.claimArtifactAnim;
-        else if(card.name[0] == "Drop" && card.name[1] == "Artifact" && !GameInfo.game.opponents[0].protected)
-            GameInfo.currentCardAnimation = GameInfo.images.cards.dropArtifactAnim;
-        else if(card.name[0] == "Action" && card.name[1] == "Shield")
-            GameInfo.currentCardAnimation = GameInfo.images.cards.shieldAnim;
-        else if(card.name[0] == "Switch")
-            GameInfo.currentCardAnimation = GameInfo.images.cards.switchAnim;
-        else if(card.name[0] == "Paradox")
-            GameInfo.currentCardAnimation = GameInfo.images.cards.paradoxAnim;
-        else console.log(card.name);
+            GameInfo.sounds.playCard.play();
+        if(!GameInfo.warning){
+            if(card.name[0] == "Time" && card.name[1] == "Jump")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.timeJumpAnim;
+            else if(card.name[0] == "Time" && card.name[1] == "Reverse")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.timeReverseAnim;
+            else if(card.name[0] == "Claim" && card.name[1] == "Artifact")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.claimArtifactAnim;
+            else if(card.name[0] == "Drop" && card.name[1] == "Artifact" && !GameInfo.game.opponents[0].protected)
+                GameInfo.currentCardAnimation = GameInfo.images.cards.dropArtifactAnim;
+            else if(card.name[0] == "Action" && card.name[1] == "Shield")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.shieldAnim;
+            else if(card.name[0] == "Switch")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.switchAnim;
+            else if(card.name[0] == "Paradox")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.paradoxAnim;
+            else console.log(card.name);
+        }
         await endturnAction();
     } else {if(!GameInfo.warning) GameInfo.warning = new Warning(result.alert || "Something went wrong when \nplaying a card.", closeWarning); }
 }
