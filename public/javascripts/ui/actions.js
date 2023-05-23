@@ -102,6 +102,8 @@ function closeWarning(){
 }
 
 async function dropAction(selectedCard){
+    GameInfo.popUp.close();
+    GameInfo.popUp = null;
     let result = await requestDropCard(selectedCard.id);
     if (result.successful) {
         GameInfo.dropping = false;
