@@ -25,6 +25,7 @@ create table card(
 create table artifact(
   art_id int not null AUTO_INCREMENT,
   art_name VARCHAR(60) not NULL,
+  art_desc VARCHAR(200) not NULL,
   art_era_id int not null,
   primary key(art_id)
 );

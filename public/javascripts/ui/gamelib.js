@@ -120,28 +120,38 @@ async function draw() {
     } else if (GameInfo.game.state == "Finished" && GameInfo.scoreWindow) {
         GameInfo.scoreWindow.draw();
     } else {
+        //BG
         background(GameInfo.images.background[GameInfo.playerEra - 1])
         GameInfo.scoreBoard.draw();
         GameInfo.board.draw();
         GameInfo.playerDeck.draw();
         GameInfo.playerListArtifacts.draw();
         GameInfo.oppListArtifacts.draw();
+        if (GameInfo.playerListArtifacts && GameInfo.playerListArtifacts.artifacts.length > 0) {
+            GameInfo.playerListArtifacts.hover();
+        }
+        if(GameInfo.oppListArtifacts && GameInfo.oppListArtifacts.artifacts.length > 0){
+            GameInfo.oppListArtifacts.hover();
+        }
+        //LOGO
         image(GameInfo.images.logo, GameInfo.width / 2 - 290, 10, 580, 150);
+        //Dropping Action
         if (GameInfo.dropping) {
             GameInfo.dropCard.elt.textContent = "Cancel"
         } else {
             GameInfo.dropCard.elt.textContent = "Drop Card"
         }
-        
+        //Pop-up
         if(GameInfo.popUp){
             GameInfo.popUp.open();
             GameInfo.popUp.draw();
         }
-
+        //Warning
         if(GameInfo.warning){
             GameInfo.warning.open();
             GameInfo.warning.draw();
         }
+        //Card Animation
         if(GameInfo.currentCardAnimation){
             tint(255,255,255,GameInfo.tintAnimation)
             image(GameInfo.currentCardAnimation, GameInfo.width / 2 - 75, GameInfo.height / 2 - 75, 150, 150);
