@@ -14,11 +14,13 @@ class Card {
 
     draw() {
         //Hover Effect
-        if(mouseX > this.x && mouseX < this.x + Card.width && mouseY > this.y && mouseY < this.y + Card.height && !this.hovered && GameInfo.game.player.state == "Playing"){
-            this.y -= 20;
-            this.hovered = true;
-        }else if(!this.hovered){
-            this.y = this.y;
+        if(mouseX > this.x && mouseX < this.x + Card.width && mouseY > this.y && mouseY < this.y + Card.height && GameInfo.game.player.state == "Playing"){
+            if(!this.hovered){
+                this.y -= 20;
+                this.hovered = true;
+            }
+        }else if(this.hovered){
+            this.y += 20;
             this.hovered = false;
         }
 
