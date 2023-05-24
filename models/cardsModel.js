@@ -3,9 +3,10 @@ const pool = require("../config/database");
 const Utils = require("../config/utils")
 
 class Card {
-    constructor(id, name) {
+    constructor(id, name, description) {
         this.id = id;
         this.name = name;
+        this.description = description;
     }
 
     static async getCards(game) {
@@ -18,7 +19,7 @@ class Card {
             //Get all the cards of the player
             let [cards] = await pool.query('select * from user_game_card, card where ugc_crd_id = crd_id and ugc_ug_id = ?', [game.player.id]);
             for (let card of cards) {
-                result.playerCards.push(new Card(card.ugc_id, card.crd_name));
+                result.playerCards.push(new Card(card.ugc_id, card.crd_name, card.crd_description));
             }
 
             //Get the amount of cards that the opponent has
@@ -49,7 +50,22 @@ class Card {
             if (!cheat) {
                 //Select a random Card
                 [cards] = await pool.query('select * from card');
-                selectedCard = Utils.randomNumber(cards.length);
+                selectedCard = Utils.randomNumber(100);
+                if(selectedCard <= 25) {
+                    selectedCard = 1;
+                }else if(selectedCard <= 32) {
+                    selectedCard = 2;
+                }else if(selectedCard <= 46) {
+                    selectedCard = 3;
+                }else if(selectedCard <= 60) {
+                    selectedCard = 4;
+                }else if(selectedCard <= 74) {
+                    selectedCard = 5;
+                }else if(selectedCard <= 90) {
+                    selectedCard = 6;
+                }else if(selectedCard <= 100) {
+                    selectedCard = 7;
+                }
             } else { selectedCard = body.selected_card; }
 
             //Insert into database
@@ -153,21 +169,22 @@ async function claimArtifact(game) {
             await pool.query("update game_artifact set ga_current_position = null where ga_id = ?", [artifact.ga_id]);
             successfull = true;
             msg = "Succesfully Played"
-        }else msg = "There are no artifacts at this position!";
+        }
     }
-        
+    if(!successfull) msg = "There are no artifacts at this position!";
     return { result: successfull, msg: msg };
 }
 
 async function dropArtifact(game) {
-    if(game.opponents[0].protected == true){
-        await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
-        return { result: true, msg: "No action, opponent played a shield card" }
-    }
     let current_era = Math.ceil(game.player.position / 5) ;
     let opp_era = Math.ceil(game.opponents[0].position / 5);
     if(current_era != opp_era)
         return { result: false, msg: "You need to be in the same era as the opponent" }
+    
+    if(game.opponents[0].protected == true){
+        await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
+        return { result: true, msg: "No action, opponent played a shield card" }
+    }
     //Get all opp's artifacts
     let [oppArtifacts] = await pool.query('select * from game_artifact where ga_current_owner = ?', [game.opponents[0].id]);
 
@@ -203,6 +220,7 @@ async function timeJump(game) {
         //If is lower than 1, then the player goes to the last era
         if (next_era < 1) {
             next_era = 7;
+            await pool.query('update user_game set ug_reversed_direction = false where ug_id =?', [game.player.id]);
         }
     } else {
         next_era = current_era + 1;
@@ -210,6 +228,7 @@ async function timeJump(game) {
         //If it is higher than 7, then the player goes to the first era
         if (next_era > 7) {
             next_era = 1;
+            await pool.query('update user_game set ug_reversed_direction = true where ug_id =?', [game.player.id]);
         }
     }
 

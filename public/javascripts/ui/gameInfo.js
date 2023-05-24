@@ -29,6 +29,16 @@ class GameInfo {
     static images = {};
     static sounds = {};
 
+    //Pop-ups
+    static warning;
+    static popUp;
+
+    //Animations
+    static currentCardAnimation;
+    static tintAnimation = 0;
+    static animationTintMax = 255;
+    static reversingAnimation = false;
+
     //Drop Card
     static dropping = false;
 

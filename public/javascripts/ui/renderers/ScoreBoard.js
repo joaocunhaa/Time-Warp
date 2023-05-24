@@ -8,7 +8,7 @@ class ScoreBoard {
         this.game = game;
     }
     draw() {
-        fill(143, 121, 101);
+        fill(143, 121, 101, 125);
         stroke(0, 0, 0);
         rect(25, 25, 130, 30, 5, 5, 5, 5);
         fill(0, 0, 0);
