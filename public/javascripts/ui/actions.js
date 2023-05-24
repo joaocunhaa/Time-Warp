@@ -50,7 +50,7 @@ async function movePawnAction() {
             GameInfo.clicked = true;
             GameInfo.sounds.pawn.play();
             await endturnAction();
-        } else alert("Something went wrong when moving a pawn.");
+        } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \n moving a pawn.", closeWarning);
     }
 }
 
@@ -59,53 +59,89 @@ async function drawCardAction() {
         GameInfo.clicked = true;
         let result = await requestDrawCard();
         if(result.maxCards){
-            alert("You can't have more than 5 cards.");
+            if(!GameInfo.warning) GameInfo.warning = new Warning("You can't have more than 5 cards.", closeWarning)
             GameInfo.clicked = false;
         }
         if (result.successful) {
             GameInfo.sounds.drawCard.play();
             await endturnAction();
-        } else {alert("Something went wrong when drawing a card."); GameInfo.clicked = false;}
+        } else if(!GameInfo.warning) {GameInfo.warning = new Warning("Something went wrong when \n drawing a card.", closeWarning); GameInfo.clicked = false;}
     }
 }
 
 async function playCardAction(selectedCard) {
-    if(!GameInfo.clicked){
-        GameInfo.clicked = true;
-        if (confirm(`Do you want to play the "${selectedCard.name}" card?`)) {
-            let result = await requestPlayCard(selectedCard.id);
-            if (result.successful) {
-                alert(result.alert);
-                GameInfo.sounds.playCard.play();
-                await endturnAction();
-            } else {alert(result.alert || "Something went wrong playing a card"); GameInfo.clicked = false;}
-        }else{
-            GameInfo.clicked = false;
-        }
-    }
+    if(!GameInfo.popUp) {
+        if(selectedCard.name.length > 1) GameInfo.popUp = new PopUp(`Do you want to play "${selectedCard.name[0]} ${selectedCard.name[1]}" card?`, selectedCard.description, cardAction, popUpCancelAction, selectedCard);
+        else GameInfo.popUp = new PopUp(`Do you want to play "${selectedCard.name[0]}" card?`, selectedCard.description,cardAction, popUpCancelAction, selectedCard);
+    };
 }
 
 async function dropCardAction(selectedCard) {
-    if (confirm(`Do you want to drop the "${selectedCard.name}" card?`)) {
-        let result = await requestDropCard(selectedCard.id);
-        if (result.successful) {
-            GameInfo.dropping = false;
-            GameInfo.sounds.drawCard.play();
-            await endturnAction();
-        } else alert("Something went wrong when dropping a card.");
-    }
+    if(selectedCard.name.length > 1) GameInfo.popUp = new PopUp(`Do you want to drop "${selectedCard.name[0]} ${selectedCard.name[1]}" card?`, "That will delete this card from your hand", dropAction, popUpCancelAction, selectedCard);
+    else GameInfo.popUp = new PopUp(`Do you want to drop "${selectedCard.name[0]}" card?`, "That will delete this card from your hand", dropAction, popUpCancelAction, selectedCard);
 }
 
 async function surrendAction() {
     if (confirm(`Do you want to surrend?`)) {
         let result = await requestSurrend();
-        if (!result.successful) alert("Something went wrong surrending.");
+        if (!result.successful) {if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong surrendering", closeWarning)};
         await getGameInfo();
         GameInfo.prepareUI();
     }
 }
 
 //Secondary Actions
+function popUpCancelAction(){
+    GameInfo.popUp.close();
+    GameInfo.popUp = null;
+}
+
+function closeWarning(){
+    GameInfo.warning.close();
+    GameInfo.warning = null;
+}
+
+async function dropAction(selectedCard){
+    GameInfo.popUp.close();
+    GameInfo.popUp = null;
+    let result = await requestDropCard(selectedCard.id);
+    if (result.successful) {
+        GameInfo.dropping = false;
+        GameInfo.sounds.drawCard.play();
+        await endturnAction();
+    } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \ndropping a card.", closeWarning);
+}
+
+async function cardAction(card){
+    GameInfo.popUp.close();
+    GameInfo.popUp = null;
+    GameInfo.animationSize = 0;
+    
+    let result = await requestPlayCard(card.id);
+    if (result.successful) {
+        if(!GameInfo.warning && result.alert != "Succesfully Played") GameInfo.warning = new Warning(result.alert, closeWarning)
+            GameInfo.sounds.playCard.play();
+        if(!GameInfo.warning){
+            if(card.name[0] == "Time" && card.name[1] == "Jump")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.timeJumpAnim;
+            else if(card.name[0] == "Time" && card.name[1] == "Reverse")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.timeReverseAnim;
+            else if(card.name[0] == "Claim" && card.name[1] == "Artifact")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.claimArtifactAnim;
+            else if(card.name[0] == "Drop" && card.name[1] == "Artifact" && !GameInfo.game.opponents[0].protected)
+                GameInfo.currentCardAnimation = GameInfo.images.cards.dropArtifactAnim;
+            else if(card.name[0] == "Action" && card.name[1] == "Shield")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.shieldAnim;
+            else if(card.name[0] == "Switch")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.switchAnim;
+            else if(card.name[0] == "Paradox")
+                GameInfo.currentCardAnimation = GameInfo.images.cards.paradoxAnim;
+            else console.log(card.name);
+        }
+        await endturnAction();
+    } else {if(!GameInfo.warning) GameInfo.warning = new Warning(result.alert || "Something went wrong when \nplaying a card.", closeWarning); }
+}
+
 async function changeDropMode() {
     if (!GameInfo.dropping)
         GameInfo.dropping = true;
@@ -118,52 +154,61 @@ async function endturnAction() {
         await getGameInfo();
         await getPawnsPositions();
         GameInfo.prepareUI();
-    } else alert("Something went wrong when ending the turn.");
+    } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nending the turn.", closeWarning);
 }
 
 async function closeScore() {
     let result = await requestCloseScore();
     if (result.successful) {
         await checkGame(true); // This should send the player back to matches
-    } else alert("Something went wrong when closing the score.")
+    } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nclosing the score.", closeWarning);
 }
 
 //Cheats
 async function drawCardCheat(selected_card) {
     let result = await requestDrawCardCheat(selected_card);
     if (!result.successful)
-        alert("Something went wrong when drawing a card.");
-
+        if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \ndrawing a card.", closeWarning)
     GameInfo.sounds.drawCard.play();
     await getCards();
 }
 
 async function dropCardCheat() {
-    if (confirm(`Do you want to drop all your cards?`)) {
-        let result = await requestDropCardCheat();
-        if (result.successful) {
-            GameInfo.sounds.drawCard.play();
-            await getCards();
-        } else alert("Something went wrong when dropping a card.");
-    }
+    if(!GameInfo.popUp) GameInfo.popUp = new PopUp(`Do you want to drop all your cards?`, "", dropAllCardsAction, popUpCancelAction, null);
 }
 
 async function collectAllArtifactsCheat() {
-    if (confirm(`Do you want to collect all artifacts?`)) {
-        let result = await requestCollectArtifactsCheat();
-        if (result.successful) {
-            await getGameInfo();
-            await getArtifactsOnBoard();
-            await getCollectedArtifacts();
-        } else alert("Something went wrong when collecting an artifact.");
-    }
+    if(!GameInfo.popUp) GameInfo.popUp = new PopUp(`Do you want to collect all artifacts?`, "", collectAllArtifactsAction, popUpCancelAction, null);
 }
 
 async function movePawnCheat() {
     let result = await requestMovePawn();
     if (!result.successful)
-        alert("Something went wrong when moving a pawn.");
+        if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nmoving a pawn.", closeWarning);
     await getGameInfo();
     await getPawnsPositions();
     GameInfo.sounds.pawn.play();
+}
+
+
+// Cheats Actions
+async function dropAllCardsAction(){
+    let result = await requestDropCardCheat();
+    if (result.successful) {
+        GameInfo.sounds.drawCard.play();
+        await getCards();
+    } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \n dropping a card.", closeWarning);
+    GameInfo.popUp.close();
+    GameInfo.popUp = null;
+}
+
+async function collectAllArtifactsAction(){
+    let result = await requestCollectArtifactsCheat();
+    if (result.successful) {
+        await getGameInfo();
+        await getArtifactsOnBoard();
+        await getCollectedArtifacts();
+    } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \n collecting an artifact.", closeWarning);
+    GameInfo.popUp.close();
+    GameInfo.popUp = null;
 }

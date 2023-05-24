@@ -10,7 +10,6 @@ class Window {
 
     createButton(name, x, y, action, widthCenter, height) {
         let button = createButton(name);
-        this.buttonList.push(button);
         button.parent('game');
         if (widthCenter) {
             button.size(widthCenter, height);
@@ -19,6 +18,7 @@ class Window {
         button.mousePressed(action);
         button.addClass('game');
         button.hide();
+        this.buttonList.push(button);
     }
 
     open() {
@@ -36,17 +36,8 @@ class Window {
     }
 
     draw() {
-        if (this.opened) {
-            if (this.player.state == "Won") {
-                fill(100, 200, 100);
-                stroke(0, 0, 0);
-            }
-            else {
-                fill(255, 0, 0)
-                stroke(0, 0, 0);
-            }
-
-            rect(this.x, this.y, this.width, this.height, 5, 5, 5, 5);
+        if(this.opened){
+            rect(this.x, this.y, this.width, this.height);
         }
     }
 }

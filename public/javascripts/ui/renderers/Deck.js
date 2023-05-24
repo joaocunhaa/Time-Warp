@@ -2,27 +2,50 @@ const maxCards = 5;
 class Card {
     static width = 130;
     static height = 180;
-    constructor(id, name, x, y) {
+    constructor(id, name, description, img, x, y) {
         this.id = id;
-        this.name = name;
+        this.name = name.split(" ");
+        this.description = description;
+        this.img = img;
         this.x = x;
         this.y = y;
+        this.hovered = false;
     }
 
     draw() {
+        //Hover Effect
+        if(mouseX > this.x && mouseX < this.x + Card.width && mouseY > this.y && mouseY < this.y + Card.height && !this.hovered && GameInfo.game.player.state == "Playing"){
+            this.y -= 20;
+            this.hovered = true;
+        }else if(!this.hovered){
+            this.y = this.y;
+            this.hovered = false;
+        }
+
         stroke(0);
         strokeWeight(2);
+        //Drop color change
         if (GameInfo.game.player.state == "Playing") {
             if (GameInfo.dropping) {
-                fill(150, 50, 50);
-            } else fill(255);
-        } else fill(200);
-        rect(this.x, this.y, Card.width, Card.height);
+                tint(150, 50, 50);
+            } else noTint();
+        } else noTint();
+        //Change if he's not playing
+        if (GameInfo.game.player.state == "Waiting") tint(150)
+        //Draw Card
+        image(this.img, this.x, this.y, Card.width, Card.height);
+        noTint()
         strokeWeight(0);
         fill(0);
         textAlign(CENTER, CENTER);
         textSize(18)
-        text(this.name, this.x + Card.width / 2, this.y + Card.height / 2);
+        //Write card's name
+        if(this.name.length > 1){
+           text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 1.65);
+           text(this.name[1], this.x + Card.width / 2, this.y + Card.height / 1.37);
+        }else{
+            text(this.name[0], this.x + Card.width / 2, this.y + Card.height / 1.55);
+        }        
     }
 
     click() {
@@ -43,7 +66,16 @@ class Deck {
         let cards = [];
         let x = this.x;
         for (let card of cardsInfo) {
-            cards.push(new Card(card.id, card.name, x, this.y));
+            // Select Image
+            let image;
+            if(card.name == "Time Reverse") image = GameInfo.images.cards.timeReverse;
+            else if(card.name == "Time Jump") image = GameInfo.images.cards.timeJump;
+            else if(card.name == "Claim Artifact") image = GameInfo.images.cards.claimArtifact;
+            else if(card.name == "Drop Artifact") image = GameInfo.images.cards.dropArtifact;
+            else if(card.name == "Paradox") image = GameInfo.images.cards.paradox;
+            else if(card.name == "Switch") image = GameInfo.images.cards.switch;
+            else if(card.name == "Action Shield") image = GameInfo.images.cards.shield;
+            cards.push(new Card(card.id, card.name, card.description, image, x, this.y));
             x += 140;
         }
         return cards
