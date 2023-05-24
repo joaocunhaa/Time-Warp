@@ -1,21 +1,14 @@
 async function refresh() {
     if(GameInfo.game.state != "Finished"){
-        await getGameInfo();
-        await getPawnsPositions();
-        await getArtifactsOnBoard();
-        await getCollectedArtifacts();
-        await getCards();
-        GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
-        if(GameInfo.currentTrack != GameInfo.sounds.bgSounds[GameInfo.playerEra - 1]){
-            GameInfo.currentTrack.setVolume(0, 2.5)
-            GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
-            GameInfo.currentTrack.setVolume(0)
-            GameInfo.currentTrack.loop();
-            GameInfo.currentTrack.setVolume(0.5, 5.0)
-        }else{
-            if(!GameInfo.currentTrack.isLooping()){
-                GameInfo.currentTrack.loop();
-            }
+        if(GameInfo.game.player.state != "Waiting"){
+            await getGameInfo();
+            await getPawnsPositions();
+            await getArtifactsOnBoard();
+            await getCollectedArtifacts();
+            await getCards();
+            GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
+        }else{ 
+            await getGameInfo();
         }
         GameInfo.prepareUI();
     }
@@ -79,7 +72,7 @@ async function setup() {
     await getCards();
     GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
     GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
-    setInterval(refresh, 100);
+    setInterval(refresh, 1000);
 
     //Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
@@ -129,6 +122,18 @@ async function draw() {
         GameInfo.oppListArtifacts.draw();
         GameInfo.playerListArtifacts.hover();
         GameInfo.oppListArtifacts.hover();
+        //BG Sound
+        if(GameInfo.currentTrack != GameInfo.sounds.bgSounds[GameInfo.playerEra - 1]){
+            GameInfo.currentTrack.setVolume(0, 2.5)
+            GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
+            GameInfo.currentTrack.setVolume(0)
+            GameInfo.currentTrack.loop();
+            GameInfo.currentTrack.setVolume(0.5, 5.0)
+        }else{
+            if(!GameInfo.currentTrack.isLooping()){
+                GameInfo.currentTrack.loop();
+            }
+        }
         //LOGO
         image(GameInfo.images.logo, GameInfo.width / 2 - 290, 10, 580, 150);
         //Dropping Action
