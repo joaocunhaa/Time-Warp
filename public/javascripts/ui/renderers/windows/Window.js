@@ -37,7 +37,9 @@ class Window {
 
     draw() {
         if(this.opened){
-            rect(this.x, this.y, this.width, this.height);
+            strokeWeight(2);
+            rect(this.x, this.y, this.width, this.height, 5, 5, 5, 5);
+            strokeWeight(0);
         }
     }
 }

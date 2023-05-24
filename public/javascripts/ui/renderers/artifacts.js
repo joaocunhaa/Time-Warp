@@ -70,12 +70,12 @@ class ListArtifacts {
                 fill(0)
             }
             textAlign(CENTER, CENTER);
-            text(GameInfo.game.player.name, 140, 135);
+            text(GameInfo.game.player.name + "'s", 140, 135);
             if(GameInfo.game.player.protected){
                 image(GameInfo.images.cards.shieldAnim, 20 + 245 / 2 + 80, 135-10, 20, 20);
             }
             // text(`(${GameInfo.game.player.state})`, 140, 170);
-            text("Your Artifacts", 140, 170);
+            text("Artifacts", 140, 170);
         } else if (this.entity == "Opponent") {
             fill(143, 121, 101, 125);
             rect(1100, 110, 245, 515, 5, 5, 5, 5)
@@ -85,12 +85,12 @@ class ListArtifacts {
             else {
                 fill(0)
             }
-            text(GameInfo.game.opponents[0].name, 1222, 135);
+            text(GameInfo.game.opponents[0].name + "'s", 1222, 135);
             if(GameInfo.game.opponents[0].protected){
                 image(GameInfo.images.cards.shieldAnim, 1100 + 245 / 2- 90, 135-10, 20, 20);
             }
             // text(`(${GameInfo.game.opponents[0].state})`, 1222, 170);
-            text("Opponent's Artifacts", 1222, 170);
+            text("Artifacts", 1222, 170);
         }
 
         for (let artifact of this.artifacts) {
@@ -106,7 +106,7 @@ class ListArtifacts {
                     rect(artifact.x, artifact.y, artifact.width, artifact.height);
                     fill(143, 121, 101, 250)
                     strokeWeight(2);
-                    rect(artifact.x + artifact.width + 5, artifact.y - artifact.height, 300, 150);
+                    rect(artifact.x + artifact.width + 5, artifact.y - artifact.height, 300, 150, 5, 5, 5, 5);
                     strokeWeight(0);
                     fill(0)
                     textStyle(BOLD);
@@ -116,7 +116,7 @@ class ListArtifacts {
                     textSize(20)
                     text(artifact.name, artifact.x + artifact.width + 155, artifact.y + artifact.height / 2 - artifact.height);
                     textSize(14)
-                    text(artifact.desc, artifact.x + artifact.width + 155, artifact.y + 75 - artifact.height);
+                    text(artifact.desc + ".", artifact.x + artifact.width + 155, artifact.y + 75 - artifact.height);
                 }
             }
 
@@ -137,7 +137,7 @@ class ListArtifacts {
                     rect(artifact.x, artifact.y, artifact.width, artifact.height);
                     fill(143, 121, 101, 250)
                     strokeWeight(2);
-                    rect(artifact.x - 305, artifact.y - artifact.height, 300, 150);
+                    rect(artifact.x - 305, artifact.y - artifact.height, 300, 150, 5, 5, 5, 5);
                     strokeWeight(0);
                     fill(0)
                     textStyle(BOLD);
@@ -147,7 +147,7 @@ class ListArtifacts {
                     textSize(20)
                     text(artifact.name, artifact.x - 305 + 155, artifact.y + artifact.height / 2 - artifact.height);
                     textSize(14)
-                    text(artifact.desc, artifact.x - 305 + 155, artifact.y + 75 - artifact.height);
+                    text(artifact.desc + ".", artifact.x - 305 + 155, artifact.y + 75 - artifact.height);
                 }
             }
 
