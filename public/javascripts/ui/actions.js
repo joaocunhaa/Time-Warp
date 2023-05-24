@@ -48,8 +48,12 @@ async function movePawnAction() {
         let result = await requestMovePawn();
         if (result.successful) {
             GameInfo.clicked = true;
-            GameInfo.sounds.pawn.play();
-            await endturnAction();
+            await getGameInfo();
+            await getPawnsPositions();
+            await getCards();
+            await getCollectedArtifacts();
+            await getArtifactsOnBoard();
+            GameInfo.prepareUI();
         } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \n moving a pawn.", closeWarning);
     }
 }
@@ -64,7 +68,12 @@ async function drawCardAction() {
         }
         if (result.successful) {
             GameInfo.sounds.drawCard.play();
-            await endturnAction();
+            await getGameInfo();
+            await getPawnsPositions();
+            await getCards();
+            await getCollectedArtifacts();
+            await getArtifactsOnBoard();
+            GameInfo.prepareUI();
         } else if(!GameInfo.warning) {GameInfo.warning = new Warning("Something went wrong when \n drawing a card.", closeWarning); GameInfo.clicked = false;}
     }
 }
@@ -108,7 +117,12 @@ async function dropAction(selectedCard){
     if (result.successful) {
         GameInfo.dropping = false;
         GameInfo.sounds.drawCard.play();
-        await endturnAction();
+        await getGameInfo();
+        await getPawnsPositions();
+        await getCards();
+        await getCollectedArtifacts();
+        await getArtifactsOnBoard();
+        GameInfo.prepareUI();
     } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \ndropping a card.", closeWarning);
 }
 
@@ -119,7 +133,7 @@ async function cardAction(card){
     
     let result = await requestPlayCard(card.id);
     if (result.successful) {
-        if(!GameInfo.warning && result.alert && result.alert != "") GameInfo.warning = new Warning(result.alert);
+        if(!GameInfo.warning && result.alert && result.alert != "") GameInfo.warning = new Warning(result.alert, closeWarning);
         GameInfo.sounds.playCard.play();
         if(!GameInfo.warning){
             if(card.name[0] == "Time" && card.name[1] == "Jump")
@@ -138,7 +152,12 @@ async function cardAction(card){
                 GameInfo.currentCardAnimation = GameInfo.images.cards.paradoxAnim;
             else console.log(card.name);
         }
-        await endturnAction();
+        await getGameInfo();
+        await getPawnsPositions();
+        await getCards();
+        await getCollectedArtifacts();
+        await getArtifactsOnBoard();
+        GameInfo.prepareUI();
     } else {if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nplaying a card.", closeWarning); }
 }
 
@@ -146,15 +165,6 @@ async function changeDropMode() {
     if (!GameInfo.dropping)
         GameInfo.dropping = true;
     else GameInfo.dropping = false;
-}
-
-async function endturnAction() {
-    let result = await requestEndTurn();
-    if (result.successful) {
-        await getGameInfo();
-        await getPawnsPositions();
-        GameInfo.prepareUI();
-    } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nending the turn.", closeWarning);
 }
 
 async function closeScore() {

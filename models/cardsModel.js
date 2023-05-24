@@ -1,6 +1,7 @@
 const { selectFields } = require("express-validator/src/select-fields");
 const pool = require("../config/database");
-const Utils = require("../config/utils")
+const Utils = require("../config/utils");
+const Plays = require("./playsModel");
 
 class Card {
     constructor(id, name, description) {
@@ -70,7 +71,7 @@ class Card {
 
             //Insert into database
             await pool.query('insert into user_game_card(ugc_ug_id, ugc_crd_id) values (?,?)', [game.player.id, selectedCard]);
-
+            await Plays.endTurn(game);
             return { status: 200, result: { msg: "Card Successfully Drawn!" } }
         } catch (err) {
             console.log(err)
@@ -126,6 +127,7 @@ class Card {
             //Delete card from database
             await pool.query("delete from user_game_card where ugc_id = ?", [body.selected_card]);
             //Return success
+            await Plays.endTurn(game);
             return { status: 200, result: { msg:successfull.msg } }
         } catch (err) {
             console.log(err);
@@ -149,6 +151,7 @@ class Card {
             } else { await pool.query('delete from user_game_card where ugc_ug_id = ?', [game.player.id]); }
 
             //Return success
+            await Plays.endTurn(game);
             return { status: 200, result: { msg: "Card descarted succesfully" } }
         } catch (err) {
             console.log(err);

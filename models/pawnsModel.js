@@ -1,5 +1,6 @@
 const pool = require("../config/database");
 const Games = require("./gamesModel");
+const Plays = require("./playsModel");
 
 class Pawn {
     constructor(id, position) {
@@ -46,7 +47,7 @@ class Pawn {
                 let result = await swapArtifacts(game);
                 return{status: 200, result:{msg: "Succesfully moved", swap: result.msg}}
             }
-
+            await Plays.endTurn(game);
             return { status: 200, result: { msg: "Succesfully moved" } }
         } catch (err) {
             console.log(err);
