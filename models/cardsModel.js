@@ -50,7 +50,22 @@ class Card {
             if (!cheat) {
                 //Select a random Card
                 [cards] = await pool.query('select * from card');
-                selectedCard = Utils.randomNumber(cards.length);
+                selectedCard = Utils.randomNumber(100);
+                if(selectedCard <= 25) {
+                    selectedCard = 1;
+                }else if(selectedCard <= 32) {
+                    selectedCard = 2;
+                }else if(selectedCard <= 46) {
+                    selectedCard = 3;
+                }else if(selectedCard <= 60) {
+                    selectedCard = 4;
+                }else if(selectedCard <= 74) {
+                    selectedCard = 5;
+                }else if(selectedCard <= 90) {
+                    selectedCard = 6;
+                }else if(selectedCard <= 100) {
+                    selectedCard = 7;
+                }
             } else { selectedCard = body.selected_card; }
 
             //Insert into database
