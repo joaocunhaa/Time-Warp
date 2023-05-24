@@ -15,7 +15,7 @@ class Warning extends Window{
             super.draw();
             fill(0);
             textSize(20)
-            text(this.text, Warning.x + Warning.width / 2, Warning.y + Warning.height / 2);
+            text(this.text, Warning.x + Warning.width / 2, Warning.y + Warning.height / 2 - 20);
         }
     }
 }

@@ -25,7 +25,7 @@ class PopUp extends Window{
             textSize(24)
             text(this.title, PopUp.x + PopUp.width / 2, PopUp.y + PopUp.height / 3)
             textSize(14)
-            text(this.text, PopUp.x + PopUp.width / 2, PopUp.y + PopUp.height / 2);
+            text(this.text + ".", PopUp.x + PopUp.width / 2, PopUp.y + PopUp.height / 2);
         }
     }
 }

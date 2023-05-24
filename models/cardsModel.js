@@ -51,17 +51,17 @@ class Card {
                 //Select a random Card
                 [cards] = await pool.query('select * from card');
                 selectedCard = Utils.randomNumber(100);
-                if(selectedCard <= 25) {
+                if(selectedCard <= 20) {
                     selectedCard = 1;
-                }else if(selectedCard <= 32) {
+                }else if(selectedCard <= 30) {
                     selectedCard = 2;
-                }else if(selectedCard <= 46) {
+                }else if(selectedCard <= 44) {
                     selectedCard = 3;
-                }else if(selectedCard <= 60) {
+                }else if(selectedCard <= 58) {
                     selectedCard = 4;
-                }else if(selectedCard <= 74) {
+                }else if(selectedCard <= 72) {
                     selectedCard = 5;
-                }else if(selectedCard <= 90) {
+                }else if(selectedCard <= 88) {
                     selectedCard = 6;
                 }else if(selectedCard <= 100) {
                     selectedCard = 7;
