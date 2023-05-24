@@ -127,12 +127,8 @@ async function draw() {
         GameInfo.playerDeck.draw();
         GameInfo.playerListArtifacts.draw();
         GameInfo.oppListArtifacts.draw();
-        if (GameInfo.playerListArtifacts && GameInfo.playerListArtifacts.artifacts.length > 0) {
-            GameInfo.playerListArtifacts.hover();
-        }
-        if(GameInfo.oppListArtifacts && GameInfo.oppListArtifacts.artifacts.length > 0){
-            GameInfo.oppListArtifacts.hover();
-        }
+        GameInfo.playerListArtifacts.hover();
+        GameInfo.oppListArtifacts.hover();
         //LOGO
         image(GameInfo.images.logo, GameInfo.width / 2 - 290, 10, 580, 150);
         //Dropping Action

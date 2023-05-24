@@ -69,7 +69,11 @@ class ListArtifacts {
             else {
                 fill(0)
             }
+            textAlign(CENTER, CENTER);
             text(GameInfo.game.player.name, 140, 135);
+            if(GameInfo.game.player.protected){
+                image(GameInfo.images.cards.shieldAnim, 20 + 245 / 2 + 80, 135-10, 20, 20);
+            }
             // text(`(${GameInfo.game.player.state})`, 140, 170);
             text("Your Artifacts", 140, 170);
         } else if (this.entity == "Opponent") {
@@ -82,6 +86,9 @@ class ListArtifacts {
                 fill(0)
             }
             text(GameInfo.game.opponents[0].name, 1222, 135);
+            if(GameInfo.game.opponents[0].protected){
+                image(GameInfo.images.cards.shieldAnim, 1100 + 245 / 2- 90, 135-10, 20, 20);
+            }
             // text(`(${GameInfo.game.opponents[0].state})`, 1222, 170);
             text("Opponent's Artifacts", 1222, 170);
         }
@@ -112,6 +119,17 @@ class ListArtifacts {
                     text(artifact.desc, artifact.x + artifact.width + 155, artifact.y + 75 - artifact.height);
                 }
             }
+
+            if(mouseX > 20 + 245 / 2 + 80 && mouseX < 20 + 245 / 2 + 80 + 20 && mouseY > 135-10 && mouseY < 135-10 + 20){
+                fill(143, 121, 101, 250)
+                strokeWeight(1);
+                rect(80, 78, 290, 30,5,5,5,5)
+                strokeWeight(0)
+                fill(0)
+                textSize(12)
+                textAlign(LEFT, CENTER)
+                text("This player is protected by an Action Shield card.", 85, 78 + 30 / 2)
+            }
         }else if(this.entity == "Opponent"){
             for (let artifact of this.artifacts) {
                 if (artifact.hover()) {
@@ -131,6 +149,17 @@ class ListArtifacts {
                     textSize(14)
                     text(artifact.desc, artifact.x - 305 + 155, artifact.y + 75 - artifact.height);
                 }
+            }
+
+            if(mouseX > 1100 + 245 / 2- 90 && mouseX < 1100 + 245 / 2- 90 + 20 && mouseY > 135-10 && mouseY < 135-10 + 20){
+                fill(143, 121, 101, 210)
+                strokeWeight(1);
+                rect(980, 78, 290, 30,5,5,5,5)
+                strokeWeight(0)
+                fill(0)
+                textSize(12)
+                textAlign(LEFT, CENTER)
+                text("This player is protected by an Action Shield card.", 985, 78 + 30 / 2)
             }
         }
     }
