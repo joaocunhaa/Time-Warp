@@ -11,18 +11,8 @@ class ScoreWindow extends Window {
     }
 
     draw() {
+        super.draw();
         if (this.opened) {
-            if (this.player.state == "Won") {
-                fill(100, 200, 100);
-                stroke(0, 0, 0);
-            }
-            else {
-                fill(255, 0, 0)
-                stroke(0, 0, 0);
-            }
-
-            rect(this.x, this.y, this.width, this.height, 5, 5, 5, 5);
-
             fill(255);
             stroke(255);
             textAlign(CENTER, CENTER);

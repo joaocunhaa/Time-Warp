@@ -19,10 +19,8 @@
     cursor: pointer;
   }
   
-  button.game:hover {
-    background-color: #968f89;
-  }
+  #button.game:hover,
   #button.game:active,
   #button.game:focus {
-    background-color: #fefefe;
+    background-color: #8f7965;
   }

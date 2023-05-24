@@ -25,7 +25,6 @@ create table card(
 create table artifact(
   art_id int not null AUTO_INCREMENT,
   art_name VARCHAR(60) not NULL,
-  art_desc VARCHAR(200) not NULL,
   art_era_id int not null,
   primary key(art_id)
 );
@@ -116,6 +115,10 @@ alter table
   game_artifact
 add
   constraint ga_fk_artifact foreign key (ga_art_id) references artifact(art_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+alter table
+  game_artifact
+add
+  constraint ga_drop_user_fk_ug foreign key (ga_drop_user) references user_game(ug_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 alter table
   scoreboard
 add

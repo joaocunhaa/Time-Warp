@@ -24,7 +24,7 @@ function fillMatches(matches) {
         if (match.player) // this should not happen
             p.textContent = `Your game!`
         else if (match.opponents.length > 0)
-            p.textContent = `JOIN \n${match.opponents[0].name}`;
+            p.textContent = `JOIN ${match.opponents[0].name}`;
         else continue; // Something wrong with this game (no players)
         elem.appendChild(p);
         container.appendChild(elem);

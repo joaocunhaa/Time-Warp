@@ -62,11 +62,8 @@ class Board {
 
             changeEras(square);
             // Draw the block
-            stroke(0)
-            strokeWeight(1);
             rect(this.x + 80 * right, this.y + 80 * down, 80, 80);
             // Write the block number
-            strokeWeight(5);
             text(square, this.x + 80 * right + 10, this.y + 80 * down + 40)
             // Draw x's on artifacts positions
             for (let artifact of GameInfo.artifactsOnBoard) {
@@ -132,21 +129,6 @@ class Board {
             }
         }
 
-        fill(0)
-        stroke(0)
-        strokeWeight(5)
-        line(this.x + 80 ,    this.y,          this.x + 80 * 8,    this.y);
-        line(this.x + 80 * 8, this.y,          this.x + 80 * 8,    this.y + 80 * 5);
-        line(this.x + 80,     this.y + 80 * 5, this.x + 80 * 8,    this.y + 80 * 5);
-        line(this.x + 80,     this.y + 80 * 5, this.x + 80,        this.y + 80);
-        line(this.x + 80,     this.y + 80,     this.x + 80 * 7,    this.y + 80);
-        line(this.x + 80 * 7, this.y + 80 * 4, this.x + 80 * 7,    this.y + 80);
-        line(this.x + 80 * 2, this.y + 80 * 4, this.x + 80 * 7,    this.y + 80 * 4);
-        line(this.x + 80 * 2, this.y + 80 * 4, this.x + 80 * 2,    this.y + 80 * 2);
-        line(this.x + 80 * 2, this.y + 80 * 2, this.x + 80 * 6,    this.y + 80 * 2);
-        line(this.x + 80 * 6, this.y + 80 * 3, this.x + 80 * 6,    this.y + 80 * 2);
-        line(this.x + 80 * 3, this.y + 80 * 3, this.x + 80 * 6,    this.y + 80 * 3);
-
         strokeWeight(0);
     }
 
@@ -187,7 +169,7 @@ function changeEras(square) {
     } else if (square <= 10) {
         fill(200, 100, 100);
     } else if (square <= 15) {
-        fill(100, 100, 200);
+        fill(100, 100, 200)
     } else if (square <= 20) {
         fill(200, 200, 100);
     } else if (square <= 25) {
