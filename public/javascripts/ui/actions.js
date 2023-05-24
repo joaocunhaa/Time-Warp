@@ -70,7 +70,7 @@ async function drawCardAction() {
 }
 
 async function playCardAction(selectedCard) {
-    if(!GameInfo.popUp) {
+    if(!GameInfo.popUp && GameInfo.game.player.state == "Playing") {
         if(selectedCard.name.length > 1) GameInfo.popUp = new PopUp(`Do you want to play "${selectedCard.name[0]} ${selectedCard.name[1]}" card?`, selectedCard.description, cardAction, popUpCancelAction, selectedCard);
         else GameInfo.popUp = new PopUp(`Do you want to play "${selectedCard.name[0]}" card?`, selectedCard.description,cardAction, popUpCancelAction, selectedCard);
     };
@@ -119,8 +119,8 @@ async function cardAction(card){
     
     let result = await requestPlayCard(card.id);
     if (result.successful) {
-        if(!GameInfo.warning && result.alert != "Succesfully Played") GameInfo.warning = new Warning(result.alert, closeWarning)
-            GameInfo.sounds.playCard.play();
+        if(!GameInfo.warning && result.alert && result.alert != "") GameInfo.warning = new Warning(result.alert);
+        GameInfo.sounds.playCard.play();
         if(!GameInfo.warning){
             if(card.name[0] == "Time" && card.name[1] == "Jump")
                 GameInfo.currentCardAnimation = GameInfo.images.cards.timeJumpAnim;
@@ -139,7 +139,7 @@ async function cardAction(card){
             else console.log(card.name);
         }
         await endturnAction();
-    } else {if(!GameInfo.warning) GameInfo.warning = new Warning(result.alert || "Something went wrong when \nplaying a card.", closeWarning); }
+    } else {if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nplaying a card.", closeWarning); }
 }
 
 async function changeDropMode() {
