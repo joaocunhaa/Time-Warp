@@ -114,7 +114,9 @@ async function requestPlayCard(selectedCard) {
                 }),
                 method: "PATCH"
             });
-        return { successful: response.status == 200 };
+        console.log(response)
+        return { successful: response.status == 200,
+                 alert: response.statusText};
     } catch (err) {
         // Treat 500 errors here
         console.log(err);
@@ -133,7 +135,7 @@ async function requestDropCard(selectedCard) {
                 body: JSON.stringify({
                     selected_card: selectedCard
                 }),
-                method: "PATCH"
+                method: "DELETE"
             });
         return { successful: response.status == 200 };
     } catch (err) {
@@ -213,7 +215,7 @@ async function requestDropCardCheat() {
                 },
                 body: JSON.stringify({
                 }),
-                method: "PATCH"
+                method: "DELETE"
             });
         return { successful: response.status == 200 };
     } catch (err) {

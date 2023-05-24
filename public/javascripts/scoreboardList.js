@@ -1,4 +1,4 @@
-window.onload = async function() {
+window.onload = async function () {
     let result = await checkAuthenticated(true);
     if (result.err) { throw result.err; }
     document.getElementById('player').textContent = "Hello " + window.user.name;
@@ -7,16 +7,16 @@ window.onload = async function() {
         alert("Something wrong. Going to login page");
         window.location.pathname = "/index.html"
     }
-    fillScores(result.scores);
+    await fillScores(result.scores);
 }
 
-function fillScores(scores) {
+async function fillScores(scores) {
     let container = document.getElementById("scores");
     for (let score of scores) {
         let elem = document.createElement("section");
         for (let player of score.playerScores) {
             let p = document.createElement("p");
-            p.textContent = "GAME " + score.gameId + " - You "+ " " + player.state;
+            p.textContent = "GAME " + score.gameId + " - You " + " " + player.state;
             elem.appendChild(p);
 
             if (player.state == "Won") {

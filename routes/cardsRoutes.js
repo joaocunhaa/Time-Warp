@@ -40,6 +40,7 @@ router.patch("/play", auth.verifyAuth, async function (req, res, next) {
             res.status(400).send({ msg: "You're not in a game" });
         } else {
             let result = await Card.playCard(req.game, req.body);
+            res.statusMessage = result.result.msg;
             res.status(result.status).send(result.result);
         }
     } catch (err) {
@@ -48,7 +49,7 @@ router.patch("/play", auth.verifyAuth, async function (req, res, next) {
     }
 });
 
-router.patch("/drop", auth.verifyAuth, async function (req, res, next) {
+router.delete("/drop", auth.verifyAuth, async function (req, res, next) {
     try {
         console.log("Drop a card");
         if (!req.game) {
@@ -80,7 +81,7 @@ router.post("/draw/cheat", auth.verifyAuth, async function (req, res, next) {
     }
 });
 
-router.patch("/drop/cheat", auth.verifyAuth, async function (req, res, next) {
+router.delete("/drop/cheat", auth.verifyAuth, async function (req, res, next) {
     try {
         console.log("Cheat: Drop All Cards");
         if (!req.game) {

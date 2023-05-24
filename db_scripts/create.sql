@@ -12,6 +12,8 @@ create table game (
   gm_id int not null auto_increment,
   gm_turn int not null default 1,
   gm_state_id int not null,
+  gm_can_swap boolean default false,
+  gm_last_swap int default 0,
   primary key (gm_id)
 );
 create table card(
@@ -23,6 +25,7 @@ create table card(
 create table artifact(
   art_id int not null AUTO_INCREMENT,
   art_name VARCHAR(60) not NULL,
+  art_desc VARCHAR(200) not NULL,
   art_era_id int not null,
   primary key(art_id)
 );
@@ -57,6 +60,7 @@ create table user_game (
   ug_state_id int not null,
   ug_current_position int not null default 1,
   ug_reversed_direction boolean default false,
+  ug_protected boolean default false,
   primary key (ug_id)
 );
 create table user_game_state (
@@ -113,10 +117,6 @@ alter table
 add
   constraint ga_fk_artifact foreign key (ga_art_id) references artifact(art_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 alter table
-  game_artifact
-add
-  constraint ga_fk_ug foreign key (ga_current_owner) references user_game(ug_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
-alter table
   scoreboard
 add
   constraint scoreboard_fk_user_game foreign key (sb_ug_id) references user_game(ug_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -124,3 +124,5 @@ alter table
   scoreboard
 add
   constraint scoreboard_fk_scoreboard_state foreign key (sb_state_id) references scoreboard_state(sbs_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+  select * from game_artifact inner join artifact on ga_art_id = art_id where ga_id = 5;

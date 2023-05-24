@@ -11,26 +11,25 @@
   <script src="./javascripts/login.js"></script>
 </head>
 
-<body><center>
-  <header>
-    <img src="assets/TimeWarpLogo.png" alt="TimeWarp" width="580" height="150">
-  </header>
-
-  <main>
-    <!-- Login Form -->
-    <div class="login-page">
+<body>
+  <center>
+    <header>
+      <img src="./assets/TimeWarpLogo.png" alt="TimeWarp" width="580" height="150">
+    </header>
+    <main>
+      <!-- Login Form -->
       <div class="form">
         <h1 style="margin-top: 0px;">Login</h1>
-        
         <form action="javascript:login()">
-          <input type="text" autocomplete="username" id="name" placeholder="username"/>
-          <input type="password" autocomplete="current-password" id="password" placeholder="password"/>
-          <p><input id="buttons" type="submit" value="Login"></p>
-          <p class="message">Not registered? <a href="register.html">Create an account</a></p>
+          <input type="text" autocomplete="username" id="name" placeholder="username" />
+          <input type="password" autocomplete="current-password" id="password" placeholder="password" />
+          <p><input class="buttons" type="submit" value="Login"></p>
+          <p id="message">Not registered? <a href="register.html">Create an account</a></p>
           <p id="msg" class="warning"></p>
         </form>
       </div>
-    </div>
-  </main></center>
+    </main>
+  </center>
 </body>
+
 </html>

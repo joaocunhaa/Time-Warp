@@ -1,5 +1,5 @@
 class Window {
-    constructor (x,y,width,height) {
+    constructor(x, y, width, height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -8,40 +8,38 @@ class Window {
         this.buttonList = [];
     }
 
-    createButton(name, x,y, action, widthCenter) {
+    createButton(name, x, y, action, widthCenter, height) {
         let button = createButton(name);
-        this.buttonList.push(button);
         button.parent('game');
         if (widthCenter) {
-            button.size(widthCenter);
-            button.position(x-widthCenter/2,y);    
-        } else button.position(x,y);
+            button.size(widthCenter, height);
+            button.position(x - widthCenter / 2, y);
+        } else button.position(x, y);
         button.mousePressed(action);
         button.addClass('game');
         button.hide();
+        this.buttonList.push(button);
     }
 
     open() {
         this.opened = true;
-        for(let button of this.buttonList) {
+        for (let button of this.buttonList) {
             button.show();
         }
     }
 
     close() {
         this.opened = false;
-        for(let button of this.buttonList) {
+        for (let button of this.buttonList) {
             button.hide();
         }
     }
 
     draw() {
-        if (this.opened) {
-            fill(100,200,100);
-            stroke(0,0,0);
-            rect (this.x,this.y,this.width,this.height,5,5,5,5);
+        if(this.opened){
+            strokeWeight(2);
+            rect(this.x, this.y, this.width, this.height, 5, 5, 5, 5);
+            strokeWeight(0);
         }
     }
-
-
 }

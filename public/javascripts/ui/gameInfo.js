@@ -6,12 +6,17 @@ class GameInfo {
     static height = 800;
 
     static loading = true;
+    static clicked = false;
 
     //Data
     static game;
+    static currentTrack;
 
     static playerPosition;
+    static playerLastPosition;
     static oppPosition;
+
+    static playerEra;
 
     static artifactsOnBoard;
 
@@ -23,6 +28,16 @@ class GameInfo {
 
     static images = {};
     static sounds = {};
+
+    //Pop-ups
+    static warning;
+    static popUp;
+
+    //Animations
+    static currentCardAnimation;
+    static tintAnimation = 0;
+    static animationTintMax = 255;
+    static reversingAnimation = false;
 
     //Drop Card
     static dropping = false;
@@ -44,6 +59,7 @@ class GameInfo {
     //Call the method every time there is a game state change
     static prepareUI() {
         if (GameInfo.game.player.state == "Playing") {
+            GameInfo.clicked = false;
             GameInfo.movePawn.show();
             GameInfo.drawCard.show();
             GameInfo.dropCard.show();
@@ -54,6 +70,7 @@ class GameInfo {
             GameInfo.dropCard.hide();
             GameInfo.surrend.show();
         }else if (GameInfo.game.player.state == "Score") {
+            GameInfo.clicked = false;
             GameInfo.movePawn.hide();
             GameInfo.drawCard.hide();
             GameInfo.dropCard.hide();
