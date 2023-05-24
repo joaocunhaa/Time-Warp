@@ -176,14 +176,15 @@ async function claimArtifact(game) {
 }
 
 async function dropArtifact(game) {
-    if(game.opponents[0].protected == true){
-        await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
-        return { result: true, msg: "No action, opponent played a shield card" }
-    }
     let current_era = Math.ceil(game.player.position / 5) ;
     let opp_era = Math.ceil(game.opponents[0].position / 5);
     if(current_era != opp_era)
         return { result: false, msg: "You need to be in the same era as the opponent" }
+    
+    if(game.opponents[0].protected == true){
+        await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
+        return { result: true, msg: "No action, opponent played a shield card" }
+    }
     //Get all opp's artifacts
     let [oppArtifacts] = await pool.query('select * from game_artifact where ga_current_owner = ?', [game.opponents[0].id]);
 
