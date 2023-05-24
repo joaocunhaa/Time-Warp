@@ -50,21 +50,21 @@ function preload() {
     GameInfo.sounds.pawn = loadSound("./assets/sounds/pawn.mp3");
     // Cards Images
     GameInfo.images.cards = {};
-    GameInfo.images.cards.timeReverse = loadImage("./assets/Cards/TimeReverse.png");
-    GameInfo.images.cards.timeJump = loadImage("./assets/Cards/TimeJump.png");
-    GameInfo.images.cards.claimArtifact = loadImage("./assets/Cards/ClaimArtifact.png");
-    GameInfo.images.cards.dropArtifact = loadImage("./assets/Cards/DropArtifact.png");
-    GameInfo.images.cards.switch = loadImage("./assets/Cards/Switch.png");
-    GameInfo.images.cards.shield = loadImage("./assets/Cards/ActionShield.png");
-    GameInfo.images.cards.paradox = loadImage("./assets/Cards/Paradox.png");
+    GameInfo.images.cards.timeReverse = loadImage("./assets/cards/TimeReverse.png");
+    GameInfo.images.cards.timeJump = loadImage("./assets/cards/TimeJump.png");
+    GameInfo.images.cards.claimArtifact = loadImage("./assets/cards/ClaimArtifact.png");
+    GameInfo.images.cards.dropArtifact = loadImage("./assets/cards/DropArtifact.png");
+    GameInfo.images.cards.switch = loadImage("./assets/cards/Switch.png");
+    GameInfo.images.cards.shield = loadImage("./assets/cards/ActionShield.png");
+    GameInfo.images.cards.paradox = loadImage("./assets/cards/Paradox.png");
     //Cards Animations
-    GameInfo.images.cards.timeReverseAnim = loadImage("./assets/Cards/anims/time_reverseIMAGE.png");
-    GameInfo.images.cards.timeJumpAnim = loadImage("./assets/Cards/anims/time_jumpIMAGE.png");
-    GameInfo.images.cards.claimArtifactAnim = loadImage("./assets/Cards/anims/claim_artifactIMAGE.png");
-    GameInfo.images.cards.dropArtifactAnim = loadImage("./assets/Cards/anims/drop_artifactIMAGE.png");
-    GameInfo.images.cards.switchAnim = loadImage("./assets/Cards/anims/switchIMAGE.png");
-    GameInfo.images.cards.shieldAnim = loadImage("./assets/Cards/anims/action_shieldIMAGE.png");
-    GameInfo.images.cards.paradoxAnim = loadImage("./assets/Cards/anims/paradoxIMAGE.png");
+    GameInfo.images.cards.timeReverseAnim = loadImage("./assets/cards/anims/time_reverseIMAGE.png");
+    GameInfo.images.cards.timeJumpAnim = loadImage("./assets/cards/anims/time_jumpIMAGE.png");
+    GameInfo.images.cards.claimArtifactAnim = loadImage("./assets/cards/anims/claim_artifactIMAGE.png");
+    GameInfo.images.cards.dropArtifactAnim = loadImage("./assets/cards/anims/drop_artifactIMAGE.png");
+    GameInfo.images.cards.switchAnim = loadImage("./assets/cards/anims/switchIMAGE.png");
+    GameInfo.images.cards.shieldAnim = loadImage("./assets/cards/anims/action_shieldIMAGE.png");
+    GameInfo.images.cards.paradoxAnim = loadImage("./assets/cards/anims/paradoxIMAGE.png");
 }
 
 async function setup() {

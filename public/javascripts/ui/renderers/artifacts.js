@@ -106,7 +106,7 @@ class ListArtifacts {
                     rect(artifact.x, artifact.y, artifact.width, artifact.height);
                     fill(143, 121, 101, 250)
                     strokeWeight(2);
-                    rect(artifact.x + artifact.width + 5, artifact.y - artifact.height, 300, 150, 5, 5, 5, 5);
+                    rect(artifact.x + artifact.width + 5, artifact.y - artifact.height, 300, 125, 5, 5, 5, 5);
                     strokeWeight(0);
                     fill(0)
                     textStyle(BOLD);
@@ -137,7 +137,7 @@ class ListArtifacts {
                     rect(artifact.x, artifact.y, artifact.width, artifact.height);
                     fill(143, 121, 101, 250)
                     strokeWeight(2);
-                    rect(artifact.x - 305, artifact.y - artifact.height, 300, 150, 5, 5, 5, 5);
+                    rect(artifact.x - 305, artifact.y - artifact.height, 300, 125, 5, 5, 5, 5);
                     strokeWeight(0);
                     fill(0)
                     textStyle(BOLD);

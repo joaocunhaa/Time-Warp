@@ -31,7 +31,7 @@ body {
 
 /* Login or Register Message */
 p.warning {
-  color: var(--redtext-color);
+  color: var(--body-color);
   font-size: larger;
 }
 
