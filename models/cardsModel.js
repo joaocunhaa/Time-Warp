@@ -71,7 +71,8 @@ class Card {
 
             //Insert into database
             await pool.query('insert into user_game_card(ugc_ug_id, ugc_crd_id) values (?,?)', [game.player.id, selectedCard]);
-            await Plays.endTurn(game);
+            if(!cheat)
+                await Plays.endTurn(game);
             return { status: 200, result: { msg: "Card Successfully Drawn!" } }
         } catch (err) {
             console.log(err)
@@ -151,7 +152,8 @@ class Card {
             } else { await pool.query('delete from user_game_card where ugc_ug_id = ?', [game.player.id]); }
 
             //Return success
-            await Plays.endTurn(game);
+            if(!cheat)
+                await Plays.endTurn(game);
             return { status: 200, result: { msg: "Card descarted succesfully" } }
         } catch (err) {
             console.log(err);
