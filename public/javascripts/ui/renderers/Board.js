@@ -65,7 +65,7 @@ class Board {
             stroke(0)
             strokeWeight(1);
             rect(this.x + 80 * right, this.y + 80 * down, 80, 80);
-            
+
             // Draw x's on artifacts positions
             strokeWeight(4);
             textSize(50);

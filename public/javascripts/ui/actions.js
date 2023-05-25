@@ -159,7 +159,7 @@ async function cardAction(card){
         await getCollectedArtifacts();
         await getArtifactsOnBoard();
         GameInfo.prepareUI();
-    } else {if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nplaying a card.", closeWarning); }
+    } else {if(!GameInfo.warning) GameInfo.warning = new Warning(result.alert.msg || "Something went wrong when \nplaying a card.", closeWarning); }
 }
 
 async function changeDropMode() {
