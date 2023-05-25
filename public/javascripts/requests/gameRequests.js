@@ -53,7 +53,7 @@ async function requestPawnsPositions() {
     }
 }
 
-async function requestMovePawn() {
+async function requestMovePawn(cheat) {
     try {
         const response = await fetch(`/api/pawns`,
             {
@@ -61,6 +61,9 @@ async function requestMovePawn() {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
+                body: JSON.stringify({
+                    cheat: cheat
+                }),
                 method: "PATCH"
             });
         return { successful: response.status == 200 };

@@ -1,15 +1,11 @@
 async function refresh() {
     if(GameInfo.game.state != "Finished"){
-        if(GameInfo.game.player.state != "Waiting"){
-            await getGameInfo();
-            await getPawnsPositions();
-            await getArtifactsOnBoard();
-            await getCollectedArtifacts();
-            await getCards();
-            GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
-        }else{ 
-            await getGameInfo();
-        }
+        await getGameInfo();
+        await getPawnsPositions();
+        await getArtifactsOnBoard();
+        await getCollectedArtifacts();
+        await getCards();
+        GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
         GameInfo.prepareUI();
     }
 }
@@ -72,7 +68,7 @@ async function setup() {
     await getCards();
     GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
     GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
-    setInterval(refresh, 1000);
+    setInterval(refresh, 1500);
 
     //Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
