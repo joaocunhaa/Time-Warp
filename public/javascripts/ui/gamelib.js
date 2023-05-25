@@ -12,6 +12,7 @@ async function refresh() {
 
 function preload() {
     GameInfo.images.playerPawn = loadImage("./assets/WhitePawn.png");
+    GameInfo.images.Artifact = loadImage("./assets/Diamond.png");
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
     GameInfo.images.logo = loadImage("./assets/TimeWarpLogo.png");
     GameInfo.images.reverse = loadImage("./assets/reverse.png");

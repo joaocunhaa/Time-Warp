@@ -65,20 +65,21 @@ class Board {
             stroke(0)
             strokeWeight(1);
             rect(this.x + 80 * right, this.y + 80 * down, 80, 80);
-            // Write the block number
-            strokeWeight(3);
-            textSize(16);
-            textAlign(LEFT, CENTER);
-            text(square, this.x + 80 * right + 10, this.y + 80 * down + 20)
+            
             // Draw x's on artifacts positions
             strokeWeight(4);
             textSize(50);
             // textAlign(CENTER, CENTER);
             for (let artifact of GameInfo.artifactsOnBoard) {
                 if (artifact.current_position == square) {
-                    text("X", this.x + 80 * right + 40, this.y + 80 * down + 50);
+                    image(GameInfo.images.Artifact, this.x + 80 * right + 5, this.y + 80 * down + 10, 70, 60);
                 }
             }
+            // Write the block number
+            strokeWeight(3);
+            textSize(16);
+            textAlign(LEFT, CENTER);
+            text(square, this.x + 80 * right + 10, this.y + 80 * down + 20)
         }
 
         if (playerPawnPosition.x == oppPawnPosition.x && playerPawnPosition.y == oppPawnPosition.y) {
