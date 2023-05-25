@@ -133,7 +133,7 @@ async function cardAction(card){
     
     let result = await requestPlayCard(card.id);
     if (result.successful) {
-        if(!GameInfo.warning && result.alert) GameInfo.warning = new Warning(result.alert, closeWarning);
+        if(!GameInfo.warning && result.alert && result.alert.msg != "Succesfully Played") GameInfo.warning = new Warning(result.alert.msg, closeWarning);
         console.log(result.alert);
         GameInfo.sounds.playCard.play();
         if(!GameInfo.warning){

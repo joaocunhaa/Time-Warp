@@ -119,7 +119,7 @@ async function requestPlayCard(selectedCard) {
             });
         console.log(response)
         return { successful: response.status == 200,
-                 alert: response.statusText};
+                 alert: await response.json()};
     } catch (err) {
         // Treat 500 errors here
         console.log(err);
