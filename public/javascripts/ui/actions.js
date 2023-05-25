@@ -133,7 +133,7 @@ async function cardAction(card){
     
     let result = await requestPlayCard(card.id);
     if (result.successful) {
-        if(!GameInfo.warning && result.alert && result.alert != "") GameInfo.warning = new Warning(result.alert, closeWarning);
+        if(!GameInfo.warning && result.alert) GameInfo.warning = new Warning(result.alert, closeWarning);
         GameInfo.sounds.playCard.play();
         if(!GameInfo.warning){
             if(card.name[0] == "Time" && card.name[1] == "Jump")
