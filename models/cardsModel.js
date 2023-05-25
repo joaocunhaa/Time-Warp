@@ -146,7 +146,7 @@ class Card {
             if (!cheat) {
                 let [card] = await pool.query('select * from user_game_card where ugc_id = ?', [body.selected_card]);
                 if (!card.length)
-                    return { status: 400, result: { msg: "Select a valid card" } }
+                    return { status: 400, result: { msg: "Select a valid card." } }
 
                 await pool.query('delete from user_game_card where ugc_id = ?', [body.selected_card]);
             } else { await pool.query('delete from user_game_card where ugc_ug_id = ?', [game.player.id]); }
@@ -154,7 +154,7 @@ class Card {
             //Return success
             if (!cheat)
                 await Plays.endTurn(game);
-            return { status: 200, result: { msg: "Card descarted succesfully" } }
+            return { status: 200, result: { msg: "Card descarted succesfully!" } }
         } catch (err) {
             console.log(err);
             return { status: 500, result: err }
@@ -296,7 +296,7 @@ async function switchPlayers(game) {
 
 async function cancelAction(game) {
     if (game.player.protected == true)
-        return { result: false, msg: "The player is already protected" }
+        return { result: false, msg: "The player is already protected." }
 
     await pool.query('update user_game set ug_protected = true where ug_id = ?', [game.player.id]);
     return { result: true, msg: "Succesfully Played" }
