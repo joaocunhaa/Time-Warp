@@ -21,7 +21,7 @@ class Pawn {
         }
     }
 
-    static async movePawn(game) {
+    static async movePawn(game, cheat) {
         try {
             let nextPosition = 0;
             //Check if its player's turn
@@ -47,7 +47,8 @@ class Pawn {
                 let result = await swapArtifacts(game);
                 return{status: 200, result:{msg: "Succesfully moved", swap: result.msg}}
             }
-            await Plays.endTurn(game);
+            if(!cheat)
+                await Plays.endTurn(game);
             return { status: 200, result: { msg: "Succesfully moved" } }
         } catch (err) {
             console.log(err);

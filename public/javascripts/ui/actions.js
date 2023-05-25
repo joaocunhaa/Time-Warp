@@ -45,7 +45,7 @@ async function getCards() {
 // Buttons Actions
 async function movePawnAction() {
     if(!GameInfo.clicked){
-        let result = await requestMovePawn();
+        let result = await requestMovePawn(false);
         if (result.successful) {
             GameInfo.clicked = true;
             await getGameInfo();
@@ -133,7 +133,8 @@ async function cardAction(card){
     
     let result = await requestPlayCard(card.id);
     if (result.successful) {
-        if(!GameInfo.warning && result.alert && result.alert != "") GameInfo.warning = new Warning(result.alert, closeWarning);
+        if(!GameInfo.warning && result.alert) GameInfo.warning = new Warning(result.alert, closeWarning);
+        console.log(result.alert);
         GameInfo.sounds.playCard.play();
         if(!GameInfo.warning){
             if(card.name[0] == "Time" && card.name[1] == "Jump")
@@ -192,7 +193,7 @@ async function collectAllArtifactsCheat() {
 }
 
 async function movePawnCheat() {
-    let result = await requestMovePawn();
+    let result = await requestMovePawn(true);
     if (!result.successful)
         if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nmoving a pawn.", closeWarning);
     await getGameInfo();
