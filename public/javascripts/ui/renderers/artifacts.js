@@ -120,7 +120,7 @@ class ListArtifacts {
                 }
             }
 
-            if(mouseX > 20 + 245 / 2 + 80 && mouseX < 20 + 245 / 2 + 80 + 20 && mouseY > 135-10 && mouseY < 135-10 + 20){
+            if(mouseX > 20 + 245 / 2 + 80 && mouseX < 20 + 245 / 2 + 80 + 20 && mouseY > 135-10 && mouseY < 135-10 + 20 && GameInfo.game.player.protected){
                 fill(143, 121, 101, 250)
                 strokeWeight(1);
                 rect(80, 78, 290, 30,5,5,5,5)
@@ -151,7 +151,7 @@ class ListArtifacts {
                 }
             }
 
-            if(mouseX > 1100 + 245 / 2- 90 && mouseX < 1100 + 245 / 2- 90 + 20 && mouseY > 135-10 && mouseY < 135-10 + 20){
+            if(mouseX > 1100 + 245 / 2- 90 && mouseX < 1100 + 245 / 2- 90 + 20 && mouseY > 135-10 && mouseY < 135-10 + 20 && GameInfo.game.opponents[0].protected){
                 fill(143, 121, 101, 210)
                 strokeWeight(1);
                 rect(980, 78, 290, 30,5,5,5,5)
