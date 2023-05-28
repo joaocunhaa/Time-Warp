@@ -124,5 +124,10 @@ alter table
   scoreboard
 add
   constraint scoreboard_fk_scoreboard_state foreign key (sb_state_id) references scoreboard_state(sbs_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-  select * from game_artifact inner join artifact on ga_art_id = art_id where ga_id = 5;
+select
+  *
+from
+  game_artifact
+  inner join artifact on ga_art_id = art_id
+where
+  ga_id = 5;
