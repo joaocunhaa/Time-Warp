@@ -51,7 +51,7 @@ class Card {
             if (!cheat) {
                 //Select a random Card
                 [cards] = await pool.query('select * from card');
-                let [] = await pool.query('select * from user_game_card where ugc_ug_id =?', [game.player.id]);
+                let [playerCards] = await pool.query('select * from user_game_card where ugc_ug_id =?', [game.player.id]);
                 let claimArtifact = 0;
                 let dropArtifact = 0;
                 let timeJump = 0;
