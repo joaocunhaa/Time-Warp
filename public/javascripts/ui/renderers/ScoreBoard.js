@@ -10,12 +10,12 @@ class ScoreBoard {
     draw() {
         fill(143, 121, 101, 125);
         stroke(0, 0, 0);
-        rect(25, 25, 130, 30, 5, 5, 5, 5);
+        rect(25, 25, 135, 30, 5, 5, 5, 5);
         fill(0, 0, 0);
         textAlign(LEFT, CENTER);
         textSize(24);
         textStyle(BOLD);
-        text("TURN: " + this.game.turn, 25 + 12, 25 + 65 / 4)
+        text("TURN: " + this.game.turn, 25 + 8, 25 + 65 / 4)
     }
 
     update(game) {
