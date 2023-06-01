@@ -51,21 +51,56 @@ class Card {
             if (!cheat) {
                 //Select a random Card
                 [cards] = await pool.query('select * from card');
-                let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ?', [game.id]);
+                let [] = await pool.query('select * from user_game_card where ugc_ug_id =?', [game.player.id]);
+                let claimArtifact = 0;
+                let dropArtifact = 0;
+                let timeJump = 0;
+                let timeReverse = 0;
+                let paradox = 0;
+                let switchCard = 0;
+                let shield = 0;
+                for (let card of playerCards) {
+                    switch (card.ugc_crd_id) {
+                        case 1:
+                            claimArtifact++;
+                            break;
+                        case 2:
+                            dropArtifact++;
+                            break;
+                        case 3:
+                            timeJump++;
+                            break;
+                        case 4:
+                            timeReverse++;
+                            break;
+                        case 5:
+                            paradox++;
+                            break;
+                        case 6:
+                            switchCard++;
+                            break;
+                        case 7:
+                            shield++;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner = null', [game.id]);
                 selectedCard = Utils.randomNumber(100);
-                if (selectedCard <= 20 && artifacts.length >= 1) {
+                if (selectedCard <= 20 && artifacts.length >= 1 && claimArtifact < 2) {
                     selectedCard = 1;
-                } else if (selectedCard <= 30) {
+                } else if (selectedCard <= 30 && dropArtifact < 1) {
                     selectedCard = 2;
-                } else if (selectedCard <= 44) {
+                } else if (selectedCard <= 44 && timeJump < 2) {
                     selectedCard = 3;
-                } else if (selectedCard <= 58) {
+                } else if (selectedCard <= 58 && timeReverse < 2) {
                     selectedCard = 4;
-                } else if (selectedCard <= 72) {
+                } else if (selectedCard <= 72 && paradox < 2) {
                     selectedCard = 5;
-                } else if (selectedCard <= 88) {
+                } else if (selectedCard <= 88 && switchCard < 2) {
                     selectedCard = 6;
-                } else if (selectedCard <= 100) {
+                } else if (selectedCard <= 100 && shield < 1) {
                     selectedCard = 7;
                 }
             } else { selectedCard = body.selected_card; }
