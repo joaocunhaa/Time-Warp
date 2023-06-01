@@ -51,8 +51,9 @@ class Card {
             if (!cheat) {
                 //Select a random Card
                 [cards] = await pool.query('select * from card');
+                let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ?', [game.id]);
                 selectedCard = Utils.randomNumber(100);
-                if (selectedCard <= 20) {
+                if (selectedCard <= 20 && artifacts.length >= 1) {
                     selectedCard = 1;
                 } else if (selectedCard <= 30) {
                     selectedCard = 2;
