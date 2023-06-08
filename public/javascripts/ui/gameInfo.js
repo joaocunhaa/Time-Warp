@@ -50,6 +50,7 @@ class GameInfo {
     //Buttons
     static movePawn;
     static drawCard;
+    static dropCard;
     static surrend;
 
     //Windows
@@ -69,7 +70,7 @@ class GameInfo {
             GameInfo.drawCard.hide();
             GameInfo.dropCard.hide();
             GameInfo.surrend.show();
-        }else if (GameInfo.game.player.state == "Score") {
+        } else if (GameInfo.game.player.state == "Score") {
             GameInfo.clicked = false;
             GameInfo.movePawn.hide();
             GameInfo.drawCard.hide();

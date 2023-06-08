@@ -1,6 +1,7 @@
 const { selectFields } = require("express-validator/src/select-fields");
 const pool = require("../config/database");
-const Utils = require("../config/utils")
+const Utils = require("../config/utils");
+const Plays = require("./playsModel");
 
 class Card {
     constructor(id, name, description) {
@@ -51,26 +52,27 @@ class Card {
                 //Select a random Card
                 [cards] = await pool.query('select * from card');
                 selectedCard = Utils.randomNumber(100);
-                if(selectedCard <= 20) {
+                if (selectedCard <= 20) {
                     selectedCard = 1;
-                }else if(selectedCard <= 30) {
+                } else if (selectedCard <= 30) {
                     selectedCard = 2;
-                }else if(selectedCard <= 44) {
+                } else if (selectedCard <= 44) {
                     selectedCard = 3;
-                }else if(selectedCard <= 58) {
+                } else if (selectedCard <= 58) {
                     selectedCard = 4;
-                }else if(selectedCard <= 72) {
+                } else if (selectedCard <= 72) {
                     selectedCard = 5;
-                }else if(selectedCard <= 88) {
+                } else if (selectedCard <= 88) {
                     selectedCard = 6;
-                }else if(selectedCard <= 100) {
+                } else if (selectedCard <= 100) {
                     selectedCard = 7;
                 }
             } else { selectedCard = body.selected_card; }
 
             //Insert into database
             await pool.query('insert into user_game_card(ugc_ug_id, ugc_crd_id) values (?,?)', [game.player.id, selectedCard]);
-
+            if (!cheat)
+                await Plays.endTurn(game);
             return { status: 200, result: { msg: "Card Successfully Drawn!" } }
         } catch (err) {
             console.log(err)
@@ -126,7 +128,8 @@ class Card {
             //Delete card from database
             await pool.query("delete from user_game_card where ugc_id = ?", [body.selected_card]);
             //Return success
-            return { status: 200, result: { msg:successfull.msg } }
+            await Plays.endTurn(game);
+            return { status: 200, result: { msg: successfull.msg } }
         } catch (err) {
             console.log(err);
             return { status: 200, result: err }
@@ -143,13 +146,15 @@ class Card {
             if (!cheat) {
                 let [card] = await pool.query('select * from user_game_card where ugc_id = ?', [body.selected_card]);
                 if (!card.length)
-                    return { status: 400, result: { msg: "Select a valid card" } }
+                    return { status: 400, result: { msg: "Select a valid card." } }
 
                 await pool.query('delete from user_game_card where ugc_id = ?', [body.selected_card]);
             } else { await pool.query('delete from user_game_card where ugc_ug_id = ?', [game.player.id]); }
 
             //Return success
-            return { status: 200, result: { msg: "Card descarted succesfully" } }
+            if (!cheat)
+                await Plays.endTurn(game);
+            return { status: 200, result: { msg: "Card descarted succesfully!" } }
         } catch (err) {
             console.log(err);
             return { status: 500, result: err }
@@ -171,38 +176,38 @@ async function claimArtifact(game) {
             msg = "Succesfully Played"
         }
     }
-    if(!successfull) msg = "There are no artifacts at this position!";
+    if (!successfull) msg = "There are no artifacts at this position!";
     return { result: successfull, msg: msg };
 }
 
 async function dropArtifact(game) {
-    let current_era = Math.ceil(game.player.position / 5) ;
+    let current_era = Math.ceil(game.player.position / 5);
     let opp_era = Math.ceil(game.opponents[0].position / 5);
-    if(current_era != opp_era)
-        return { result: false, msg: "You need to be in the same era as the opponent" }
-    
-    if(game.opponents[0].protected == true){
+    if (current_era != opp_era)
+        return { result: false, msg: "You need to be in the same era as the opponent." }
+
+    if (game.opponents[0].protected == true) {
         await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
-        return { result: true, msg: "No action, opponent played a shield card" }
+        return { result: true, msg: "No action, opponent played a shield card." }
     }
     //Get all opp's artifacts
     let [oppArtifacts] = await pool.query('select * from game_artifact where ga_current_owner = ?', [game.opponents[0].id]);
 
     //Verify if opp have some artifact
     if (!oppArtifacts.length)
-        return { result: false, msg: "The Opponent has no artifacts" }
+        return { result: false, msg: "The Opponent has no artifacts." }
 
     //Select a random Artifact from this list
     let randomArtifact = Utils.randomNumber(oppArtifacts.length);
     let randomPosition = 0;
     let [artifacts] = [];
-    do{
-        let [artifactInfo] = await pool.query("select * from game_artifact inner join artifact on ga_art_id = art_id where ga_id = ?", [oppArtifacts[randomArtifact-1].ga_id]);
-        randomPosition = Utils.randomNumber(5) + (5 * artifactInfo[0].art_era_id)-5;
+    do {
+        let [artifactInfo] = await pool.query("select * from game_artifact inner join artifact on ga_art_id = art_id where ga_id = ?", [oppArtifacts[randomArtifact - 1].ga_id]);
+        randomPosition = Utils.randomNumber(5) + (5 * artifactInfo[0].art_era_id) - 5;
         console.log(artifactInfo[0].art_era_id);
         console.log(randomPosition);
         [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_position = ?', [game.id, randomPosition]);
-    } while(artifacts.length > 0)
+    } while (artifacts.length > 0)
 
     await pool.query('update game_artifact set ga_current_owner = null, ga_current_position = ? where ga_id = ?', [randomPosition, oppArtifacts[randomArtifact - 1].ga_id]);
     return { result: true, msg: "Succesfully Played" }
@@ -245,9 +250,9 @@ async function timeJump(game) {
 }
 
 async function timeReverse(game) {
-    if(game.opponents[0].protected == true){
+    if (game.opponents[0].protected == true) {
         await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
-        return { result: true, msg: "No action, opponent played a shield card" }
+        return { result: true, msg: "No action, opponent played a shield card." }
     }
     //Player Reverse
     if (game.player.reversed_direction)
@@ -262,9 +267,9 @@ async function timeReverse(game) {
 }
 
 async function paradox(game) {
-    if(game.opponents[0].protected == true){
+    if (game.opponents[0].protected == true) {
         await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
-        return { result: true, msg: "No action, opponent played a shield card" }
+        return { result: true, msg: "No action, opponent played a shield card." }
     }
     let [artifacts] = await pool.query('select * from game_artifact where ga_gm_id = ? and ga_current_owner is null', [game.id]);
     let [eras] = await pool.query('select * from era');
@@ -278,9 +283,9 @@ async function paradox(game) {
 }
 
 async function switchPlayers(game) {
-    if(game.opponents[0].protected == true){
+    if (game.opponents[0].protected == true) {
         await pool.query("update user_game set ug_protected = false where ug_id = ?", [game.opponents[0].id]);
-        return { result: true, msg: "No action, opponent played a shield card" }
+        return { result: true, msg: "No action, opponent played a shield card." }
     }
     let oppPosition = game.opponents[0].position;
     let playerPosition = game.player.position;
@@ -290,9 +295,9 @@ async function switchPlayers(game) {
 }
 
 async function cancelAction(game) {
-    if(game.player.protected == true)
-        return { result: false, msg: "The player is already protected" }
-    
+    if (game.player.protected == true)
+        return { result: false, msg: "The player is already protected." }
+
     await pool.query('update user_game set ug_protected = true where ug_id = ?', [game.player.id]);
     return { result: true, msg: "Succesfully Played" }
 }

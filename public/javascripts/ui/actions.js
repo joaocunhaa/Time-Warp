@@ -45,11 +45,15 @@ async function getCards() {
 // Buttons Actions
 async function movePawnAction() {
     if(!GameInfo.clicked){
-        let result = await requestMovePawn();
+        let result = await requestMovePawn(false);
         if (result.successful) {
             GameInfo.clicked = true;
-            GameInfo.sounds.pawn.play();
-            await endturnAction();
+            await getGameInfo();
+            await getPawnsPositions();
+            await getCards();
+            await getCollectedArtifacts();
+            await getArtifactsOnBoard();
+            GameInfo.prepareUI();
         } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \n moving a pawn.", closeWarning);
     }
 }
@@ -64,13 +68,18 @@ async function drawCardAction() {
         }
         if (result.successful) {
             GameInfo.sounds.drawCard.play();
-            await endturnAction();
+            await getGameInfo();
+            await getPawnsPositions();
+            await getCards();
+            await getCollectedArtifacts();
+            await getArtifactsOnBoard();
+            GameInfo.prepareUI();
         } else if(!GameInfo.warning) {GameInfo.warning = new Warning("Something went wrong when \n drawing a card.", closeWarning); GameInfo.clicked = false;}
     }
 }
 
 async function playCardAction(selectedCard) {
-    if(!GameInfo.popUp) {
+    if(!GameInfo.popUp && GameInfo.game.player.state == "Playing") {
         if(selectedCard.name.length > 1) GameInfo.popUp = new PopUp(`Do you want to play "${selectedCard.name[0]} ${selectedCard.name[1]}" card?`, selectedCard.description, cardAction, popUpCancelAction, selectedCard);
         else GameInfo.popUp = new PopUp(`Do you want to play "${selectedCard.name[0]}" card?`, selectedCard.description,cardAction, popUpCancelAction, selectedCard);
     };
@@ -108,7 +117,12 @@ async function dropAction(selectedCard){
     if (result.successful) {
         GameInfo.dropping = false;
         GameInfo.sounds.drawCard.play();
-        await endturnAction();
+        await getGameInfo();
+        await getPawnsPositions();
+        await getCards();
+        await getCollectedArtifacts();
+        await getArtifactsOnBoard();
+        GameInfo.prepareUI();
     } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \ndropping a card.", closeWarning);
 }
 
@@ -119,8 +133,9 @@ async function cardAction(card){
     
     let result = await requestPlayCard(card.id);
     if (result.successful) {
-        if(!GameInfo.warning && result.alert != "Succesfully Played") GameInfo.warning = new Warning(result.alert, closeWarning)
-            GameInfo.sounds.playCard.play();
+        if(!GameInfo.warning && result.alert && result.alert.msg != "Succesfully Played") GameInfo.warning = new Warning(result.alert.msg, closeWarning);
+        console.log(result.alert);
+        GameInfo.sounds.playCard.play();
         if(!GameInfo.warning){
             if(card.name[0] == "Time" && card.name[1] == "Jump")
                 GameInfo.currentCardAnimation = GameInfo.images.cards.timeJumpAnim;
@@ -138,23 +153,19 @@ async function cardAction(card){
                 GameInfo.currentCardAnimation = GameInfo.images.cards.paradoxAnim;
             else console.log(card.name);
         }
-        await endturnAction();
-    } else {if(!GameInfo.warning) GameInfo.warning = new Warning(result.alert || "Something went wrong when \nplaying a card.", closeWarning); }
+        await getGameInfo();
+        await getPawnsPositions();
+        await getCards();
+        await getCollectedArtifacts();
+        await getArtifactsOnBoard();
+        GameInfo.prepareUI();
+    } else {if(!GameInfo.warning) GameInfo.warning = new Warning(result.alert.msg || "Something went wrong when \nplaying a card.", closeWarning); }
 }
 
 async function changeDropMode() {
     if (!GameInfo.dropping)
         GameInfo.dropping = true;
     else GameInfo.dropping = false;
-}
-
-async function endturnAction() {
-    let result = await requestEndTurn();
-    if (result.successful) {
-        await getGameInfo();
-        await getPawnsPositions();
-        GameInfo.prepareUI();
-    } else if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nending the turn.", closeWarning);
 }
 
 async function closeScore() {
@@ -182,7 +193,7 @@ async function collectAllArtifactsCheat() {
 }
 
 async function movePawnCheat() {
-    let result = await requestMovePawn();
+    let result = await requestMovePawn(true);
     if (!result.successful)
         if(!GameInfo.warning) GameInfo.warning = new Warning("Something went wrong when \nmoving a pawn.", closeWarning);
     await getGameInfo();

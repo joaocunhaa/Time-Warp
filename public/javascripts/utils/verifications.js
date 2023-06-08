@@ -1,4 +1,4 @@
-function changePage(url,msg,verbose) {
+function changePage(url, msg, verbose) {
     window.location.pathname = url;
     if (verbose) alert(msg);
 }
@@ -10,14 +10,14 @@ async function checkAuthenticated(verbose) {
     try {
         let result = await requestProfile();
         if (result.unauthenticated)
-            changePage("index.html","Not authenticated. Going to login page",verbose);
-        else if (!result.successful || result.err) 
+            changePage("index.html", "Not authenticated. Going to login page", null);
+        else if (!result.successful || result.err)
             throw err || "Not successful";
         else window.user = result.user;
-        return {successful: true};
+        return { successful: true };
     } catch (err) {
         console.log(err);
-        return {err:err};
+        return { err: err };
     }
 }
 
@@ -31,23 +31,23 @@ async function checkGame(verbose) {
     try {
         result = await requestPlayerGame();
         if (result.err) throw result.err
-        else if (result.unauthenticated) 
-            changePage("index.html","Not authenticated. Going to login page",verbose);
-        else if (!result.game){
-            if (window.location.pathname != "/matches.html") 
-                changePage("matches.html","Not in a game. Going to matches page",verbose);
+        else if (result.unauthenticated)
+            changePage("index.html", "Not authenticated. Going to login page", null);
+        else if (!result.game) {
+            if (window.location.pathname != "/matches.html")
+                changePage("matches.html", "Not in a game. Going to matches page", null);
         } else {
             window.game = result.game;
             if (result.game.state == "Waiting") {
-              if (window.location.pathname != "/waiting.html")
-                changePage("waiting.html","You have created a game, going for the waiting for players page",verbose);
+                if (window.location.pathname != "/waiting.html")
+                    changePage("waiting.html", "You have created a game, going for the waiting for players page", null);
             } else if (window.location.pathname != "/game.html") {
-                changePage("game.html","You are in a game. Going to the game page",verbose);
+                changePage("game.html", "You are in a game. Going to the game page", null);
             }
         }
-        return {successfull: true};
+        return { successfull: true };
     } catch (err) {
         console.log(err);
-        return {err:err};
+        return { err: err };
     }
 }

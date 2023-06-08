@@ -1,5 +1,6 @@
 const pool = require("../config/database");
 const Games = require("./gamesModel");
+const Plays = require("./playsModel");
 
 class Pawn {
     constructor(id, position) {
@@ -20,7 +21,7 @@ class Pawn {
         }
     }
 
-    static async movePawn(game) {
+    static async movePawn(game, cheat) {
         try {
             let nextPosition = 0;
             //Check if its player's turn
@@ -46,7 +47,8 @@ class Pawn {
                 let result = await swapArtifacts(game);
                 return{status: 200, result:{msg: "Succesfully moved", swap: result.msg}}
             }
-
+            if(!cheat)
+                await Plays.endTurn(game);
             return { status: 200, result: { msg: "Succesfully moved" } }
         } catch (err) {
             console.log(err);

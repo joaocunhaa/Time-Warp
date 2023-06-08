@@ -77,7 +77,6 @@ values
     'Switch',
     'This card switch your position with the enemy position'
   );
-
 insert into
   card(crd_name, crd_description)
 values
@@ -118,31 +117,59 @@ values
 insert into
   artifact(art_name, art_desc, art_era_id)
 values
-  ('Egyptian Scarab',"An old scarab made of gold\n used by Pharaoh", 1);
+  (
+    'Egyptian Scarab',
+    "An old scarab made of gold\n used by Pharaoh",
+    1
+  );
 insert into
   artifact(art_name, art_desc, art_era_id)
 values
-  ('Greece Armor',"A rusted armor\n used by a brave greek warrior", 2);
+  (
+    'Greece Armor',
+    "A rusted armor\n used by a brave greek warrior",
+    2
+  );
 insert into
   artifact(art_name, art_desc, art_era_id)
 values
-  ('Roman Armor',"An armor used by\n the strongest gladiator", 3);
+  (
+    'Roman Armor',
+    "An armor used by\n the strongest gladiator",
+    3
+  );
 insert into
   artifact(art_name, art_desc, art_era_id)
 values
-  ('Samurai Sword',"An old Katana used to\n fight against the Empire", 4);
+  (
+    'Samurai Sword',
+    "An old Katana used to\n fight against the Empire",
+    4
+  );
 insert into
   artifact(art_name, art_desc, art_era_id)
 values
-  ('Shogun Weapon',"The Spear used by\n Tajihi no Agatamori the first shogun", 5);
+  (
+    'Shogun Weapon',
+    "The Dagger used by\n Tajihi no Agatamori the first shogun",
+    5
+  );
 insert into
   artifact(art_name, art_desc, art_era_id)
 values
-  ('Industrial Wheels',"The first wheels created", 6);
+  (
+    'Industrial Wheels',
+    "The first wheels created",
+    6
+  );
 insert into
   artifact(art_name, art_desc, art_era_id)
 values
-  ('Flamethrower',"The first flamethrower created\n after the revolution", 7);
+  (
+    'Flamethrower',
+    "The first flamethrower created\n after the revolution",
+    7
+  );
 insert into
   user(usr_name, usr_pass)
 values

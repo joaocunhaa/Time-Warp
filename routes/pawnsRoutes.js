@@ -24,7 +24,7 @@ router.patch("/", auth.verifyAuth, async function (req, res, next) {
         if (!req.game) {
             res.status(401).send({ msg: "You are not in a game" })
         } else {
-            let result = await Pawn.movePawn(req.game);
+            let result = await Pawn.movePawn(req.game, req.body.cheat);
             res.status(result.status).send(result.result);
         }
     } catch (err) {

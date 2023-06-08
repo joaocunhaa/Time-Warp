@@ -1,28 +1,20 @@
 async function refresh() {
-    if(GameInfo.game.state != "Finished"){
+    if (GameInfo.game.state != "Finished") {
         await getGameInfo();
         await getPawnsPositions();
         await getArtifactsOnBoard();
         await getCollectedArtifacts();
         await getCards();
         GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
-        if(GameInfo.currentTrack != GameInfo.sounds.bgSounds[GameInfo.playerEra - 1]){
-            GameInfo.currentTrack.setVolume(0, 2.5)
-            GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
-            GameInfo.currentTrack.setVolume(0)
-            GameInfo.currentTrack.loop();
-            GameInfo.currentTrack.setVolume(0.5, 5.0)
-        }else{
-            if(!GameInfo.currentTrack.isLooping()){
-                GameInfo.currentTrack.loop();
-            }
-        }
+        GameInfo.prepareUI();
+    } else {
         GameInfo.prepareUI();
     }
 }
 
 function preload() {
     GameInfo.images.playerPawn = loadImage("./assets/WhitePawn.png");
+    GameInfo.images.Artifact = loadImage("./assets/Diamond.png");
     GameInfo.images.oppPawn = loadImage("./assets/BlackPawn.png");
     GameInfo.images.logo = loadImage("./assets/TimeWarpLogo.png");
     GameInfo.images.reverse = loadImage("./assets/reverse.png");
@@ -65,6 +57,15 @@ function preload() {
     GameInfo.images.cards.switchAnim = loadImage("./assets/Cards/anims/switchIMAGE.png");
     GameInfo.images.cards.shieldAnim = loadImage("./assets/Cards/anims/action_shieldIMAGE.png");
     GameInfo.images.cards.paradoxAnim = loadImage("./assets/Cards/anims/paradoxIMAGE.png");
+    //Artifacts
+    GameInfo.images.artifacts = {};
+    GameInfo.images.artifacts.egyptian = loadImage("./assets/Artifacts/Egyptian.png");
+    GameInfo.images.artifacts.greek = loadImage("./assets/Artifacts/Greek.png");
+    GameInfo.images.artifacts.roman = loadImage("./assets/Artifacts/Roman.png");
+    GameInfo.images.artifacts.japanese = loadImage("./assets/Artifacts/Japan.png");
+    GameInfo.images.artifacts.shogunate = loadImage("./assets/Artifacts/Shogunate.png");
+    GameInfo.images.artifacts.industrial = loadImage("./assets/Artifacts/Revolution.png");
+    GameInfo.images.artifacts.information = loadImage("./assets/Artifacts/Information.png");
 }
 
 async function setup() {
@@ -79,7 +80,7 @@ async function setup() {
     await getCards();
     GameInfo.playerEra = Math.ceil(GameInfo.playerPosition / 5);
     GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
-    setInterval(refresh, 100);
+    setInterval(refresh, 1500);
 
     //Buttons (create a separated function if they are many)
     GameInfo.movePawn = createButton('Move Pawn');
@@ -129,6 +130,19 @@ async function draw() {
         GameInfo.oppListArtifacts.draw();
         GameInfo.playerListArtifacts.hover();
         GameInfo.oppListArtifacts.hover();
+        //BG Sound
+        if (GameInfo.currentTrack != GameInfo.sounds.bgSounds[GameInfo.playerEra - 1]) {
+            GameInfo.currentTrack.setVolume(0, 0.5)
+            GameInfo.currentTrack.stop();
+            GameInfo.currentTrack = GameInfo.sounds.bgSounds[GameInfo.playerEra - 1];
+            GameInfo.currentTrack.setVolume(0)
+            GameInfo.currentTrack.loop();
+            GameInfo.currentTrack.setVolume(0.3, 5.0)
+        } else {
+            if (!GameInfo.currentTrack.isLooping()) {
+                GameInfo.currentTrack.loop();
+            }
+        }
         //LOGO
         image(GameInfo.images.logo, GameInfo.width / 2 - 290, 10, 580, 150);
         //Dropping Action
@@ -138,38 +152,38 @@ async function draw() {
             GameInfo.dropCard.elt.textContent = "Drop Card"
         }
         //Pop-up
-        if(GameInfo.popUp){
+        if (GameInfo.popUp) {
             GameInfo.popUp.open();
             GameInfo.popUp.draw();
         }
         //Warning
-        if(GameInfo.warning){
+        if (GameInfo.warning) {
             GameInfo.warning.open();
             GameInfo.warning.draw();
         }
         //Card Animation
-        if(GameInfo.currentCardAnimation){
-            tint(255,255,255,GameInfo.tintAnimation)
+        if (GameInfo.currentCardAnimation) {
+            tint(255, 255, 255, GameInfo.tintAnimation)
             image(GameInfo.currentCardAnimation, GameInfo.width / 2 - 75, GameInfo.height / 2 - 75, 150, 150);
             noTint();
-            if(frameCount >= 60){
+            if (frameCount >= 60) {
                 animateCard();
             }
         }
-        
+
     }
 }
 
-function animateCard(){
-    if(!GameInfo.reversingAnimation){
+function animateCard() {
+    if (!GameInfo.reversingAnimation) {
         GameInfo.tintAnimation += 10;
-        if(GameInfo.tintAnimation > GameInfo.animationTintMax){
+        if (GameInfo.tintAnimation > GameInfo.animationTintMax) {
             GameInfo.tintAnimation = GameInfo.animationTintMax;
             GameInfo.reversingAnimation = true;
         }
-    }else{
+    } else {
         GameInfo.tintAnimation -= 10;
-        if(GameInfo.tintAnimation <= 0){
+        if (GameInfo.tintAnimation <= 0) {
             GameInfo.currentCardAnimation = null;
             GameInfo.reversingAnimation = false;
             GameInfo.tintAnimation = 0;
@@ -183,27 +197,27 @@ async function mouseClicked() {
     }
 }
 
-async function keyPressed(){
+async function keyPressed() {
     //Draw Specific Card Cheat
-    if(keyCode === 71)                  //g
+    if (keyCode === 71)                  //g
         await drawCardCheat(1); //Claim Arfifact
-    else if(keyCode === 72)             //h
+    else if (keyCode === 72)             //h
         await drawCardCheat(2); //Drop Arfifact
-    else if(keyCode === 74)             //j
+    else if (keyCode === 74)             //j
         await drawCardCheat(3); //Time Jump
-    else if(keyCode === 75)             //k
+    else if (keyCode === 75)             //k
         await drawCardCheat(4); //Time Reverse
-    else if(keyCode === 76)             //l
+    else if (keyCode === 76)             //l
         await drawCardCheat(5); //Paradox
-    else if(keyCode === 192)            //ç
+    else if (keyCode === 192)            //ç
         await drawCardCheat(6); //Switch
-    else if(keyCode === 79)            //o
+    else if (keyCode === 79)            //o
         await drawCardCheat(7); //Shield
 
     //Drop All Cards Cheat
-    else if(keyCode === 80)             //p
+    else if (keyCode === 80)             //p
         await dropCardCheat();
-    
+
     //Collect All Artifacts Cheat
     else if (keyCode === 85)            //u
         await collectAllArtifactsCheat();

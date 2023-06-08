@@ -146,9 +146,11 @@ input#logoutbutton:focus {
 
 #scores section {
   width: 100%;
+  max-height: 45px;
   color: white;
   margin: 5px 45px;
   padding: 0px 0px;
+  overflow-y: hidden;
 }
 
 #scores section.won {
