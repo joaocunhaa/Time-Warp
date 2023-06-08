@@ -54,17 +54,17 @@ class Card {
                 selectedCard = Utils.randomNumber(100);
                 if (selectedCard <= 20) {
                     selectedCard = 1;
-                } else if (selectedCard <= 30 && dropArtifact < 1) {
+                } else if (selectedCard <= 30) {
                     selectedCard = 2;
-                } else if (selectedCard <= 44 && timeJump < 2) {
+                } else if (selectedCard <= 44) {
                     selectedCard = 3;
-                } else if (selectedCard <= 58 && timeReverse < 2) {
+                } else if (selectedCard <= 58) {
                     selectedCard = 4;
-                } else if (selectedCard <= 72 && paradox < 2) {
+                } else if (selectedCard <= 72) {
                     selectedCard = 5;
-                } else if (selectedCard <= 88 && switchCard < 2) {
+                } else if (selectedCard <= 88) {
                     selectedCard = 6;
-                } else if (selectedCard <= 100 && shield < 1) {
+                } else if (selectedCard <= 100) {
                     selectedCard = 7;
                 }
             } else { selectedCard = body.selected_card; }
